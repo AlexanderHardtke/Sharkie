@@ -21,12 +21,22 @@ class StatusBar extends DrawableObject {
         this.setPercentage(100);
     }
 
+    /**
+     * sets the percentage of the life status bar
+     * 
+     * @param {Array} percentage the % of the life bar that is shown
+     */
     setPercentage(percentage) {
         this.percentage = percentage;
         let path = this.LIFE[this.resolveImageIndex()];
         this.img = this.imageCache[path];
     }
 
+    /**
+     * calculates the current life in 20% steps
+     * 
+     * @returns 0 - 5 for every 20% life
+     */
     resolveImageIndex() {
         return Math.floor(this.percentage / 20);
     }

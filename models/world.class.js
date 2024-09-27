@@ -21,10 +21,16 @@ class World {
         // this.backgroundMusic.play();
     }
 
+    /**
+     * sets the character in the world
+     */
     setWorld() {
         this.character.world = this;
     }
 
+    /**
+     * checks Collision with enemys and objects with the character
+     */
     checkCollisions() {
         setInterval(() => {
             this.level.enemies.forEach((enemy) => {
@@ -61,6 +67,11 @@ class World {
         });
     }
 
+    /**
+     * draws the counter of the amount of poison bottles and coins on the canvas
+     * 
+     * @param {Object} obj The amount of coins or poison bottles collected
+     */
     drawCount(obj) {
         this.ctx.font = "48px luckiestGuy";
         this.ctx.fillStyle = "white";
@@ -73,6 +84,11 @@ class World {
         })
     }
 
+    /**
+     * flips the image of the object
+     * 
+     * @param {Object} mo movable Object in the game 
+     */
     flipImage(mo) {
         this.ctx.save();
         this.ctx.translate(mo.width, 0);
@@ -80,11 +96,21 @@ class World {
         mo.x = mo.x * -1;
     }
 
+    /**
+     * flips the object back
+     * 
+     * @param {Object} mo movable Object in the game 
+     */
     flipImageBack(mo) {
         mo.x = mo.x * -1;
         this.ctx.restore();
     }
 
+    /**
+     * rotates the Object upwards or downwards
+     * 
+     * @param {Object} mo movable Object in the game 
+     */
     rotateImage(mo) {
         if (mo.upDirection && !mo.downDirection) {
             this.rotateImageUp(mo);
@@ -97,6 +123,11 @@ class World {
         }
     }
 
+    /**
+     * rotates the Object upwards
+     * 
+     * @param {Object} mo movable Object in the game 
+     */
     rotateImageUp(mo) {
         this.ctx.save();
         this.ctx.translate(mo.x + mo.width / 2, mo.y + mo.height / 2);
@@ -104,6 +135,11 @@ class World {
         this.ctx.translate(-(mo.x + mo.width / 2), -(mo.y + mo.height / 2));
     }
 
+    /**
+     * rotates the Object downwards
+     * 
+     * @param {Object} mo movable Object in the game 
+     */
     rotateImageDown(mo) {
         this.ctx.save();
         this.ctx.translate(mo.x + mo.width / 2, mo.y + mo.height / 2);
@@ -127,8 +163,13 @@ class World {
 
     }
 
+    /**
+     * draws a border around the movable Object to make the collision visual 
+     * 
+     * @param {Object} mo movable Object in the game
+     */
     drawBorder(mo) {
-        if (mo instanceof PufferfishRed || mo instanceof PufferfishGreen || mo instanceof Jellyfish) {
+        if (mo instanceof PufferfishRed || mo instanceof PufferfishGreen || mo instanceof Jellyfish || mo instanceof Endboss) {
             this.ctx.beginPath();
             this.ctx.lineWidth = '5';
             this.ctx.strokeStyle = 'hotpink';

@@ -2,19 +2,26 @@ let canvas;
 let world;
 let keyboard = new Keyboard();
 
-
+/**
+ * loads the keyboard and the canvas into the world
+ */
 function init() {
     canvas = document.getElementById('canvas');
     world = new World(canvas, keyboard);
-    
 }
 
+/**
+ * defines fullscreen and checks the orientation
+ */
 function fullscreen() {
     let fullscreen = document.getElementById('fullscreen');
     enterFullscreen(fullscreen);
     checkOrientation();
 }
 
+/**
+ * checks the orientation of the device and sets the canvas to 100%
+ */
 function checkOrientation() {
     if (window.matchMedia("(orientation: landscape)").matches) {
         if (window.innerHeight < 480) {
@@ -27,6 +34,11 @@ function checkOrientation() {
     }
 }
 
+/**
+ * enters the fullscreen mode for the game game in all browsers
+ * 
+ * @param {element} element the fullscreen element
+ */
 function enterFullscreen(element) {
     if(element.requestFullscreen) {
       element.requestFullscreen();
@@ -37,6 +49,9 @@ function enterFullscreen(element) {
     }
   }
 
+  /**
+   * exit the fullscreen mode for the game snd shows the game in a window
+   */
   function exitFullscreen() {
     if(document.exitFullscreen) {
       document.exitFullscreen();
@@ -45,7 +60,9 @@ function enterFullscreen(element) {
     }
   }
 
-
+  /**
+   * Eventlistener for pressing inputs with the keyboard from the user
+   */
 window.addEventListener('keydown', (event) => {
     if (event.code === 'Space') {
         keyboard.SPACE = true;
@@ -65,6 +82,9 @@ window.addEventListener('keydown', (event) => {
 });
 
 
+/**
+ * Eventlistener for releasing inputs with the keyboard from the user 
+ */
 window.addEventListener('keyup', (event) => {
     if (event.code === 'Space') {
         keyboard.SPACE = false;

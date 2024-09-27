@@ -36,6 +36,9 @@ class Jellyfish extends MovableObject {
         this.animate();
     }
 
+    /**
+     * animates the jellyfish
+     */
     animate() {
         setInterval(() => {
             this.moveLeft();

@@ -39,6 +39,9 @@ class PufferfishRed extends MovableObject{
         this.animate();
     }
 
+    /**
+     * animates the red pufferfish
+     */
     animate() {
         setInterval(() => {
             this.playAnimation(this.IMAGES_IDLE);

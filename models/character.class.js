@@ -123,6 +123,9 @@ class Character extends MovableObject {
         this.animate();
     }
 
+    /**
+     * loads all Character images
+     */
     loadCharacterImages() {
         this.loadImages(this.IMAGES_IDLE);
         this.loadImages(this.IMAGES_LONG_IDLE);
@@ -136,6 +139,9 @@ class Character extends MovableObject {
         this.loadImages(this.IMAGES_DEAD_ELECTRIC);
     }
 
+    /**
+     * shows the current character animation
+     */
     animate() {
         setInterval(() => {
             this.swimming_sound.volume = 0.15;
