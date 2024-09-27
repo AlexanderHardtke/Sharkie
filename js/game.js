@@ -66,18 +66,18 @@ function enterFullscreen(element) {
 window.addEventListener('keydown', (event) => {
     if (event.code === 'Space') {
         keyboard.SPACE = true;
-    }
-    if (event.code === 'KeyW' || event.code === 'ArrowUp') {
+    } if (event.code === 'KeyW' || event.code === 'ArrowUp') {
         keyboard.UP = true;
-    }
-    if (event.code === 'KeyS' || event.code === 'ArrowDown') {
+    } if (event.code === 'KeyS' || event.code === 'ArrowDown') {
         keyboard.DOWN = true;
-    }
-    if (event.code === 'KeyA' || event.code === 'ArrowLeft') {
+    } if (event.code === 'KeyA' || event.code === 'ArrowLeft') {
         keyboard.LEFT = true;
-    }
-    if (event.code === 'KeyD' || event.code === 'ArrowRight') {
+    } if (event.code === 'KeyD' || event.code === 'ArrowRight') {
         keyboard.RIGHT = true;
+    } if (event.code === 'KeyQ' || event.code === 'KeyC') {
+        keyboard.Q = true;
+    } if (event.code === 'KeyE' || event.code === 'KeyV') {
+        keyboard.E = true;
     }
 });
 
@@ -88,17 +88,17 @@ window.addEventListener('keydown', (event) => {
 window.addEventListener('keyup', (event) => {
     if (event.code === 'Space') {
         keyboard.SPACE = false;
-    }
-    if (event.code === 'KeyW' || event.code === 'ArrowUp') {
+    } if (event.code === 'KeyW' || event.code === 'ArrowUp') {
         keyboard.UP = false;
-    }
-    if (event.code === 'KeyS' || event.code === 'ArrowDown') {
+    } if (event.code === 'KeyS' || event.code === 'ArrowDown') {
         keyboard.DOWN = false;
-    }
-    if (event.code === 'KeyA' || event.code === 'ArrowLeft') {
+    } if (event.code === 'KeyA' || event.code === 'ArrowLeft') {
         keyboard.LEFT = false;
-    }
-    if (event.code === 'KeyD' || event.code === 'ArrowRight') {
+    } if (event.code === 'KeyD' || event.code === 'ArrowRight') {
         keyboard.RIGHT = false;
+    } if (event.code === 'KeyQ' || event.code === 'KeyC') {
+        keyboard.Q = false;
+    } if (event.code === 'KeyE' || event.code === 'KeyV') {
+        keyboard.E = false;
     }
 });

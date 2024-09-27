@@ -4,8 +4,6 @@ class Keyboard {
     UP = false;
     DOWN = false;
     SPACE = false;
-    DKEY = false;
-    QKEY = false;
-    EKEY = false;
-
+    Q = false;
+    E = false;
 }

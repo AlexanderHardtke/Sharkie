@@ -9,6 +9,7 @@ class World {
     statusBar = new StatusBar();
     poisonBar = new PoisonBar();
     coinBar = new CoinBar();
+    throwableObjects = [new ThrowableObject()];
     backgroundMusic = new Audio('audio/background_music.mp3')
 
     constructor(canvas, keyboard) {
@@ -51,6 +52,7 @@ class World {
         this.addObjectsToMap(this.level.backgroundObject);
         this.addToMap(this.character);
         this.addObjectsToMap(this.level.enemies);
+        this.addObjectsToMap(this.throwableObjects);
 
         this.ctx.translate(-this.camera_x, 0);
         // ---------- Space for fixed Objects ---------- //
