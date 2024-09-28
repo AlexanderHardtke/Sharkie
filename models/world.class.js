@@ -9,7 +9,7 @@ class World {
     statusBar = new StatusBar();
     poisonBar = new PoisonBar();
     coinBar = new CoinBar();
-    throwableObjects = [new ThrowableObject()];
+    throwableObjects = [];
     backgroundMusic = new Audio('audio/background_music.mp3')
 
     constructor(canvas, keyboard) {
@@ -18,7 +18,7 @@ class World {
         this.keyboard = keyboard;
         this.draw();
         this.setWorld();
-        this.checkCollisions();
+        this.run();
         // this.backgroundMusic.play();
     }
 
@@ -29,20 +29,34 @@ class World {
         this.character.world = this;
     }
 
+
+    run() {
+        setInterval(() => {
+            this.checkCollisions();
+            this.checkThrowObjects();
+        }, 200);
+    }
+
+    checkThrowObjects() {
+        if (this.keyboard.E || this.keyboard.Q) {
+            let poison = this.keyboard.E;
+            let bubble = new ThrowableObject(this.character.x + 95, this.character.y + 77, this.character.otherDirection, poison);
+            this.throwableObjects.push(bubble);
+        }
+    }
+
     /**
      * checks Collision with enemys and objects with the character
      */
     checkCollisions() {
-        setInterval(() => {
-            this.level.enemies.forEach((enemy) => {
-               if (this.character.isColliding(enemy)) {
-                console.log('Collision with Character remaining Life',this.character.life);
+        this.level.enemies.forEach((enemy) => {
+            if (this.character.isColliding(enemy)) {
+                console.log('Collision with Character remaining Life', this.character.life);
                 this.character.hit();
                 this.statusBar.setPercentage(this.character.life);
                 // this.character.isDead();
-               }
-            });
-        }, 100);
+            }
+        });
     }
 
 
@@ -61,7 +75,7 @@ class World {
         this.drawCount(this.poisonBar);
         this.addToMap(this.coinBar);
         this.drawCount(this.coinBar);
-        
+
         // Draw() wird immer wieder aufgerufen
         let self = this;
         requestAnimationFrame(function () {

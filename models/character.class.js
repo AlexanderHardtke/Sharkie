@@ -171,15 +171,17 @@ class Character extends MovableObject {
 
 
         setInterval(() => {
-            console.log(this.isHurt());
-            
             if (this.isHurt()) {
                 this.playAnimation(this.IMAGES_HURT_POISON);
-            }
-            else if (this.isDead()) {
+            } else if (this.isDead()) {
                 this.playAnimation(this.IMAGES_DEAD);
-            }
-            else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT || this.world.keyboard.UP || this.world.keyboard.DOWN) {
+            } else if (this.isAttacking()) {
+                this.playAnimation(this.IMAGES_ATTACK_MELEE);
+            } else if (this.isBubbleAttack()) {
+                this.playAnimation(this.IMAGES_ATTACK_BUBBLE);
+            } else if (this.isPoisonBubbleAttack()) {
+                this.playAnimation(this.IMAGES_ATTACK_POISON_BUBBLE);
+            } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT || this.world.keyboard.UP || this.world.keyboard.DOWN) {
                 this.playAnimation(this.IMAGES_SWIMMING);
             } else {
                 this.playAnimation(this.IMAGES_IDLE);
@@ -187,4 +189,17 @@ class Character extends MovableObject {
             }
         }, 220)
     };
+
+    isAttacking() {
+        return this.world.keyboard.SPACE;
+    }
+
+    isBubbleAttack() {
+        return this.world.keyboard.Q
+    }
+
+    isPoisonBubbleAttack() {
+        return this.world.keyboard.E
+    }
+
 }
