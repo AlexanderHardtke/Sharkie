@@ -7,15 +7,14 @@ class Coin extends MovableObject {
     ];
     width = 99 * 0.45;
     height = 93 * 0.45;
+    collectedAudio = new Audio('audio/coin.mp3')
     
 
-    constructor() {
+    constructor(x, y) {
         super().loadImage('img/4. Marcadores/1. Coins/1.png');
         this.loadImages(this.IMAGES_IDLE)
-        this.x = 300 + Math.random() * 500;
-        this.y = Math.random() * 400;
-        this.speed = 0,
-        this.moveLeft();
+        this.x = x;
+        this.y = y;
         this.animate();
     }
 

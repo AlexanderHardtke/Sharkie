@@ -34,9 +34,23 @@
 
     <h1>Sharkie</h1>
 
+    <img src="#" onclick="fullscreen()" class="fullscreenButton">
+
     <div id="fullscreen">
-        <canvas id="canvas" width="720px" height="480px">
-        </canvas>
+        <canvas id="canvas" width="720px" height="480px"></canvas>
+    </div>
+
+    <div class="actionMoveBar">
+        <button class="arrowButtonUp" onclick="moveUp()"><img class="arrowUp arrow" src="./img/7.Icons/arrowUp.png"></button>
+        <button onclick="moveLeft()"><img class="arrowLeft arrow" src="./img/7.Icons/arrowUp.png"></button>
+        <button onclick="moveDown()"><img class="arrowDown arrow" src="./img/7.Icons/arrowUp.png"></button>
+        <button onclick="moveRight()"><img class="arrowRight arrow" src="./img/7.Icons/arrowUp.png"></button>
+    </div>
+    
+    <div class="actionAttackBar">
+        <button class="attackBubble" onclick="bubbleAttack()">Q</button>
+        <button class="attackPoisonBubble" onclick="poisonBubbleAttack()">E</button>
+        <button class="attackMelee" onclick="attack()">SPACE</button>
     </div>
 
 </body>

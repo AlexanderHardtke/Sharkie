@@ -173,13 +173,19 @@ class Character extends MovableObject {
         setInterval(() => {
             if (this.isHurt()) {
                 this.playAnimation(this.IMAGES_HURT_POISON);
+                // this.playAnimation(this.IMAGES_HURT_ELECTRIC);
+
+
             } else if (this.isDead()) {
                 this.playAnimation(this.IMAGES_DEAD);
+                // this.playAnimation(this.IMAGES_DEAD_ELECTRIC);
+
+
             } else if (this.isAttacking()) {
                 this.playAnimation(this.IMAGES_ATTACK_MELEE);
             } else if (this.isBubbleAttack()) {
                 this.playAnimation(this.IMAGES_ATTACK_BUBBLE);
-            } else if (this.isPoisonBubbleAttack()) {
+            } else if (this.isPoisonBubbleAttack() && this.world.poisonBar.count > 0) {
                 this.playAnimation(this.IMAGES_ATTACK_POISON_BUBBLE);
             } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT || this.world.keyboard.UP || this.world.keyboard.DOWN) {
                 this.playAnimation(this.IMAGES_SWIMMING);
@@ -187,6 +193,9 @@ class Character extends MovableObject {
                 this.playAnimation(this.IMAGES_IDLE);
                 this.applyGravity();
             }
+
+
+            // if (lastInput from Keyboard = 5000) {this.playAnimation(this.IMAGES_LONG_IDLE)}
         }, 220)
     };
 

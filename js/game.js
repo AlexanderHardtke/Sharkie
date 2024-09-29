@@ -104,10 +104,8 @@ window.addEventListener('keyup', (event) => {
 });
 
 
-
-
-// Coins einsammeln
-// Poison einsammeln
+// Sound wenn Verletzt etc
+// Alle Sounds Lautstärke verrringern
 // Poison nur schießen wenn vorhanden
 // Collision besser machen
 // Endgegner besiegen

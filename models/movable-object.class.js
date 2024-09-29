@@ -117,7 +117,6 @@ class MovableObject extends DrawableObject {
             (this.x + this.offsetX) <= (mo.x + mo.width) &&
             (this.y + this.height / 4 + this.height / 2) >= mo.y &&
             (this.y + this.height / 2) <= (mo.y + mo.height);
-        // obj.onCollisionCourse; // Optional: hiermit könnten wir schauen, ob ein Objekt sich in die richtige Richtung bewegt. Nur dann kollidieren wir. Nützlich bei Gegenständen, auf denen man stehen kann.
     }
 
     /**
@@ -129,6 +128,23 @@ class MovableObject extends DrawableObject {
             this.life = 0;
         } else {
             this.lastHit = new Date().getTime();
+        }
+    }
+
+    gainItem(item) {
+        if (item instanceof Coin) {
+            this.world.coinBar.count++;
+        } if (item instanceof Poison) {
+            this.world.poisonBar.count++;
+        }
+        this.removeItem(item);
+    }
+
+    removeItem(item) {
+        let index = this.world.level.collectables.findIndex(collectable => collectable === item);
+        if (index !== -1) {
+            this.world.level.collectables[index].collectedAudio.play();
+            this.world.level.collectables.splice(index, 1);
         }
     }
 

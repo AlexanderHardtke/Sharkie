@@ -11,15 +11,14 @@ class Poison extends MovableObject {
     ];
     width = 178 * 0.25;
     height = 243 * 0.25;
+    collectedAudio = new Audio('audio/coin.mp3')
     
 
-    constructor() {
+    constructor(x, y) {
         super().loadImage('img/4. Marcadores/Posión/Animada/1.png');
         this.loadImages(this.IMAGES_IDLE)
-        this.x = 300 + Math.random() * 500;
-        this.y = Math.random() * 400;
-        this.speed = 0;
-        this.moveLeft();
+        this.x = x;
+        this.y = y;
         this.animate();
     }
 

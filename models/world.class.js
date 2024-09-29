@@ -33,6 +33,7 @@ class World {
     run() {
         setInterval(() => {
             this.checkCollisions();
+            this.checkCollisionsCollectable();
             this.checkThrowObjects();
         }, 200);
     }
@@ -51,7 +52,6 @@ class World {
     checkCollisions() {
         this.level.enemies.forEach((enemy) => {
             if (this.character.isColliding(enemy)) {
-                console.log('Collision with Character remaining Life', this.character.life);
                 this.character.hit();
                 this.statusBar.setPercentage(this.character.life);
                 // this.character.isDead();
@@ -59,6 +59,13 @@ class World {
         });
     }
 
+    checkCollisionsCollectable() {
+        this.level.collectables.forEach((item) => {
+            if (this.character.isColliding(item)) {
+                this.character.gainItem(item);
+            }
+        })
+    }
 
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -66,6 +73,7 @@ class World {
         this.addObjectsToMap(this.level.backgroundObject);
         this.addToMap(this.character);
         this.addObjectsToMap(this.level.enemies);
+        this.addObjectsToMap(this.level.collectables)
         this.addObjectsToMap(this.throwableObjects);
 
         this.ctx.translate(-this.camera_x, 0);
@@ -166,17 +174,14 @@ class World {
     addToMap(mo) {
         if (mo.otherDirection) {
             this.flipImage(mo);
-        }
-        if (mo.upDirection || mo.downDirection) {
+        } if (mo.upDirection || mo.downDirection) {
             this.rotateImage(mo);
-        }
-        this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height);
+        } this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height);
         this.drawBorder(mo);
         this.ctx.restore();
         if (mo.otherDirection) {
             this.flipImageBack(mo);
         }
-
     }
 
     /**
@@ -191,11 +196,16 @@ class World {
             this.ctx.strokeStyle = 'hotpink';
             this.ctx.rect(mo.x, mo.y, mo.width, mo.height);
             this.ctx.stroke();
-        }
-        else if (mo instanceof Character) {
+        } else if (mo instanceof Coin || mo instanceof Poison) {
             this.ctx.beginPath();
             this.ctx.lineWidth = '5';
-            this.ctx.strokeStyle = 'hotpink';
+            this.ctx.strokeStyle = 'green';
+            this.ctx.rect(mo.x, mo.y, mo.width, mo.height);
+            this.ctx.stroke();
+        } else if (mo instanceof Character) {
+            this.ctx.beginPath();
+            this.ctx.lineWidth = '5';
+            this.ctx.strokeStyle = 'red';
             this.ctx.rect(mo.x + mo.width / 3, mo.y + mo.height / 2, mo.width / 2.2, mo.height / 4);
             this.ctx.stroke();
         }

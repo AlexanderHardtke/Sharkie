@@ -10,12 +10,55 @@ canvas {
 
 body {
     background-color: rgb(22, 13, 72);
+    background-image: url("./img/3.\ Background/background2.jpg");
+    background-position: center;
     display: flex;
     flex-direction: column;
     align-items: center;
-    color: rgb(42, 223, 239);
+    color: #e04024;
+    text-shadow: -5px -1px 0 #3a5aa6, 5px -1px 0 #3a5aa6, -4px 1px 0 #3a5aa6, 4px 1px 0 #3a5aa6;
     font-family: luckiestGuy;
     margin: 0;
+}
+
+.actionMoveBar {
+    position: absolute;
+    left: 20px;
+    bottom: 20px;
+    display: flex;
+    width: 108px;
+    flex-wrap: wrap;
+}
+
+.arrow {
+    height: 20px;
+}
+
+.arrowButtonUp {
+    margin-left: 36px;
+    margin-right: 36px;
+}
+
+.arrowLeft {
+    rotate: -90deg;
+}
+
+.arrowRight {
+    rotate: 90deg;
+}
+
+.arrowDown {
+    rotate: 180deg;
+}
+
+.actionAttackBar {
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    width: 60px;
+    justify-content: space-between;
 }
 
 @media only screen and (max-width: 720px) {
@@ -28,6 +71,7 @@ body {
     canvas {
         height: 100vh;
     }
+
     h1 {
         display: none;
     }

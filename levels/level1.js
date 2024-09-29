@@ -4,8 +4,10 @@ const level1 = new Level(
         new PufferfishRed(),
         new Jellyfish(),
         new Endboss(),
-        new Coin(),
-        new Poison(),
+    ],
+    [
+        new Coin(400,250),
+        new Poison(400,150),
     ],
     [
         
