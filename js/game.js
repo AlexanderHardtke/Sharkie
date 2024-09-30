@@ -40,29 +40,29 @@ function checkOrientation() {
  * @param {element} element the fullscreen element
  */
 function enterFullscreen(element) {
-    if(element.requestFullscreen) {
-      element.requestFullscreen();
-    } else if(element.msRequestFullscreen) {      // for IE11 (remove June 15, 2022)
-      element.msRequestFullscreen();
-    } else if(element.webkitRequestFullscreen) {  // iOS Safari
-      element.webkitRequestFullscreen();
+    if (element.requestFullscreen) {
+        element.requestFullscreen();
+    } else if (element.msRequestFullscreen) {      // for IE11 (remove June 15, 2022)
+        element.msRequestFullscreen();
+    } else if (element.webkitRequestFullscreen) {  // iOS Safari
+        element.webkitRequestFullscreen();
     }
-  }
+}
 
-  /**
-   * exit the fullscreen mode for the game snd shows the game in a window
-   */
-  function exitFullscreen() {
-    if(document.exitFullscreen) {
-      document.exitFullscreen();
-    } else if(document.webkitExitFullscreen) {
-      document.webkitExitFullscreen();
+/**
+ * exit the fullscreen mode for the game snd shows the game in a window
+ */
+function exitFullscreen() {
+    if (document.exitFullscreen) {
+        document.exitFullscreen();
+    } else if (document.webkitExitFullscreen) {
+        document.webkitExitFullscreen();
     }
-  }
+}
 
-  /**
-   * Eventlistener for pressing inputs with the keyboard from the user
-   */
+/**
+ * Eventlistener for pressing inputs with the keyboard from the user
+ */
 window.addEventListener('keydown', (event) => {
     if (event.code === 'Space') {
         keyboard.SPACE = true;
@@ -80,7 +80,6 @@ window.addEventListener('keydown', (event) => {
         keyboard.E = true;
     }
 });
-
 
 /**
  * Eventlistener for releasing inputs with the keyboard from the user 
@@ -103,10 +102,13 @@ window.addEventListener('keyup', (event) => {
     }
 });
 
+function button(key, isPressed) {
+    keyboard[key] = isPressed; // Setze den Status der Taste
+    console.log(key + ' is ' + (isPressed ? 'pressed' : 'released'));
+}
 
 // Sound wenn Verletzt etc
 // Alle Sounds Lautstärke verrringern
-// Poison nur schießen wenn vorhanden
 // Collision besser machen
 // Endgegner besiegen
 // Game-Over-Screen
@@ -116,7 +118,7 @@ window.addEventListener('keyup', (event) => {
 // Mobile Aktionstasten
 // Long Idle Animation
 // function stopp game Intervalle beenden ID Vom Interval clearInterval(ID)
-// let interalID'S = []; 
+// let interalID'S = [];
 // clearAllIntervals() {
 //    for (let i = 1; i < 9999; i++) window.clearInterval(i);
 //  }

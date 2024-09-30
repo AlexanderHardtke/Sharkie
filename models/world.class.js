@@ -11,6 +11,7 @@ class World {
     coinBar = new CoinBar();
     throwableObjects = [];
     backgroundMusic = new Audio('audio/background_music.mp3')
+    canThrowBubble = true;
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -39,11 +40,19 @@ class World {
     }
 
     checkThrowObjects() {
-        if (this.keyboard.E || this.keyboard.Q) {
+        if (this.keyboard.E && this.canThrowBubble && this.poisonBar.count > 0 || this.keyboard.Q && this.canThrowBubble) {
+            this.canThrowBubble = false; 
             let poison = this.keyboard.E;
-            let bubble = new ThrowableObject(this.character.x + 95, this.character.y + 77, this.character.otherDirection, poison);
-            this.throwableObjects.push(bubble);
+            setTimeout(() => {
+                this.createNewBubble(poison);
+                this.canThrowBubble = true; 
+            }, 2000);
         }
+    }
+
+    createNewBubble(poison) {
+        let bubble = new ThrowableObject(this.character.x + 95, this.character.y + 77, this.character.otherDirection, poison);
+        this.throwableObjects.push(bubble);
     }
 
     /**
@@ -210,4 +219,10 @@ class World {
             this.ctx.stroke();
         }
     }
+
+    // playSound(url, volumeLevel = 0.2) {
+    //     const audio = new Audio(url);
+    //     audio.volume = volumeLevel;
+    //     audio.play();
+    // }
 }

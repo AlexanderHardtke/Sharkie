@@ -106,6 +106,24 @@ class MovableObject extends DrawableObject {
         this.currentImage++;
     };
 
+    playAnimationOnce(images) {
+        if (!this.animationPlaying) {
+            this.animationPlaying = true;
+            this.currentImage = 0;
+            let intervalId = setInterval(() => {
+                let i = this.currentImage;
+                if (i < images.length) {
+                    let path = images[i];
+                    this.img = this.imageCache[path];
+                    this.currentImage++;
+                } else {
+                    clearInterval(intervalId);
+                    this.animationPlaying = false;
+                }
+            }, 220);
+        }
+    }
+    
     /**
      * checks if the character is colliding with an object
      * 

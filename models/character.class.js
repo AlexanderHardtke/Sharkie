@@ -177,24 +177,24 @@ class Character extends MovableObject {
 
 
             } else if (this.isDead()) {
-                this.playAnimation(this.IMAGES_DEAD);
                 // this.playAnimation(this.IMAGES_DEAD_ELECTRIC);
+                this.playAnimationOnce(this.IMAGES_DEAD);
+                
 
 
             } else if (this.isAttacking()) {
-                this.playAnimation(this.IMAGES_ATTACK_MELEE);
+                this.playAnimationOnce(this.IMAGES_ATTACK_MELEE);  // Hier nur einmal abspielen
             } else if (this.isBubbleAttack()) {
-                this.playAnimation(this.IMAGES_ATTACK_BUBBLE);
+                this.playAnimationOnce(this.IMAGES_ATTACK_BUBBLE); // Hier nur einmal abspielen
             } else if (this.isPoisonBubbleAttack() && this.world.poisonBar.count > 0) {
-                this.playAnimation(this.IMAGES_ATTACK_POISON_BUBBLE);
+                this.playAnimationOnce(this.IMAGES_ATTACK_POISON_BUBBLE); // Einmalig abspielen
             } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT || this.world.keyboard.UP || this.world.keyboard.DOWN) {
                 this.playAnimation(this.IMAGES_SWIMMING);
             } else {
                 this.playAnimation(this.IMAGES_IDLE);
                 this.applyGravity();
             }
-
-
+            
             // if (lastInput from Keyboard = 5000) {this.playAnimation(this.IMAGES_LONG_IDLE)}
         }, 220)
     };

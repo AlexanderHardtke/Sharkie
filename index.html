@@ -34,23 +34,66 @@
 
     <h1>Sharkie</h1>
 
-    <img src="#" onclick="fullscreen()" class="fullscreenButton">
+    <button class="fullscreenButton"><img src="./img/7.Icons/fullscreen.png" onclick="fullscreen()" class="fullscreenIcon"></button>
 
     <div id="fullscreen">
         <canvas id="canvas" width="720px" height="480px"></canvas>
     </div>
 
     <div class="actionMoveBar">
-        <button class="arrowButtonUp" onclick="moveUp()"><img class="arrowUp arrow" src="./img/7.Icons/arrowUp.png"></button>
-        <button onclick="moveLeft()"><img class="arrowLeft arrow" src="./img/7.Icons/arrowUp.png"></button>
-        <button onclick="moveDown()"><img class="arrowDown arrow" src="./img/7.Icons/arrowUp.png"></button>
-        <button onclick="moveRight()"><img class="arrowRight arrow" src="./img/7.Icons/arrowUp.png"></button>
+
+        <button class="arrowButtonUp" 
+            onmousedown="button('UP', true)" 
+            onmouseup="button('UP', false)" 
+            ontouchstart="button('UP', true)" 
+            ontouchend="button('UP', false)">
+        <img class="arrowUp arrow" src="./img/7.Icons/arrowUp.png">
+    </button>
+
+    <button onmousedown="button('LEFT', true)" 
+            onmouseup="button('LEFT', false)" 
+            ontouchstart="button('LEFT', true)" 
+            ontouchend="button('LEFT', false)">
+        <img class="arrowLeft arrow" src="./img/7.Icons/arrowUp.png">
+    </button>
+
+    <button onmousedown="button('DOWN', true)" 
+            onmouseup="button('DOWN', false)" 
+            ontouchstart="button('DOWN', true)" 
+            ontouchend="button('DOWN', false)">
+        <img class="arrowDown arrow" src="./img/7.Icons/arrowUp.png">
+    </button>
+
+    <button onmousedown="button('RIGHT', true)" 
+            onmouseup="button('RIGHT', false)" 
+            ontouchstart="button('RIGHT', true)" 
+            ontouchend="button('RIGHT', false)">
+        <img class="arrowRight arrow" src="./img/7.Icons/arrowUp.png">
+    </button>
     </div>
     
     <div class="actionAttackBar">
-        <button class="attackBubble" onclick="bubbleAttack()">Q</button>
-        <button class="attackPoisonBubble" onclick="poisonBubbleAttack()">E</button>
-        <button class="attackMelee" onclick="attack()">SPACE</button>
+        <button class="actionButton attackBubble" 
+        onmousedown="button('Q', true)"
+        onmouseup="button('Q', false)"
+        ontouchstart="button('Q', true)"
+        ontouchend="button('Q', false)">
+        Q</button>
+
+        <button class="actionButton attackPoisonBubble"
+        onmousedown="button('E', true)"
+        onmouseup="button('E', false)"
+        ontouchstart="button('E', true)"
+        ontouchend="button('E', false)">
+        E</button>
+
+        <button class="actionButtonMelee"
+        onmousedown="button('SPACE', true)"
+        onmouseup="button('SPACE', false)"
+        ontouchstart="button('SPACE', true)"
+        ontouchend="button('SPACE', false)">
+        SPACE</button>
+
     </div>
 
 </body>

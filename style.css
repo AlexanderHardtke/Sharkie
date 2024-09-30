@@ -21,6 +21,24 @@ body {
     margin: 0;
 }
 
+button {
+    background-color: mediumpurple;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+}
+
+.fullscreenButton {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+.fullscreenIcon {
+    height: 20px;
+    width: 20px;
+}
+
 .actionMoveBar {
     position: absolute;
     left: 20px;
@@ -57,8 +75,14 @@ body {
     bottom: 20px;
     display: flex;
     flex-wrap: wrap;
-    width: 60px;
+    width: 74px;
     justify-content: space-between;
+}
+
+.actionButtonMelee {
+    height: 36px;
+    width: 80px;
+    border-radius: 50px;
 }
 
 @media only screen and (max-width: 720px) {
