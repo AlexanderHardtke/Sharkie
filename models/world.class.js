@@ -41,11 +41,11 @@ class World {
 
     checkThrowObjects() {
         if (this.keyboard.E && this.canThrowBubble && this.poisonBar.count > 0 || this.keyboard.Q && this.canThrowBubble) {
-            this.canThrowBubble = false; 
+            this.canThrowBubble = false;
             let poison = this.keyboard.E;
             setTimeout(() => {
                 this.createNewBubble(poison);
-                this.canThrowBubble = true; 
+                this.canThrowBubble = true;
             }, 2000);
         }
     }
@@ -63,9 +63,22 @@ class World {
             if (this.character.isColliding(enemy)) {
                 this.character.hit();
                 this.statusBar.setPercentage(this.character.life);
-                // this.character.isDead();
+                if (this.character.isDead()) {
+                    setTimeout(() => {
+                        this.clearAllIntervals();
+                        this.gameOverScreen();    
+                    }, 3500);
+                }
             }
         });
+    }
+
+    gameOverScreen() {
+        document.getElementById('gameOverScreen').style.display="flex"; 
+    }
+
+    clearAllIntervals() {
+        for (let i = 1; i < 9999; i++) window.clearInterval(i);
     }
 
     checkCollisionsCollectable() {

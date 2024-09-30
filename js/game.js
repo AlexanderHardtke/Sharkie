@@ -103,22 +103,14 @@ window.addEventListener('keyup', (event) => {
 });
 
 function button(key, isPressed) {
-    keyboard[key] = isPressed; // Setze den Status der Taste
-    console.log(key + ' is ' + (isPressed ? 'pressed' : 'released'));
+    keyboard[key] = isPressed;
 }
 
 // Sound wenn Verletzt etc
 // Alle Sounds Lautstärke verrringern
 // Collision besser machen
 // Endgegner besiegen
-// Game-Over-Screen
 // Fullscreen
 // Quallen einbubbeln
 // Erklärung Start-Screen
-// Mobile Aktionstasten
 // Long Idle Animation
-// function stopp game Intervalle beenden ID Vom Interval clearInterval(ID)
-// let interalID'S = [];
-// clearAllIntervals() {
-//    for (let i = 1; i < 9999; i++) window.clearInterval(i);
-//  }
