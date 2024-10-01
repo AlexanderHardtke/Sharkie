@@ -13,9 +13,9 @@ class MovableObject extends DrawableObject {
     /**
      * applys gravity to the game that pulls the object down
      */
-    applyGravity() {
+    applyGravity(x) {
         if (this.isAboveGround()) {
-            this.y += this.gravity;
+            this.y += this.gravity + x;
         }
     }
 

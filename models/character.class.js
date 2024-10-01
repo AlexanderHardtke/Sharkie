@@ -35,6 +35,12 @@ class Character extends MovableObject {
         'img/1.Sharkie/2.Long_IDLE/i13.png',
         'img/1.Sharkie/2.Long_IDLE/i14.png'
     ];
+    IMAGES_SLEEP = [
+        'img/1.Sharkie/2.Long_IDLE/i11.png',
+        'img/1.Sharkie/2.Long_IDLE/i12.png',
+        'img/1.Sharkie/2.Long_IDLE/i13.png',
+        'img/1.Sharkie/2.Long_IDLE/i14.png'
+    ];
     IMAGES_SWIMMING = [
         'img/1.Sharkie/3.Swim/1.png',
         'img/1.Sharkie/3.Swim/2.png',
@@ -115,6 +121,7 @@ class Character extends MovableObject {
     speed = 4.0;
     world;
     swimming_sound = new Audio('audio/sharkie_swim.mp3');
+    idleTime = 0;
 
 
     constructor() {
@@ -149,19 +156,23 @@ class Character extends MovableObject {
             this.swimming_sound.pause();
             if (this.world.keyboard.RIGHT && this.canMoveRight()) {
                 this.moveRight();
+                this.idleTime = 0;
                 this.otherDirection = false;
                 this.swimming_sound.play();
             } if (this.world.keyboard.LEFT && this.canMoveLeft()) {
                 this.moveLeft();
+                this.idleTime = 0;
                 this.otherDirection = true;
                 this.swimming_sound.play();
             } if (this.world.keyboard.UP && this.canMoveUp()) {
                 this.moveUp();
+                this.idleTime = 0;
                 this.swimming_sound.play();
             } else {
                 this.upDirection = false;
             } if (this.world.keyboard.DOWN && this.canMoveDown()) {
                 this.moveDown();
+                this.idleTime = 0;
                 this.swimming_sound.play();
             } else {
                 this.downDirection = false;
@@ -179,23 +190,30 @@ class Character extends MovableObject {
             } else if (this.isDead()) {
                 // this.playAnimation(this.IMAGES_DEAD_ELECTRIC);
                 this.playAnimationOnce(this.IMAGES_DEAD);
-                
+
 
 
             } else if (this.isAttacking()) {
-                this.playAnimationOnce(this.IMAGES_ATTACK_MELEE);  // Hier nur einmal abspielen
+                this.playAnimationOnce(this.IMAGES_ATTACK_MELEE);
             } else if (this.isBubbleAttack()) {
-                this.playAnimationOnce(this.IMAGES_ATTACK_BUBBLE); // Hier nur einmal abspielen
+                this.playAnimationOnce(this.IMAGES_ATTACK_BUBBLE);
             } else if (this.isPoisonBubbleAttack() && this.world.poisonBar.count > 0) {
-                this.playAnimationOnce(this.IMAGES_ATTACK_POISON_BUBBLE); // Einmalig abspielen
+                this.playAnimationOnce(this.IMAGES_ATTACK_POISON_BUBBLE);
             } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT || this.world.keyboard.UP || this.world.keyboard.DOWN) {
                 this.playAnimation(this.IMAGES_SWIMMING);
             } else {
                 this.playAnimation(this.IMAGES_IDLE);
-                this.applyGravity();
+                this.applyGravity(0);
+                this.idleTime++;
+                if (this.idleTime > 60) {
+                    this.playAnimation(this.IMAGES_LONG_IDLE)
+                    this.applyGravity(1);
+                }
+                if (this.idleTime > 68) {
+                    this.playAnimation(this.IMAGES_SLEEP)
+                    this.applyGravity(2);
+                }
             }
-            
-            // if (lastInput from Keyboard = 5000) {this.playAnimation(this.IMAGES_LONG_IDLE)}
         }, 220)
     };
 

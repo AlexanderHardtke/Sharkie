@@ -6,8 +6,13 @@ let keyboard = new Keyboard();
  * loads the keyboard and the canvas into the world
  */
 function init() {
+    gameIntroductionScreen();
     canvas = document.getElementById('canvas');
     world = new World(canvas, keyboard);
+}
+
+function gameIntroductionScreen() {
+    document.getElementById('introductionScreen').style.display="flex"; 
 }
 
 /**
@@ -113,4 +118,3 @@ function button(key, isPressed) {
 // Fullscreen
 // Quallen einbubbeln
 // Erklärung Start-Screen
-// Long Idle Animation

@@ -39,6 +39,70 @@ button {
     width: 20px;
 }
 
+.moveIntro {
+    display: flex;
+    flex-wrap: wrap;
+    width: 98px;
+    gap: 2px;
+}
+
+.upIntro {
+    margin-left: 34px;
+    margin-right: 34px;
+}
+
+.arrowImg {
+    height: 18px;
+}
+
+.attackIntro {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-wrap: wrap;
+    width: 120px;
+    gap: 2px;
+}
+
+.moveSharkie {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    margin-left: 20px;
+}
+
+.description {
+    color: white;
+    font-size: 20px;
+    text-shadow: none;
+    text-align: center;
+}
+
+.introButton {
+    background-color: #80ffdf;
+    color: #531a82;
+    border: solid 1px white;
+    border-radius: 8px;
+    text-shadow: none;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    align-content: center;
+}
+
+.introButtonSpace {
+    background-color: #80ffdf;
+    color: #531a82;
+    border: solid 1px white;
+    border-radius: 8px;
+    text-shadow: none;
+    width: 64px;
+    height: 30px;
+    text-align: center;
+    align-content: center;
+}
+
 .actionMoveBar {
     position: absolute;
     left: 20px;
@@ -93,11 +157,16 @@ button {
     align-items: center;
     justify-content: center;
     background-color: rgba(0, 0, 0, 0.4);
+    font-size: 20px;
 }
 
 .gameOverImg {
     width: 300px;
     cursor: pointer;
+}
+
+.gameStartImg {
+    width: 400px;
 }
 
 @media only screen and (max-width: 720px) {
