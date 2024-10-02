@@ -10,8 +10,10 @@ class World {
     poisonBar = new PoisonBar();
     coinBar = new CoinBar();
     throwableObjects = [];
-    backgroundMusic = new Audio('audio/background_music.mp3')
     canThrowBubble = true;
+    isMuted = false;
+    sounds = [];
+    backgroundMusic = new Audio('audio/background_music.mp3')
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -20,7 +22,8 @@ class World {
         this.draw();
         this.setWorld();
         this.run();
-        // this.backgroundMusic.play();
+        this.backgroundMusic.play();
+        this.sounds.push(this.backgroundMusic);
     }
 
     /**
@@ -66,7 +69,7 @@ class World {
                 if (this.character.isDead()) {
                     setTimeout(() => {
                         this.clearAllIntervals();
-                        this.gameOverScreen();    
+                        this.gameOverScreen();
                     }, 3500);
                 }
             }
@@ -74,7 +77,7 @@ class World {
     }
 
     gameOverScreen() {
-        document.getElementById('gameOverScreen').style.display="flex"; 
+        document.getElementById('gameOverScreen').style.display = "flex";
     }
 
     clearAllIntervals() {
@@ -216,7 +219,7 @@ class World {
             this.ctx.beginPath();
             this.ctx.lineWidth = '5';
             this.ctx.strokeStyle = 'hotpink';
-            this.ctx.rect(mo.x, mo.y, mo.width, mo.height);
+            this.ctx.rect(mo.x, mo.y, mo.width - mo.offsetY, mo.height - mo.offsetX);
             this.ctx.stroke();
         } else if (mo instanceof Coin || mo instanceof Poison) {
             this.ctx.beginPath();
@@ -232,10 +235,4 @@ class World {
             this.ctx.stroke();
         }
     }
-
-    // playSound(url, volumeLevel = 0.2) {
-    //     const audio = new Audio(url);
-    //     audio.volume = volumeLevel;
-    //     audio.play();
-    // }
 }

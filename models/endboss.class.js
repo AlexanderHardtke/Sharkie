@@ -3,6 +3,8 @@ class Endboss extends MovableObject {
     height = 1216 * 0.3;
     speed = 0.2;
     hadFirstContact = false;
+    offsetX = 50;
+    offsetY = 20;
     IMAGES_INTRODUCTION = [
         'img/2.Enemy/3 Final Enemy/1.introduce/1.png',
         'img/2.Enemy/3 Final Enemy/1.introduce/2.png',

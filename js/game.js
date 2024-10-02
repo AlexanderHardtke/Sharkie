@@ -2,17 +2,23 @@ let canvas;
 let world;
 let keyboard = new Keyboard();
 
+
 /**
  * loads the keyboard and the canvas into the world
  */
 function init() {
     gameIntroductionScreen();
     canvas = document.getElementById('canvas');
+}
+
+function startGame() {
+    document.getElementById('introductionScreen').style.display = "none";
+    document.getElementById('canvas').style.display = "block";
     world = new World(canvas, keyboard);
 }
 
 function gameIntroductionScreen() {
-    document.getElementById('introductionScreen').style.display="flex"; 
+    document.getElementById('introductionScreen').style.display = "flex";
 }
 
 /**
@@ -111,10 +117,34 @@ function button(key, isPressed) {
     keyboard[key] = isPressed;
 }
 
+function toggleMuteButton() {
+    let mute = document.getElementById('mute');
+    let unmute = document.getElementById('unmute');
+    if (world.isMuted) {
+        unmute.classList.add('dNone');
+        mute.classList.remove('dNone');
+    } else {
+        mute.classList.add('dNone');
+        unmute.classList.remove('dNone');
+    }
+}
+
+function toggleMute() {
+    world.isMuted = !world.isMuted;
+    world.sounds.forEach(sound => {
+        if (world.isMuted) {
+            sound.volume = 0;
+            toggleMuteButton();
+        } else {
+            sound.volume = 0.15;
+            toggleMuteButton();
+        }
+    });
+}
+
 // Sound wenn Verletzt etc
 // Alle Sounds Lautstärke verrringern
 // Collision besser machen
 // Endgegner besiegen
 // Fullscreen
 // Quallen einbubbeln
-// Erklärung Start-Screen

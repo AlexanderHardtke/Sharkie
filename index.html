@@ -32,12 +32,21 @@
 
 <body onload="init()">
 
+    <button class="muteButton" onclick="toggleMute()">
+        <img src="./img/7.Icons/Sound_on.png" class="arrow" id="unmute">
+        <img src="./img/7.Icons/Sound_off.png" class="arrow dNone" id="mute">
+    </button>
+
     <h1>Sharkie</h1>
 
-    <button class="fullscreenButton"><img src="./img/7.Icons/fullscreen.png" onclick="fullscreen()"
-            class="fullscreenIcon"></button>
+    <img src="./img/6.Botones/Full Screen/Mesa de trabajo 9.png" onclick="fullscreen()" class="fullscreenIcon">
 
-    <div class="gameOverScreen" id="introductionScreen">
+    <div class="gameStartScreen" id="introductionScreen">
+        <div class="startGame" onclick="startGame()">
+            <img src="./img/7.Icons/newGame.png" class="startGameImg">
+            <div class="description">Start New Game</div>
+        </div>
+
         <div class="moveSharkie">
             <div class="moveIntro">
                 <div class="introButton upIntro">W</div>
@@ -66,12 +75,13 @@
         </div>
     </div>
 
-    <div class="gameOverScreen" id="gameOverScreen">
+    <div class="gameOverScreen dNone" id="gameOverScreen">
+        <img class="gameOverImg" src="./img/6.Botones/Tittles/Game Over/Recurso 11.png">
         <img onclick="restartGame()" class="gameOverImg" src="./img/6.Botones/Try again/Recurso 16.png">
     </div>
 
     <div id="fullscreen">
-        <canvas id="canvas" width="720px" height="480px"></canvas>
+        <canvas class="dNone" id="canvas" width="720px" height="480px"></canvas>
     </div>
 
     <div class="actionMoveBar">

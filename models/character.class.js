@@ -122,6 +122,7 @@ class Character extends MovableObject {
     world;
     swimming_sound = new Audio('audio/sharkie_swim.mp3');
     idleTime = 0;
+    offsetX = 30;
 
 
     constructor() {
@@ -151,8 +152,7 @@ class Character extends MovableObject {
      */
     animate() {
         setInterval(() => {
-            this.swimming_sound.volume = 0.15;
-            this.swimming_sound.volume = 0;
+            this.world.sounds.push(this.swimming_sound);
             this.swimming_sound.pause();
             if (this.world.keyboard.RIGHT && this.canMoveRight()) {
                 this.moveRight();

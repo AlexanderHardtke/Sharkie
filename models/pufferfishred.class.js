@@ -2,6 +2,8 @@ class PufferfishRed extends MovableObject{
     width = 72;
     height = 60;
     speed = 0.2;
+    offsetX = 5;
+    offsetY = 50;
     IMAGES_IDLE = [
         'img/2.Enemy/1.Puffer fish (3 color options)/1.Swim/3.swim1.png',
         'img/2.Enemy/1.Puffer fish (3 color options)/1.Swim/3.swim2.png',

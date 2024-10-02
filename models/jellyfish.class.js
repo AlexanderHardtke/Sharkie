@@ -2,6 +2,8 @@ class Jellyfish extends MovableObject {
     width = 70;
     height = 100;
     speed = 0.1;
+    offsetX = 0;
+    offsetY = 0;
     IMAGES_IDLE = [
         'img/2.Enemy/2 Jelly fish/Regular damage/Lila 1.png',
         'img/2.Enemy/2 Jelly fish/Regular damage/Lila 2.png',

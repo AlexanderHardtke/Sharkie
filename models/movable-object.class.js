@@ -4,7 +4,8 @@ class MovableObject extends DrawableObject {
     upDirection = false;
     downDirection = false;
     gravity = 1.5;
-    offsetX = 30;
+    offsetX = 0;
+    offsetY = 0;
     life = 100;
     lastHit = 0;
     lastElectro = 0;
@@ -132,7 +133,7 @@ class MovableObject extends DrawableObject {
      */
     isColliding(mo) {
         return (this.x + this.width / 2.2 + this.width / 3) >= mo.x &&
-            (this.x + this.offsetX) <= (mo.x + mo.width) &&
+            (this.x + this.offsetX) <= (mo.x + mo.width + mo.offsetX) &&
             (this.y + this.height / 4 + this.height / 2) >= mo.y &&
             (this.y + this.height / 2) <= (mo.y + mo.height);
     }
@@ -161,7 +162,8 @@ class MovableObject extends DrawableObject {
     removeItem(item) {
         let index = this.world.level.collectables.findIndex(collectable => collectable === item);
         if (index !== -1) {
-            this.world.level.collectables[index].collectedAudio.play();
+            let collectable = this.world.level.collectables[index].collectedAudio;
+            collectable.play();
             this.world.level.collectables.splice(index, 1);
         }
     }
