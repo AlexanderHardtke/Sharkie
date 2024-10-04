@@ -3,8 +3,8 @@ class Endboss extends MovableObject {
     height = 1216 * 0.3;
     speed = 0.2;
     hadFirstContact = false;
-    offsetX = 50;
-    offsetY = 20;
+    offsetX = 30;
+    offsetY = 120;
     IMAGES_INTRODUCTION = [
         'img/2.Enemy/3 Final Enemy/1.introduce/1.png',
         'img/2.Enemy/3 Final Enemy/1.introduce/2.png',
@@ -56,8 +56,12 @@ class Endboss extends MovableObject {
     ];
 
     constructor() {
-        super().loadImage(this.IMAGES_IDLE[0]);
+        super().loadImage(this.IMAGES_INTRODUCTION[0]);
+        this.loadImages(this.IMAGES_INTRODUCTION);
         this.loadImages(this.IMAGES_IDLE);
+        this.loadImages(this.IMAGES_DEAD);
+        this.loadImages(this.IMAGES_HURT);
+        this.loadImages(this.IMAGES_ATTACK);
         this.y = 0;
         this.x = 2200;
         this.speed = 0.2 + Math.random() * 0.1;

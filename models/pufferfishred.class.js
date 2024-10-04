@@ -1,9 +1,15 @@
-class PufferfishRed extends MovableObject{
+class PufferfishRed extends MovableObject {
     width = 72;
     height = 60;
     speed = 0.2;
     offsetX = 5;
-    offsetY = 50;
+    offsetY = 5;
+    moving = 50;
+    bubbleRange = 200;
+    standardBubbleRange = 200;
+    aggresiveBubbleRange = 300;
+    otherDirection = false;
+    getAggressive = false;
     IMAGES_IDLE = [
         'img/2.Enemy/1.Puffer fish (3 color options)/1.Swim/3.swim1.png',
         'img/2.Enemy/1.Puffer fish (3 color options)/1.Swim/3.swim2.png',
@@ -30,13 +36,16 @@ class PufferfishRed extends MovableObject{
         'img/2.Enemy/1.Puffer fish (3 color options)/4.DIE/3.2.png',
         'img/2.Enemy/1.Puffer fish (3 color options)/4.DIE/3.3.png'
     ];
-    
+
     constructor() {
         super().loadImage(this.IMAGES_IDLE[0]);
         this.loadImages(this.IMAGES_IDLE);
-        this.x = 300 + Math.random() * 500;
+        this.loadImages(this.IMAGES_TRANSITION);
+        this.loadImages(this.IMAGES_BUBBLESWIM);
+        this.loadImages(this.IMAGES_DEATH);
+        this.x = 300 + Math.random() * 300;
         this.y = Math.random() * 400;
-        this.speed = 0.5 + Math.random() * 0.1;
+        this.speed = this.speed + Math.random() * 0.3;
         this.moveLeft();
         this.animate();
     }
@@ -46,7 +55,25 @@ class PufferfishRed extends MovableObject{
      */
     animate() {
         setInterval(() => {
-            this.playAnimation(this.IMAGES_IDLE);
+            if (this.moving < 500) {
+                this.moveLeft();
+                this.moving++;
+                this.otherDirection = false;
+            } else if (this.moving < 1000) {
+                this.moveRight();
+                this.moving++;
+                this.otherDirection = true;
+            } if (this.moving >= 1000) {
+                this.moving = 0;
+            }
+        }, 1000 / 60)
+
+        setInterval(() => {
+            if (this.getAggressive) {
+                this.playAnimation(this.IMAGES_BUBBLESWIM);
+            } else {
+                this.playAnimation(this.IMAGES_IDLE);
+            }
         }, 400)
     }
 

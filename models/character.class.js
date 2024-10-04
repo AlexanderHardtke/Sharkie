@@ -122,7 +122,8 @@ class Character extends MovableObject {
     world;
     swimming_sound = new Audio('audio/sharkie_swim.mp3');
     idleTime = 0;
-    offsetX = 30;
+    offsetX = 35;
+    offsetY = 54;
 
 
     constructor() {
@@ -164,13 +165,13 @@ class Character extends MovableObject {
                 this.idleTime = 0;
                 this.otherDirection = true;
                 this.swimming_sound.play();
-            } if (this.world.keyboard.UP && this.canMoveUp()) {
+            } if (this.world.keyboard.UP && this.canMoveUp(0)) {
                 this.moveUp();
                 this.idleTime = 0;
                 this.swimming_sound.play();
             } else {
                 this.upDirection = false;
-            } if (this.world.keyboard.DOWN && this.canMoveDown()) {
+            } if (this.world.keyboard.DOWN && this.canMoveDown(0)) {
                 this.moveDown();
                 this.idleTime = 0;
                 this.swimming_sound.play();

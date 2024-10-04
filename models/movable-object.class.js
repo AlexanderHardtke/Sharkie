@@ -82,8 +82,8 @@ class MovableObject extends DrawableObject {
      * 
      * @returns if the top of the level is reached
      */
-    canMoveUp() {
-        return this.y > -50
+    canMoveUp(extra) {
+        return this.y > -50 + extra;
     }
 
     /**
@@ -91,8 +91,8 @@ class MovableObject extends DrawableObject {
      * 
      * @returns if the bottom of the level is reached
      */
-    canMoveDown() {
-        return this.y < 310
+    canMoveDown(extra) {
+        return this.y < 310 - + extra;
     }
 
     /**
@@ -124,7 +124,7 @@ class MovableObject extends DrawableObject {
             }, 220);
         }
     }
-    
+
     /**
      * checks if the character is colliding with an object
      * 
@@ -132,10 +132,24 @@ class MovableObject extends DrawableObject {
      * @returns true or false if the character has collided with the object
      */
     isColliding(mo) {
-        return (this.x + this.width / 2.2 + this.width / 3) >= mo.x &&
-            (this.x + this.offsetX) <= (mo.x + mo.width + mo.offsetX) &&
-            (this.y + this.height / 4 + this.height / 2) >= mo.y &&
-            (this.y + this.height / 2) <= (mo.y + mo.height);
+        if (mo instanceof Endboss) {
+            return (this.x + this.width - this.offsetX) >= mo.x + mo.offsetX && // rechts > Gegner links
+                (this.x + this.offsetX) <= (mo.x + mo.width - mo.offsetX * 5) && // links < Gegner rechts
+                (this.y + this.height - this.offsetY * 0.8) >= mo.y + mo.offsetY * 1.7 && // unten > Geger oben
+                (this.y + this.offsetY * 1.7) <= (mo.y + mo.height - mo.offsetY * 0.8); // oben < Gegner unten
+        } else {
+            return (this.x + this.width - this.offsetX) >= mo.x + mo.offsetX && // rechts > Objekt links
+                (this.x + this.offsetX) <= (mo.x + mo.width - mo.offsetX) && // links < Objekt rechts
+                (this.y + this.height - this.offsetY * 0.8) >= mo.y + mo.offsetY && // unten > Objekt oben
+                (this.y + this.offsetY * 1.7) <= (mo.y + mo.height - mo.offsetY); // oben < Objekt unten
+        }
+    }
+
+    characterIsNear(mo) {
+        return (this.x + this.width - this.offsetX) >= mo.x + mo.offsetX - mo.bubbleRange && // rechts > Objekt links
+            (this.x + this.offsetX) <= (mo.x + mo.width - mo.offsetX + mo.bubbleRange) && // links < Objekt rechts
+            (this.y + this.height - this.offsetY * 0.8) >= mo.y + mo.offsetY - mo.bubbleRange && // unten > Objekt oben
+            (this.y + this.offsetY * 1.7) <= (mo.y + mo.height - mo.offsetY + mo.bubbleRange); // oben < Objekt unten
     }
 
     /**

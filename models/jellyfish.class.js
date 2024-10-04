@@ -1,9 +1,11 @@
 class Jellyfish extends MovableObject {
     width = 70;
     height = 100;
-    speed = 0.1;
-    offsetX = 0;
-    offsetY = 0;
+    speed = 2.5;
+    offsetX = 10;
+    offsetY = 15;
+    dangerousTime = 0;
+    moveUp = true;
     IMAGES_IDLE = [
         'img/2.Enemy/2 Jelly fish/Regular damage/Lila 1.png',
         'img/2.Enemy/2 Jelly fish/Regular damage/Lila 2.png',
@@ -17,10 +19,10 @@ class Jellyfish extends MovableObject {
         'img/2.Enemy/2 Jelly fish/Súper dangerous/Pink 4.png'
     ];
     IMAGES_DEAD_NORMAL = [
-        'img/2.Enemy/2 Jelly fish\Dead/Lila/L1.png',
-        'img/2.Enemy/2 Jelly fish\Dead/Lila/L2.png',
-        'img/2.Enemy/2 Jelly fish\Dead/Lila/L3.png',
-        'img/2.Enemy/2 Jelly fish\Dead/Lila/L4.png'
+        'img/2.Enemy/2 Jelly fish/Dead/Lila/L1.png',
+        'img/2.Enemy/2 Jelly fish/Dead/Lila/L2.png',
+        'img/2.Enemy/2 Jelly fish/Dead/Lila/L3.png',
+        'img/2.Enemy/2 Jelly fish/Dead/Lila/L4.png'
     ];
     IMAGES_DEAD_DANGEROUS = [
         'img/2.Enemy/2 Jelly fish/Dead/Pink/P1.png',
@@ -32,9 +34,12 @@ class Jellyfish extends MovableObject {
     constructor() {
         super().loadImage('img/2.Enemy/2 Jelly fish/Regular damage/Lila 1.png');
         this.loadImages(this.IMAGES_IDLE)
+        this.loadImages(this.IMAGES_DANGEROUS)
+        this.loadImages(this.IMAGES_DEAD_DANGEROUS)
+        this.loadImages(this.IMAGES_DEAD_NORMAL)
         this.x = 300 + Math.random() * 500;
         this.y = Math.random() * 400;
-        this.speed = 0.09 + Math.random() * 0.1;
+        this.speed = this.speed + Math.random() * 0.2;
         this.animate();
     }
 
@@ -43,12 +48,39 @@ class Jellyfish extends MovableObject {
      */
     animate() {
         setInterval(() => {
-            this.moveLeft();
+            if (this.canMoveUp(60) && this.moveUp) {
+            this.moveUpNoDirection();
+            } else {
+                this.moveUp = false;
+            } if (this.canMoveDown(-30
+            ) && !this.moveUp) {
+                this.moveDownNoDirection();
+            } else {
+                this.moveUp = true;
+            }
+
         }, 1000 / 60)
 
         setInterval(() => {
-            this.playAnimation(this.IMAGES_IDLE);
-        }, 400)
+            if (this.dangerousTime < 11) {
+                this.playAnimation(this.IMAGES_IDLE);
+                this.dangerousTime++
+            }else if (this.dangerousTime < 23) {
+                this.playAnimation(this.IMAGES_DANGEROUS);
+                this.dangerousTime++
+            } if (this.dangerousTime == 23) {
+                this.playAnimation(this.IMAGES_IDLE);
+                this.dangerousTime = 0;
+            }
+        }, 350)
     }
+
+    moveUpNoDirection() {
+        this.y -= this.speed;
+    };
+
+    moveDownNoDirection() {
+        this.y += this.speed;
+    };
 
 }

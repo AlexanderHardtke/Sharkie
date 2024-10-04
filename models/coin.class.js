@@ -6,8 +6,10 @@ class Coin extends MovableObject {
         'img/4. Marcadores/1. Coins/4.png'
     ];
     width = 99 * 0.45;
-    height = 93 * 0.45;
-    collectedAudio = new Audio('audio/coin.mp3')
+    height = 93 * 0.45
+    offsetX = 5;
+    offsetY = 5;
+    collectedAudio = new Audio('audio/coin.mp3');
     
 
     constructor(x, y) {

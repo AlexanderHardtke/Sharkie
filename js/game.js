@@ -144,7 +144,6 @@ function toggleMute() {
 
 // Sound wenn Verletzt etc
 // Alle Sounds Lautstärke verrringern
-// Collision besser machen
 // Endgegner besiegen
 // Fullscreen
 // Quallen einbubbeln

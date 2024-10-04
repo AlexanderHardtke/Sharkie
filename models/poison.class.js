@@ -11,6 +11,8 @@ class Poison extends MovableObject {
     ];
     width = 178 * 0.25;
     height = 243 * 0.25;
+    offsetX = 5;
+    offsetY = 10;
     collectedAudio = new Audio('audio/coin.mp3')
     
 
