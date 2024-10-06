@@ -20,26 +20,22 @@ class Character extends MovableObject {
         'img/1.Sharkie/1.IDLE/18.png'
     ];
     IMAGES_LONG_IDLE = [
-        'img/1.Sharkie/2.Long_IDLE/i1.png',
-        'img/1.Sharkie/2.Long_IDLE/i2.png',
-        'img/1.Sharkie/2.Long_IDLE/i3.png',
-        'img/1.Sharkie/2.Long_IDLE/i4.png',
-        'img/1.Sharkie/2.Long_IDLE/i5.png',
-        'img/1.Sharkie/2.Long_IDLE/i6.png',
-        'img/1.Sharkie/2.Long_IDLE/i7.png',
-        'img/1.Sharkie/2.Long_IDLE/i8.png',
-        'img/1.Sharkie/2.Long_IDLE/i9.png',
-        'img/1.Sharkie/2.Long_IDLE/i10.png',
-        'img/1.Sharkie/2.Long_IDLE/i11.png',
-        'img/1.Sharkie/2.Long_IDLE/i12.png',
-        'img/1.Sharkie/2.Long_IDLE/i13.png',
-        'img/1.Sharkie/2.Long_IDLE/i14.png'
+        'img/1.Sharkie/2.Long_IDLE/1.png',
+        'img/1.Sharkie/2.Long_IDLE/2.png',
+        'img/1.Sharkie/2.Long_IDLE/3.png',
+        'img/1.Sharkie/2.Long_IDLE/4.png',
+        'img/1.Sharkie/2.Long_IDLE/5.png',
+        'img/1.Sharkie/2.Long_IDLE/6.png',
+        'img/1.Sharkie/2.Long_IDLE/7.png',
+        'img/1.Sharkie/2.Long_IDLE/8.png',
+        'img/1.Sharkie/2.Long_IDLE/9.png',
+        'img/1.Sharkie/2.Long_IDLE/10.png'
     ];
     IMAGES_SLEEP = [
-        'img/1.Sharkie/2.Long_IDLE/i11.png',
-        'img/1.Sharkie/2.Long_IDLE/i12.png',
-        'img/1.Sharkie/2.Long_IDLE/i13.png',
-        'img/1.Sharkie/2.Long_IDLE/i14.png'
+        'img/1.Sharkie/7.Sleep/1.png',
+        'img/1.Sharkie/7.Sleep/2.png',
+        'img/1.Sharkie/7.Sleep/3.png',
+        'img/1.Sharkie/7.Sleep/4.png'
     ];
     IMAGES_SWIMMING = [
         'img/1.Sharkie/3.Swim/1.png',
@@ -85,12 +81,9 @@ class Character extends MovableObject {
         'img/1.Sharkie/5.Hurt/1.Poisoned/4.png'
     ];
     IMAGES_HURT_ELECTRIC = [
-        'img/1.Sharkie/5.Hurt/2.Electric shock/o1.png',
-        'img/1.Sharkie/5.Hurt/2.Electric shock/o2.png',
-        'img/1.Sharkie/5.Hurt/2.Electric shock/o1.png',
-        'img/1.Sharkie/5.Hurt/2.Electric shock/o2.png',
-        'img/1.Sharkie/5.Hurt/2.Electric shock/o1.png',
-        'img/1.Sharkie/5.Hurt/2.Electric shock/o2.png'
+        'img/1.Sharkie/5.Hurt/2.Electric shock/1.png',
+        'img/1.Sharkie/5.Hurt/2.Electric shock/2.png',
+        'img/1.Sharkie/5.Hurt/2.Electric shock/3.png'
     ];
     IMAGES_DEAD = [
         'img/1.Sharkie/6.dead/1.Poisoned/1.png',
@@ -124,6 +117,7 @@ class Character extends MovableObject {
     idleTime = 0;
     offsetX = 35;
     offsetY = 54;
+    lastHitElectro = false;
 
 
     constructor() {
@@ -138,6 +132,7 @@ class Character extends MovableObject {
     loadCharacterImages() {
         this.loadImages(this.IMAGES_IDLE);
         this.loadImages(this.IMAGES_LONG_IDLE);
+        this.loadImages(this.IMAGES_SLEEP);
         this.loadImages(this.IMAGES_SWIMMING);
         this.loadImages(this.IMAGES_ATTACK_MELEE);
         this.loadImages(this.IMAGES_ATTACK_BUBBLE);
@@ -183,17 +178,18 @@ class Character extends MovableObject {
 
 
         setInterval(() => {
-            if (this.isHurt()) {
+            if (this.isElectrocuted()) {
+                this.lastHitElectro = true;
+                this.playAnimation(this.IMAGES_HURT_ELECTRIC);
+            } else if (this.isHurt()) {
+                this.lastHitElectro = false;
                 this.playAnimation(this.IMAGES_HURT_POISON);
-                // this.playAnimation(this.IMAGES_HURT_ELECTRIC);
-
-
             } else if (this.isDead()) {
-                // this.playAnimation(this.IMAGES_DEAD_ELECTRIC);
-                this.playAnimationOnce(this.IMAGES_DEAD);
-
-
-
+                if (this.lastHitElectro) {
+                    this.playAnimationOnce(this.IMAGES_DEAD_ELECTRIC);
+                } else {
+                    this.playAnimationOnce(this.IMAGES_DEAD);
+                }
             } else if (this.isAttacking()) {
                 this.playAnimationOnce(this.IMAGES_ATTACK_MELEE);
             } else if (this.isBubbleAttack()) {
@@ -202,18 +198,17 @@ class Character extends MovableObject {
                 this.playAnimationOnce(this.IMAGES_ATTACK_POISON_BUBBLE);
             } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT || this.world.keyboard.UP || this.world.keyboard.DOWN) {
                 this.playAnimation(this.IMAGES_SWIMMING);
-            } else {
+            } else if (this.idleTime <= 50) {
                 this.playAnimation(this.IMAGES_IDLE);
                 this.applyGravity(0);
                 this.idleTime++;
-                if (this.idleTime > 60) {
-                    this.playAnimation(this.IMAGES_LONG_IDLE)
-                    this.applyGravity(1);
-                }
-                if (this.idleTime > 68) {
-                    this.playAnimation(this.IMAGES_SLEEP)
-                    this.applyGravity(2);
-                }
+            } else if (this.idleTime <= 60) {
+                this.playAnimation(this.IMAGES_LONG_IDLE);
+                this.applyGravity(1);
+                this.idleTime++;
+            } else if (this.idleTime > 60) {
+                this.playAnimation(this.IMAGES_SLEEP);
+                this.applyGravity(2);
             }
         }, 220)
     };

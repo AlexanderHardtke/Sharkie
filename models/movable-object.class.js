@@ -8,7 +8,7 @@ class MovableObject extends DrawableObject {
     offsetY = 0;
     life = 100;
     lastHit = 0;
-    lastElectro = 0;
+    lastElectrocuted = 0;
 
 
     /**
@@ -101,11 +101,16 @@ class MovableObject extends DrawableObject {
      * @param {Array} images all images with the current animation from the object 
      */
     playAnimation(images) {
+        // Ändere den Ordner und Namen der Bilder zusätzlich sonst sind sie gleich
+        if (this.currentImages !== images) {
+            this.currentImages = images;
+            this.currentImage = 0;
+        }
         let i = this.currentImage % images.length;
         let path = images[i];
         this.img = this.imageCache[path];
         this.currentImage++;
-    };
+    }
 
     playAnimationOnce(images) {
         if (!this.animationPlaying) {
@@ -155,7 +160,11 @@ class MovableObject extends DrawableObject {
     /**
      * removes life points from the character until 0 is reached and saves the time from the last hit
      */
-    hit() {
+    hit(mo) {
+        if (mo.dangerousTime > 11) {
+            this.life -= 10;
+            this.lastElectrocuted = new Date().getTime();
+        }
         this.life -= 5;
         if (this.life < 0) {
             this.life = 0;
@@ -189,7 +198,12 @@ class MovableObject extends DrawableObject {
      */
     isHurt() {
         let timePassed = new Date().getTime() - this.lastHit; // Difference in MS
-        return timePassed < 500;
+        return timePassed < 400;
+    }
+
+    isElectrocuted() {
+        let timePassed = new Date().getTime() - this.lastElectrocuted; // Difference in MS
+        return timePassed < 400;
     }
 
     /**

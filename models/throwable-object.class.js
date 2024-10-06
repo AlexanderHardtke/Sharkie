@@ -17,7 +17,7 @@ class ThrowableObject extends MovableObject {
     constructor(x, y, otherDirection, poison) {
         if (poison) {
             super().loadImage(this.IMAGES_POISON_BUBBLE);
-        } if (!poison) {
+        } else {
             super().loadImage(this.IMAGES_BUBBLE);
         }
         this.x = x;

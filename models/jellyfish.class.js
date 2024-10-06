@@ -48,17 +48,16 @@ class Jellyfish extends MovableObject {
      */
     animate() {
         setInterval(() => {
-            if (this.canMoveUp(60) && this.moveUp) {
+            if (this.canMoveUp(55) && this.moveUp) {
             this.moveUpNoDirection();
             } else {
                 this.moveUp = false;
-            } if (this.canMoveDown(-30
+            } if (this.canMoveDown(-50
             ) && !this.moveUp) {
                 this.moveDownNoDirection();
             } else {
                 this.moveUp = true;
             }
-
         }, 1000 / 60)
 
         setInterval(() => {
