@@ -96,10 +96,25 @@ class World {
         this.level.enemies.forEach((enemy) => {
             this.throwableObjects.forEach((throwableObject) => {
                 if (throwableObject.isColliding(enemy)) {
-                    console.log(throwableObject, "hits", enemy);
+                    this.createnewJellyBubble(enemy);
+                    this.removeEnemy(enemy);
                 }
             });
         });
+    }
+
+    createnewJellyBubble(jellyfish) {
+        let bubble = new JellyfishCatched(jellyfish.x, jellyfish.y, jellyfish.dangerous);
+        this.level.collectables.push(bubble);
+    }
+
+    removeEnemy(enemy) {
+        let index = this.level.enemies.findIndex(fish => fish === enemy);
+        if (index !== -1) {
+            // let dying = this.level.enemies[index].dyingAudio;
+            // dying.play();
+            this.level.enemies.splice(index, 1);
+        }
     }
 
     gameOverScreen() {
@@ -247,7 +262,7 @@ class World {
             this.ctx.strokeStyle = 'hotpink';
             this.ctx.rect(mo.x + mo.offsetX, mo.y + mo.offsetY, mo.width - mo.offsetX * 2, mo.height - mo.offsetY * 2);
             this.ctx.stroke();
-        } else if (mo instanceof Character) {
+        } else if (mo instanceof Character || mo instanceof ThrowableObject) {
             this.ctx.beginPath();
             this.ctx.lineWidth = '5';
             this.ctx.strokeStyle = 'red';

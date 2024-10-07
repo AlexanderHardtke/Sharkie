@@ -4,6 +4,7 @@ class Jellyfish extends MovableObject {
     speed = 2.5;
     offsetX = 10;
     offsetY = 15;
+    dangerous = false;
     dangerousTime = 0;
     moveUp = true;
     IMAGES_IDLE = [
@@ -67,9 +68,11 @@ class Jellyfish extends MovableObject {
             }else if (this.dangerousTime < 23) {
                 this.playAnimation(this.IMAGES_DANGEROUS);
                 this.dangerousTime++
+                this.dangerous = true;
             } if (this.dangerousTime == 23) {
                 this.playAnimation(this.IMAGES_IDLE);
                 this.dangerousTime = 0;
+                this.dangerous = false;
             }
         }, 350)
     }

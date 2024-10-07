@@ -18,21 +18,21 @@ class JellyfishCatched extends MovableObject {
     y;
     collectedAudio = new Audio('audio/poison_flask.mp3');
 
-    constructor(x, y, electro) {
+    constructor(x, y, dangerous) {
         super().loadImages(this.JELLYFISH_CATCHED_ELECTRO);
         this.loadImages(this.JELLYFISH_CATCHED);
         this.x = x;
         this.y = y;
-        this.animate(electro);
+        this.animate(dangerous);
     }
 
-    animate(electro) {
+    animate(dangerous) {
         setInterval(() => {
             this.applyGravity(this.gravity);
         }, 1000 / 60);
 
         setInterval(() => {
-            if (electro) {
+            if (dangerous) {
                 this.playAnimation(this.JELLYFISH_CATCHED_ELECTRO);
             } else {
                 this.playAnimation(this.JELLYFISH_CATCHED);
