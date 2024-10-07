@@ -176,9 +176,9 @@ class MovableObject extends DrawableObject {
     gainItem(item) {
         if (item instanceof Coin) {
             this.world.coinBar.count++;
-        } if (item instanceof Poison) {
+        } if (item instanceof Poison || item instanceof JellyfishCatched) {
             this.world.poisonBar.count++;
-        }
+        } 
         this.removeItem(item);
     }
 

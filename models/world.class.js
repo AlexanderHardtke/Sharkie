@@ -40,6 +40,7 @@ class World {
             this.checkCollisions();
             this.checkCollisionsCollectable();
             this.checkThrowObjects();
+            this.checkCollisionsThrowObjects();
         }, 200);
     }
 
@@ -55,7 +56,7 @@ class World {
     }
 
     createNewBubble(poison) {
-        let bubble = new ThrowableObject(this.character.x + 95, this.character.y + 77, this.character.otherDirection, poison);
+        let bubble = new ThrowableObject(this.character.x + 108, this.character.y + 90, this.character.otherDirection, poison);
         this.throwableObjects.push(bubble);
     }
 
@@ -88,6 +89,16 @@ class World {
                     }, 3500);
                 }
             }
+        });
+    }
+
+    checkCollisionsThrowObjects() {
+        this.level.enemies.forEach((enemy) => {
+            this.throwableObjects.forEach((throwableObject) => {
+                if (throwableObject.isColliding(enemy)) {
+                    console.log(throwableObject, "hits", enemy);
+                }
+            });
         });
     }
 

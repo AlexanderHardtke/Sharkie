@@ -5,8 +5,8 @@ class ThrowableObject extends MovableObject {
     IMAGES_POISON_BUBBLE = [
         'img/1.Sharkie/4.Attack/Bubble trap/Poisoned Bubble (for whale).png'
     ];
-    height = 33;
-    width = 33;
+    height = 48;
+    width = 48;
     speedY = 1;
     gravity = 0.15;
     speed = 8;
@@ -28,7 +28,7 @@ class ThrowableObject extends MovableObject {
 
     throw(x, otherDirection) {
         if (otherDirection) {
-            this.x = x - 100;
+            this.x = x - 122;
         } setInterval(() => {
             if (otherDirection) {
                 this.moveLeft();

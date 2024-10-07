@@ -147,3 +147,4 @@ function toggleMute() {
 // Endgegner besiegen
 // Fullscreen
 // Quallen einbubbeln
+// Collission am Ende wenn alle Größen fix

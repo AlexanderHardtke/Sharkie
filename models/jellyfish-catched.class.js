@@ -11,11 +11,12 @@ class JellyfishCatched extends MovableObject {
         'img/2.Enemy/2 Jelly fish/Dead/Pink/P3.png',
         'img/2.Enemy/2 Jelly fish/Dead/Pink/P4.png'
     ];
-    height = 33;
-    width = 33;
+    width = 210 * 0.3;
+    height = 300 * 0.3;
     gravity = -0.05;
     x;
     y;
+    collectedAudio = new Audio('audio/poison_flask.mp3');
 
     constructor(x, y, electro) {
         super().loadImages(this.JELLYFISH_CATCHED_ELECTRO);
@@ -36,7 +37,7 @@ class JellyfishCatched extends MovableObject {
             } else {
                 this.playAnimation(this.JELLYFISH_CATCHED);
             }
-        }, 350)
+        }, 200)
     }
 
 
