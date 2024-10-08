@@ -42,7 +42,8 @@ class World {
             this.checkCollisionsCollectable();
             this.checkThrowObjects();
             this.checkFinSlap();
-            this.checkCollisionsThrowObjects();
+            this.checkCollisionsAttack(this.throwableObjects);
+            this.checkCollisionsAttack(this.finSlapObject);
         }, 200);
     }
 
@@ -79,8 +80,8 @@ class World {
         this.finSlapObject = [];
     }
     
-    createNewBubble(poison) {
-        let bubble = new ThrowableObject(this.character.x + 108, this.character.y + 90, this.character.otherDirection, poison);
+    createNewBubble(poison, color) {
+        let bubble = new ThrowableObject(this.character.x + 108, this.character.y + 90, this.character.otherDirection, poison, color);
         this.throwableObjects.push(bubble);
     }
 
@@ -123,13 +124,17 @@ class World {
         });
     }
 
-    checkCollisionsThrowObjects() {
+    checkCollisionsAttack(arr) {
         this.level.enemies.forEach((enemy) => {
-            this.throwableObjects.forEach((throwableObject) => {
-                if (throwableObject.isColliding(enemy) && enemy instanceof Jellyfish) {
+            arr.forEach((attack) => {
+                if (attack.isColliding(enemy) && enemy instanceof Jellyfish) {
                     this.createnewJellyBubble(enemy);
                     this.removeEnemy(enemy);
                     this.removeBubble(throwableObject);
+                } else if (attack.isColliding(enemy) && enemy instanceof PufferfishGreen || enemy instanceof PufferfishRed) {
+                    this.removeEnemy(enemy);
+                    let color = enemy instanceof PufferfishGreen;
+                    this.createNewBubble(false, color);
                 }
             });
         });

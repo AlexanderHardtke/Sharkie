@@ -39,11 +39,6 @@ class PufferfishRed extends MovableObject {
         'img/2.Enemy/1.Puffer fish (3 color options)/3.Bubbleeswim/3.bubbleswim4.png',
         'img/2.Enemy/1.Puffer fish (3 color options)/3.Bubbleeswim/3.bubbleswim5.png'
     ];
-    IMAGES_DEATH = [
-        'img/2.Enemy/1.Puffer fish (3 color options)/4.DIE/3.png',
-        'img/2.Enemy/1.Puffer fish (3 color options)/4.DIE/3.2.png',
-        'img/2.Enemy/1.Puffer fish (3 color options)/4.DIE/3.3.png'
-    ];
 
     constructor(x) {
         super().loadImage(this.IMAGES_IDLE[0]);
@@ -51,7 +46,6 @@ class PufferfishRed extends MovableObject {
         this.loadImages(this.IMAGES_TRANSITION);
         this.loadImages(this.IMAGES_REVERSE_TRANSITION);
         this.loadImages(this.IMAGES_BUBBLESWIM);
-        this.loadImages(this.IMAGES_DEATH);
         this.x = x + Math.random() * 200;
         this.y = Math.random() * 400;
         this.speed = this.speed + Math.random() * 0.6;
