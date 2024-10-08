@@ -3,3 +3,24 @@ ThrowableObject.class
 Coin.class
 Poison.class
 Jellyfish-catched.class
+Pufferfishred/green
+statusbar.class
+poison-bar.class
+coin-bar.class
+background-object.class
+barrier-levelend.class.js
+level.class
+level1.class
+
+
+
+
+
+to do
+level2
+Endboss
+Sounds wenn Verletzt etc
+Alle Sounds Lautstärke verrringern
+Endgegner besiegen
+Fullscreen
+Collission am Ende wenn alle Größen fix

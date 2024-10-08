@@ -1,5 +1,4 @@
 class World {
-
     character = new Character();
     level = level1;
     canvas;
@@ -42,8 +41,8 @@ class World {
             this.checkCollisionsCollectable();
             this.checkThrowObjects();
             this.checkFinSlap();
-            this.checkCollisionsAttack(this.throwableObjects);
-            this.checkCollisionsAttack(this.finSlapObject);
+            this.checkCollisionsThrowableObjects();
+            this.checkCollisionsFinSlap();
         }, 200);
     }
 
@@ -70,16 +69,16 @@ class World {
             }, 2000);
         }
     }
-    
+
     createFinSlap() {
         let slap = new FinSlap(this.character.x + 108, this.character.y + 88, this.character.otherDirection);
         this.finSlapObject.push(slap);
     }
-    
+
     removeFinSlap() {
         this.finSlapObject = [];
     }
-    
+
     createNewBubble(poison, color) {
         let bubble = new ThrowableObject(this.character.x + 108, this.character.y + 90, this.character.otherDirection, poison, color);
         this.throwableObjects.push(bubble);
@@ -124,20 +123,31 @@ class World {
         });
     }
 
-    checkCollisionsAttack(arr) {
+    checkCollisionsThrowableObjects() {
         this.level.enemies.forEach((enemy) => {
-            arr.forEach((attack) => {
-                if (attack.isColliding(enemy) && enemy instanceof Jellyfish) {
+            this.throwableObjects.forEach((throwableObject) => {
+                console.log(throwableObject);
+                
+                if (throwableObject.isColliding(enemy) && enemy instanceof Jellyfish) {
                     this.createnewJellyBubble(enemy);
                     this.removeEnemy(enemy);
                     this.removeBubble(throwableObject);
-                } else if (attack.isColliding(enemy) && enemy instanceof PufferfishGreen || enemy instanceof PufferfishRed) {
+                }
+            });
+        });
+    }
+
+    checkCollisionsFinSlap() {
+        this.level.enemies.forEach((enemy) => {
+            this.finSlapObject.forEach((attack) => {
+                if (attack.isColliding(enemy) && enemy instanceof PufferfishGreen || enemy instanceof PufferfishRed) {
                     this.removeEnemy(enemy);
                     let color = enemy instanceof PufferfishGreen;
                     this.createNewBubble(false, color);
                 }
             });
         });
+
     }
 
     createnewJellyBubble(jellyfish) {

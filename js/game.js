@@ -141,10 +141,3 @@ function toggleMute() {
         }
     });
 }
-
-// Sound wenn Verletzt etc
-// Alle Sounds Lautstärke verrringern
-// Endgegner besiegen
-// Fullscreen
-// Quallen einbubbeln
-// Collission am Ende wenn alle Größen fix

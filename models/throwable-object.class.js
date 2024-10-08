@@ -20,15 +20,15 @@ class ThrowableObject extends MovableObject {
     y;
 
 
-    constructor(x, y, otherDirection, poison, color) {
+    constructor(x, y, otherDirection, poison, color = null) {
         if (poison) {
             super().loadImage(this.IMAGES_POISON_BUBBLE);
-        } else if (!poison && color) {
-            super().loadImage(this.IMAGES_DEATH_GREEN);
-        } else if (!poison && !color) {
-            super().loadImage(this.IMAGES_DEATH_RED);
-        } else {
+        } else if (!poison && color === null) {
             super().loadImage(this.IMAGES_BUBBLE);
+        } else if (!poison && color === true) {
+            super().loadImage(this.IMAGES_DEATH_GREEN);
+        } else if (!poison && color === false) {
+            super().loadImage(this.IMAGES_DEATH_RED);
         }
         this.x = x;
         this.y = y;
