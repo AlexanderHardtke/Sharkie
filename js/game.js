@@ -53,6 +53,7 @@ function checkOrientation() {
 function enterFullscreen(element) {
     document.getElementById('canvas').style.width = `100%`;
     document.getElementById('canvas').style.maxWidth = `100%`;
+    document.getElementById('canvas').style.maxHeight = `100%`;
     if (element.requestFullscreen) {
         element.requestFullscreen();
     } else if (element.msRequestFullscreen) {      // for IE11 (remove June 15, 2022)

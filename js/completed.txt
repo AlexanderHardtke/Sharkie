@@ -11,11 +11,11 @@ background-object.class
 barrier-levelend.class.js
 level.class
 level1.class
+
+
+
+
 Fullscreen
-
-
-
-
 to do
 level2
 Endboss

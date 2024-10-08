@@ -1,4 +1,5 @@
 class Endboss extends MovableObject {
+    world;
     width = 1041 * 0.3;
     height = 1216 * 0.3;
     speed = 0.2;
@@ -55,7 +56,7 @@ class Endboss extends MovableObject {
         'img/2.Enemy/3 Final Enemy/Hurt/4.png'
     ];
 
-    constructor() {
+    constructor(spawn) {
         super().loadImage(this.IMAGES_INTRODUCTION[0]);
         this.loadImages(this.IMAGES_INTRODUCTION);
         this.loadImages(this.IMAGES_IDLE);
@@ -63,37 +64,31 @@ class Endboss extends MovableObject {
         this.loadImages(this.IMAGES_HURT);
         this.loadImages(this.IMAGES_ATTACK);
         this.y = 0;
-        this.x = 2200;
+        this.x = spawn + 300;
         this.speed = 0.2 + Math.random() * 0.1;
         this.moveLeft();
-        this.animate();
+        this.animate(spawn);
     }
 
-    /**
-     * animates the endboss
-     */
-    animate() {
+
+    animate(spawn) {
+        let i = 0;
         setInterval(() => {
-            this.playAnimation(this.IMAGES_IDLE);
-        }, 250)
+            if (!this.world) {
+                console.log(this.world, "World nicht gefunden");
+            } else if (this.world.character.x <= spawn && !this.hadFirstContact) {
+                console.log("World gefunden");
+            } else
+            console.log(this.world.character.x);
+             if (this.world.character.x >= spawn && !this.hadFirstContact) {
+                this.hadFirstContact = true;
+            } else if (this.hadFirstContact && i < 10) {
+                this.playAnimation(this.IMAGES_INTRODUCTION);
+            } else if (this.hadFirstContact && i > 10) {
+                this.playAnimation(this.IMAGES_IDLE);
+            }
+            i++;
+        }, 250);
     }
-
-    // animate() {
-    //     setInterval(() => {
-    //         let i = 50;
-    //         setInterval(() => {
-    //             if (i < 10) {
-    //                 this.playAnimation(this.IMAGES_INTRODUCTION);
-    //             } else {
-    //                 this.playAnimation(this.IMAGES_IDLE);
-    //             }
-    //             i++
-    //             if(world.character.x > 1700 && !this.hadFirstContact) {
-    //                 i = 0;
-    //                 this.hadFirstContact = true;
-    //             }
-    //         })
-    //     }, 250)
-    // }
 
 }

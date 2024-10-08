@@ -1,5 +1,6 @@
 class World {
     character = new Character();
+    endboss = new Endboss();
     level = level1;
     canvas;
     ctx;
@@ -31,6 +32,7 @@ class World {
      */
     setWorld() {
         this.character.world = this;
+        this.endboss.world = this;
     }
 
 
@@ -126,8 +128,6 @@ class World {
     checkCollisionsThrowableObjects() {
         this.level.enemies.forEach((enemy) => {
             this.throwableObjects.forEach((throwableObject) => {
-                console.log(throwableObject);
-                
                 if (throwableObject.isColliding(enemy) && enemy instanceof Jellyfish) {
                     this.createnewJellyBubble(enemy);
                     this.removeEnemy(enemy);
@@ -291,7 +291,7 @@ class World {
         } if (mo.upDirection || mo.downDirection) {
             this.rotateImage(mo);
         } this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height);
-        this.drawBorder(mo);
+        //this.drawBorder(mo);
         this.ctx.restore();
         if (mo.otherDirection) {
             this.flipImageBack(mo);

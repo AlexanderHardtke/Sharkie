@@ -76,7 +76,7 @@ button {
 .moveIntro {
     display: flex;
     flex-wrap: wrap;
-    width: 98px;
+    width: 100px;
     gap: 2px;
 }
 
