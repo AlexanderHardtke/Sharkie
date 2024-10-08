@@ -11,7 +11,7 @@ background-object.class
 barrier-levelend.class.js
 level.class
 level1.class
-
+Fullscreen
 
 
 
@@ -22,5 +22,5 @@ Endboss
 Sounds wenn Verletzt etc
 Alle Sounds Lautstärke verrringern
 Endgegner besiegen
-Fullscreen
+
 Collission am Ende wenn alle Größen fix

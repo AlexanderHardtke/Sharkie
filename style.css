@@ -50,6 +50,12 @@ button {
     cursor: pointer;
 }
 
+#fullscreen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .startGame {
     cursor: pointer;
 }
