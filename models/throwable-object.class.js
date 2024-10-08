@@ -7,9 +7,9 @@ class ThrowableObject extends MovableObject {
     ];
     height = 48;
     width = 48;
-    speedY = 0;//1
-    gravity = 0;//0.15
-    speed = 0; //8
+    speedY = 1;
+    gravity = 0.15;
+    speed = 8;
     x;
     y;
 

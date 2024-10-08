@@ -19,7 +19,8 @@ class JellyfishCatched extends MovableObject {
     collectedAudio = new Audio('audio/poison_flask.mp3');
 
     constructor(x, y, dangerous) {
-        super().loadImages(this.JELLYFISH_CATCHED_ELECTRO);
+        super().loadImage('img/2.Enemy/2 Jelly fish/Dead/Lila/L1.png');
+        this.loadImages(this.JELLYFISH_CATCHED_ELECTRO);
         this.loadImages(this.JELLYFISH_CATCHED);
         this.x = x;
         this.y = y;

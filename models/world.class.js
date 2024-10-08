@@ -10,7 +10,8 @@ class World {
     poisonBar = new PoisonBar();
     coinBar = new CoinBar();
     throwableObjects = [];
-    canThrowBubble = true;
+    finSlapObject = [];
+    canAttack = true;
     isMuted = false;
     sounds = [];
     backgroundMusic = new Audio('audio/background_music.mp3')
@@ -40,24 +41,54 @@ class World {
             this.checkCollisions();
             this.checkCollisionsCollectable();
             this.checkThrowObjects();
+            this.checkFinSlap();
             this.checkCollisionsThrowObjects();
         }, 200);
     }
 
     checkThrowObjects() {
-        if (this.keyboard.E && this.canThrowBubble && this.poisonBar.count > 0 || this.keyboard.Q && this.canThrowBubble) {
-            this.canThrowBubble = false;
+        if (this.keyboard.E && this.canAttack && this.poisonBar.count > 0 || this.keyboard.Q && this.canAttack) {
+            this.canAttack = false;
             let poison = this.keyboard.E;
             setTimeout(() => {
                 this.createNewBubble(poison);
-                this.canThrowBubble = true;
+                this.canAttack = true;
             }, 2000);
         }
     }
 
+    checkFinSlap() {
+        if (this.keyboard.SPACE && this.canAttack) {
+            this.canAttack = false;
+            setTimeout(() => {
+                this.createFinSlap();
+            }, 500);
+            setTimeout(() => {
+                this.removeFinSlap();
+                this.canAttack = true;
+            }, 2000);
+        }
+    }
+    
+    createFinSlap() {
+        let slap = new FinSlap(this.character.x + 108, this.character.y + 88, this.character.otherDirection);
+        this.finSlapObject.push(slap);
+    }
+    
+    removeFinSlap() {
+        this.finSlapObject = [];
+    }
+    
     createNewBubble(poison) {
         let bubble = new ThrowableObject(this.character.x + 108, this.character.y + 90, this.character.otherDirection, poison);
         this.throwableObjects.push(bubble);
+    }
+
+    removeBubble(obj) {
+        let index = this.throwableObjects.findIndex(bubble => bubble === obj);
+        if (index !== -1) {
+            this.throwableObjects.splice(index, 1);
+        }
     }
 
     checkNearby() {
@@ -95,9 +126,10 @@ class World {
     checkCollisionsThrowObjects() {
         this.level.enemies.forEach((enemy) => {
             this.throwableObjects.forEach((throwableObject) => {
-                if (throwableObject.isColliding(enemy)) {
+                if (throwableObject.isColliding(enemy) && enemy instanceof Jellyfish) {
                     this.createnewJellyBubble(enemy);
                     this.removeEnemy(enemy);
+                    this.removeBubble(throwableObject);
                 }
             });
         });
@@ -141,6 +173,7 @@ class World {
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.level.collectables)
         this.addObjectsToMap(this.throwableObjects);
+        this.addObjectsToMap(this.finSlapObject);
 
         this.ctx.translate(-this.camera_x, 0);
         // ---------- Space for fixed Objects ---------- //
@@ -262,7 +295,7 @@ class World {
             this.ctx.strokeStyle = 'hotpink';
             this.ctx.rect(mo.x + mo.offsetX, mo.y + mo.offsetY, mo.width - mo.offsetX * 2, mo.height - mo.offsetY * 2);
             this.ctx.stroke();
-        } else if (mo instanceof Character || mo instanceof ThrowableObject) {
+        } else if (mo instanceof Character || mo instanceof ThrowableObject || mo instanceof FinSlap) {
             this.ctx.beginPath();
             this.ctx.lineWidth = '5';
             this.ctx.strokeStyle = 'red';

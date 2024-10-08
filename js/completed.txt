@@ -1,0 +1,5 @@
+Jellyfish.class
+ThrowableObject.class
+Coin.class
+Poison.class
+Jellyfish-catched.class
