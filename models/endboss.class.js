@@ -1,9 +1,11 @@
 class Endboss extends MovableObject {
     width = 1041 * 0.3;
     height = 1216 * 0.3;
-    speed = 3;
+    speed = 1;
     offsetX = 25;
     offsetY = 120;
+    fastattack = -4;
+    life = 5;
     IMAGES_INTRODUCTION = [
         'img/2.Enemy/3 Final Enemy/1.introduce/1.png',
         'img/2.Enemy/3 Final Enemy/1.introduce/2.png',
@@ -64,23 +66,28 @@ class Endboss extends MovableObject {
         this.y = 0;
         this.x = spawn + 470;
         this.animate(spawn);
-    }
+    } w
 
 
     animate() {
         setInterval(() => {
-            if (this.charIsUp) {
-                this.downDirection = false;
-                this.moveUp();
-            } if (this.charIsDown) {
-                this.moveDown();
-                this.upDirection = false;
-            } if (this.charIsLeft) {
-                this.moveLeft();
-                this.otherDirection = false;
-            } if (this.charIsRight) {
-                this.moveRight();
-                this.otherDirection = true;
+            if (i > 10) {
+                let speed = this.speed;
+                if (this.fastattack >= 38) {
+                    speed = this.speed * 0.2;
+                } if (this.fastattack < 6) {
+                    speed = this.speed * 5;
+                } if (this.charIsLeft) {
+                    this.moveLeft(speed);
+                    this.otherDirection = false;
+                } if (this.charIsRight) {
+                    this.moveRight(speed);
+                    this.otherDirection = true;
+                } if (this.charIsUp) {
+                    this.moveUp(this.speed);
+                } if (this.charIsDown) {
+                    this.moveDown(this.speed);
+                }
             }
         }, 1000 / 60)
 
@@ -88,11 +95,17 @@ class Endboss extends MovableObject {
         setInterval(() => {
             if (i < 10) {
                 this.playAnimation(this.IMAGES_INTRODUCTION);
-            } else if (i > 10) {
+            } else if (this.fastattack >= 40) {
+                this.playAnimationOnce(this.IMAGES_ATTACK, 200);
+                this.fastattack = 0;
+            } else if (this.hit()) {
+                this.playAnimation(this.IMAGES_HURT);
+            }  else if (i > 10 && this.fastattack < 40) {
                 this.playAnimation(this.IMAGES_IDLE);
             }
             i++;
-        }, 250);
+            this.fastattack++;
+        }, 200);
     }
 
 }

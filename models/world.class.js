@@ -151,6 +151,10 @@ class World {
                     this.createnewJellyBubble(enemy);
                     this.removeEnemy(enemy);
                     this.removeBubble(throwableObject);
+                } if (throwableObject.isColliding(enemy) && enemy instanceof Endboss) {
+                    enemy.hit(throwableObject);
+                    console.log(enemy);
+                    
                 }
             });
         });
@@ -163,6 +167,8 @@ class World {
                     this.removeEnemy(enemy);
                     let color = enemy instanceof PufferfishGreen;
                     this.createNewBubble(false, color);
+                } if (attack.isColliding(enemy) && enemy instanceof Endboss) {
+                    this.hurtEndboss(enemy);
                 }
             });
         });
@@ -269,14 +275,26 @@ class World {
      * @param {Object} mo movable Object in the game 
      */
     rotateImage(mo) {
-        if (mo.upDirection && !mo.downDirection) {
-            this.rotateImageUp(mo);
-        }
-        else if (!mo.upDirection && mo.downDirection) {
-            this.rotateImageDown(mo);
-        }
-        else {
-            this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height);
+        if (mo instanceof Character) {
+            if (mo.upDirection && !mo.downDirection) {
+                this.rotateImageUp(mo);
+            }
+            else if (!mo.upDirection && mo.downDirection) {
+                this.rotateImageDown(mo);
+            }
+            else {
+                this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height);
+            }
+        } else {
+            if (mo.upDirection && !mo.downDirection) {
+                this.rotateImageDown(mo);
+            }
+            else if (!mo.upDirection && mo.downDirection) {
+                this.rotateImageUp(mo);
+            }
+            else {
+                this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height);
+            }
         }
     }
 

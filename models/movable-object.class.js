@@ -35,31 +35,46 @@ class MovableObject extends DrawableObject {
     /**
      * moves the object left
      */
-    moveLeft() {
+    moveLeft(speed) {
+        if (speed) {
+            this.x -= speed;
+        }
         this.x -= this.speed;
     };
 
     /**
      * moves the object right
      */
-    moveRight() {
+    moveRight(speed) {
+        if (speed) {
+            this.x += speed;
+        }
         this.x += this.speed;
     };
 
     /**
      * moves the object up
      */
-    moveUp() {
-        this.y -= this.speed;
+    moveUp(speed) {
         this.upDirection = true;
+        if (speed) {
+            this.y -= this.speed / 2;
+        } else {
+            this.y -= this.speed;
+
+        }
     };
 
     /**
      * moves the object down
      */
-    moveDown() {
-        this.y += this.speed;
+    moveDown(speed) {
         this.downDirection = true;
+        if (speed) {
+            this.y += this.speed / 2;
+        } else {
+            this.y += this.speed;
+        }
     };
 
     /**
@@ -115,7 +130,7 @@ class MovableObject extends DrawableObject {
         this.currentImage++;
     }
 
-    playAnimationOnce(images) {
+    playAnimationOnce(images, time) {
         if (!this.animationPlaying) {
             this.animationPlaying = true;
             this.currentImage = 0;
@@ -129,7 +144,7 @@ class MovableObject extends DrawableObject {
                     clearInterval(intervalId);
                     this.animationPlaying = false;
                 }
-            }, 220);
+            }, time);
         }
     }
 
@@ -238,17 +253,20 @@ class MovableObject extends DrawableObject {
         return this.charIsLeft = false;
     }
 
-    characterIsUp(vertical) {
-        if (vertical > -30) {
+    characterIsUp(vertical, mo) {
+        if (vertical > -46) {
             this.charIsUp = false;
+            mo.downDirection = false;
+            mo.upDirection = false;
             return this.charIsDown = false;
         } this.charIsUp = true;
         return this.charIsDown = false;
     }
 
-    characterIsDown(vertical) {
-        console.log(vertical);
-        if (vertical < 30) {
+    characterIsDown(vertical, mo) {
+        if (vertical < 46) {
+            mo.downDirection = false;
+            mo.upDirection = false;
             this.charIsUp = false;
             return this.charIsDown = false;
         } this.charIsDown = true;
@@ -259,17 +277,15 @@ class MovableObject extends DrawableObject {
         if (mo) {
             let horizontal = this.x - mo.x - mo.offsetX;
             let vertical = this.y - mo.y - mo.offsetY;
-            console.log(horizontal);
-
             if (horizontal < 0) {
                 mo.characterIsLeft(horizontal, mo);
             } else if (horizontal > 0) {
                 mo.characterIsRight(horizontal, mo);
             }
-             if (vertical < 0) {
-                mo.characterIsUp(vertical);
-            }else if (vertical > 0) {
-                mo.characterIsDown(vertical);
+            if (vertical < 0) {
+                mo.characterIsUp(vertical, mo);
+            } else if (vertical > 0) {
+                mo.characterIsDown(vertical, mo);
             }
         }
     }
