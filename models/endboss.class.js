@@ -2,7 +2,6 @@ class Endboss extends MovableObject {
     width = 1041 * 0.3;
     height = 1216 * 0.3;
     speed = 0.2;
-    hadFirstContact = false;
     offsetX = 30;
     offsetY = 120;
     IMAGES_INTRODUCTION = [
@@ -63,27 +62,20 @@ class Endboss extends MovableObject {
         this.loadImages(this.IMAGES_HURT);
         this.loadImages(this.IMAGES_ATTACK);
         this.y = 0;
-        this.x = spawn + 300;
+        this.x = spawn + 470;
         this.speed = 0.2 + Math.random() * 0.1;
         this.moveLeft();
+        this.moveToCharacter();
         this.animate(spawn);
     }
 
 
-    animate(spawn) {
+    animate() {
         let i = 0;
         setInterval(() => {
-            if (!this.world) {
-                console.log(this.world, "World nicht gefunden");
-            } else if (this.world.character.x <= spawn && !this.hadFirstContact) {
-                console.log("World gefunden");
-            } else
-            console.log(this.world.character.x);
-             if (this.world.character.x >= spawn && !this.hadFirstContact) {
-                this.hadFirstContact = true;
-            } else if (this.hadFirstContact && i < 10) {
+            if (i < 10) {
                 this.playAnimation(this.IMAGES_INTRODUCTION);
-            } else if (this.hadFirstContact && i > 10) {
+            } else if (i > 10) {
                 this.playAnimation(this.IMAGES_IDLE);
             }
             i++;

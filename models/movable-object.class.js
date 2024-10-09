@@ -178,7 +178,7 @@ class MovableObject extends DrawableObject {
             this.world.coinBar.count++;
         } if (item instanceof Poison || item instanceof JellyfishCatched) {
             this.world.poisonBar.count++;
-        } 
+        }
         this.removeItem(item);
     }
 
@@ -213,5 +213,14 @@ class MovableObject extends DrawableObject {
      */
     isDead() {
         return this.life == 0;
+    }
+
+    moveToCharacter(boss) {
+        if (boss) {
+            let horizontal = this.x - boss.x;
+            let vertical = this.y - boss.y;
+            console.log(horizontal, vertical);
+            
+        }
     }
 }

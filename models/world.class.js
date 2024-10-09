@@ -1,5 +1,6 @@
 class World {
     character = new Character();
+    bossSpawned = false;
     level = level1;
     canvas;
     ctx;
@@ -31,7 +32,6 @@ class World {
      */
     setWorld() {
         this.character.world = this;
-        this.endboss.world = this;
     }
 
 
@@ -44,7 +44,17 @@ class World {
             this.checkFinSlap();
             this.checkCollisionsThrowableObjects();
             this.checkCollisionsFinSlap();
+            this.checkCharacterPosition();
+            this.checkSpawnEndboss(this.level);
         }, 200);
+    }
+
+    checkSpawnEndboss(level) {
+        if (this.character.x > level.spawnEndboss && !this.bossSpawned) {
+            this.bossSpawned = true;
+            let boss = new Endboss(level.spawnEndboss);
+            this.level.enemies.push(boss);
+        }
     }
 
     checkThrowObjects() {
@@ -104,6 +114,16 @@ class World {
                 }
             }
         });
+    }
+
+    checkCharacterPosition() {
+        if (this.bossSpawned) {
+            this.level.enemies.forEach((boss) => {
+                if (boss instanceof Endboss) {
+                    this.character.moveToCharacter(boss);
+                }
+            });
+        }
     }
 
     /**
@@ -290,7 +310,7 @@ class World {
         } if (mo.upDirection || mo.downDirection) {
             this.rotateImage(mo);
         } this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height);
-        //this.drawBorder(mo);
+        this.drawBorder(mo);
         this.ctx.restore();
         if (mo.otherDirection) {
             this.flipImageBack(mo);

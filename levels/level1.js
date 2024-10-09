@@ -1,9 +1,9 @@
 const level1 = new Level(
+        100,
     [
         new PufferfishGreen(300),
         // new PufferfishRed(500),
         new Jellyfish(),
-        new Endboss(1000),
     ],
     [
         new Coin(600,350),
