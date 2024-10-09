@@ -2,7 +2,7 @@ class Endboss extends MovableObject {
     width = 1041 * 0.3;
     height = 1216 * 0.3;
     speed = 3;
-    offsetX = 30;
+    offsetX = 25;
     offsetY = 120;
     IMAGES_INTRODUCTION = [
         'img/2.Enemy/3 Final Enemy/1.introduce/1.png',
@@ -70,9 +70,11 @@ class Endboss extends MovableObject {
     animate() {
         setInterval(() => {
             if (this.charIsUp) {
+                this.downDirection = false;
                 this.moveUp();
             } if (this.charIsDown) {
                 this.moveDown();
+                this.upDirection = false;
             } if (this.charIsLeft) {
                 this.moveLeft();
                 this.otherDirection = false;

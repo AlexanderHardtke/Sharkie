@@ -218,16 +218,20 @@ class MovableObject extends DrawableObject {
         return this.life == 0;
     }
 
-    characterIsLeft(horizontal) {
-        if (horizontal > -50) {
+    characterIsLeft(horizontal, mo) {
+        if (horizontal < 0) {
+            mo.otherDirection = false;
+        } if (horizontal > -80) {
             this.charIsRight = false;
             return this.charIsLeft = false;
         } this.charIsLeft = true;
         return this.charIsRight = false;
     }
 
-    characterIsRight(horizontal) {
-        if (horizontal < 50) {
+    characterIsRight(horizontal, mo) {
+        if (horizontal > 100) {
+            mo.otherDirection = true;
+        } if (horizontal < 190) {
             this.charIsRight = false;
             return this.charIsLeft = false;
         } this.charIsRight = true;
@@ -235,7 +239,7 @@ class MovableObject extends DrawableObject {
     }
 
     characterIsUp(vertical) {
-        if (vertical > -10) {
+        if (vertical > -30) {
             this.charIsUp = false;
             return this.charIsDown = false;
         } this.charIsUp = true;
@@ -244,7 +248,7 @@ class MovableObject extends DrawableObject {
 
     characterIsDown(vertical) {
         console.log(vertical);
-        if (vertical < 10) {
+        if (vertical < 30) {
             this.charIsUp = false;
             return this.charIsDown = false;
         } this.charIsDown = true;
@@ -253,19 +257,20 @@ class MovableObject extends DrawableObject {
 
     moveToCharacter(mo) {
         if (mo) {
-            let horizontal = this.x - mo.x;
+            let horizontal = this.x - mo.x - mo.offsetX;
             let vertical = this.y - mo.y - mo.offsetY;
-            console.log(horizontal, vertical);
+            console.log(horizontal);
+
             if (horizontal < 0) {
-                mo.characterIsLeft(horizontal);
-            }else if (horizontal > 0) {
-                mo.characterIsRight(horizontal);
+                mo.characterIsLeft(horizontal, mo);
+            } else if (horizontal > 0) {
+                mo.characterIsRight(horizontal, mo);
             }
-            //  if (vertical < 0) {
-            //     mo.characterIsUp(vertical);
-            // }else if (vertical > 0) {
-            //     mo.characterIsDown(vertical);
-            // }
+             if (vertical < 0) {
+                mo.characterIsUp(vertical);
+            }else if (vertical > 0) {
+                mo.characterIsDown(vertical);
+            }
         }
     }
 }
