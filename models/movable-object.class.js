@@ -235,7 +235,7 @@ class MovableObject extends DrawableObject {
     }
 
     characterIsUp(vertical) {
-        if (vertical > -50) {
+        if (vertical > -10) {
             this.charIsUp = false;
             return this.charIsDown = false;
         } this.charIsUp = true;
@@ -243,7 +243,8 @@ class MovableObject extends DrawableObject {
     }
 
     characterIsDown(vertical) {
-        if (vertical < 50) {
+        console.log(vertical);
+        if (vertical < 10) {
             this.charIsUp = false;
             return this.charIsDown = false;
         } this.charIsDown = true;
@@ -253,17 +254,18 @@ class MovableObject extends DrawableObject {
     moveToCharacter(mo) {
         if (mo) {
             let horizontal = this.x - mo.x;
-            let vertical = this.y - mo.y;
+            let vertical = this.y - mo.y - mo.offsetY;
             console.log(horizontal, vertical);
             if (horizontal < 0) {
-                return mo.characterIsLeft(horizontal);
-            } else if (horizontal > 0) {
-                return mo.characterIsRight(horizontal);
-            } if (vertical < 0) {
-                return mo.characterIsUp(vertical);
-            } else if (vertical > 0) {
-                return mo.characterIsDown(vertical);
+                mo.characterIsLeft(horizontal);
+            }else if (horizontal > 0) {
+                mo.characterIsRight(horizontal);
             }
+            //  if (vertical < 0) {
+            //     mo.characterIsUp(vertical);
+            // }else if (vertical > 0) {
+            //     mo.characterIsDown(vertical);
+            // }
         }
     }
 }

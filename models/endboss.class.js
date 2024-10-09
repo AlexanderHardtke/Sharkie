@@ -69,16 +69,16 @@ class Endboss extends MovableObject {
 
     animate() {
         setInterval(() => {
-            if (this.charIsLeft) {
-                this.moveLeft();
-            } if (this.charIsRight) {
-                this.moveRight();
-            }
             if (this.charIsUp) {
                 this.moveUp();
-            }
-            if (this.charIsDown) {
+            } if (this.charIsDown) {
                 this.moveDown();
+            } if (this.charIsLeft) {
+                this.moveLeft();
+                this.otherDirection = false;
+            } if (this.charIsRight) {
+                this.moveRight();
+                this.otherDirection = true;
             }
         }, 1000 / 60)
 
