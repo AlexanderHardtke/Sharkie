@@ -9,7 +9,10 @@ class MovableObject extends DrawableObject {
     life = 100;
     lastHit = 0;
     lastElectrocuted = 0;
-
+    charIsLeft;
+    charIsRight;
+    charIsUp;
+    charIsDown;
 
     /**
      * applys gravity to the game that pulls the object down
@@ -215,12 +218,52 @@ class MovableObject extends DrawableObject {
         return this.life == 0;
     }
 
-    moveToCharacter(boss) {
-        if (boss) {
-            let horizontal = this.x - boss.x;
-            let vertical = this.y - boss.y;
+    characterIsLeft(horizontal) {
+        if (horizontal > -50) {
+            this.charIsRight = false;
+            return this.charIsLeft = false;
+        } this.charIsLeft = true;
+        return this.charIsRight = false;
+    }
+
+    characterIsRight(horizontal) {
+        if (horizontal < 50) {
+            this.charIsRight = false;
+            return this.charIsLeft = false;
+        } this.charIsRight = true;
+        return this.charIsLeft = false;
+    }
+
+    characterIsUp(vertical) {
+        if (vertical > -50) {
+            this.charIsUp = false;
+            return this.charIsDown = false;
+        } this.charIsUp = true;
+        return this.charIsDown = false;
+    }
+
+    characterIsDown(vertical) {
+        if (vertical < 50) {
+            this.charIsUp = false;
+            return this.charIsDown = false;
+        } this.charIsDown = true;
+        return this.charIsUp = false;
+    }
+
+    moveToCharacter(mo) {
+        if (mo) {
+            let horizontal = this.x - mo.x;
+            let vertical = this.y - mo.y;
             console.log(horizontal, vertical);
-            
+            if (horizontal < 0) {
+                return mo.characterIsLeft(horizontal);
+            } else if (horizontal > 0) {
+                return mo.characterIsRight(horizontal);
+            } if (vertical < 0) {
+                return mo.characterIsUp(vertical);
+            } else if (vertical > 0) {
+                return mo.characterIsDown(vertical);
+            }
         }
     }
 }

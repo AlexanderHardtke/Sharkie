@@ -1,7 +1,7 @@
 class Endboss extends MovableObject {
     width = 1041 * 0.3;
     height = 1216 * 0.3;
-    speed = 0.2;
+    speed = 3;
     offsetX = 30;
     offsetY = 120;
     IMAGES_INTRODUCTION = [
@@ -63,14 +63,25 @@ class Endboss extends MovableObject {
         this.loadImages(this.IMAGES_ATTACK);
         this.y = 0;
         this.x = spawn + 470;
-        this.speed = 0.2 + Math.random() * 0.1;
-        this.moveLeft();
-        this.moveToCharacter();
         this.animate(spawn);
     }
 
 
     animate() {
+        setInterval(() => {
+            if (this.charIsLeft) {
+                this.moveLeft();
+            } if (this.charIsRight) {
+                this.moveRight();
+            }
+            if (this.charIsUp) {
+                this.moveUp();
+            }
+            if (this.charIsDown) {
+                this.moveDown();
+            }
+        }, 1000 / 60)
+
         let i = 0;
         setInterval(() => {
             if (i < 10) {

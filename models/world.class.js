@@ -38,7 +38,7 @@ class World {
     run() {
         setInterval(() => {
             this.checkNearby();
-            this.checkCollisions();
+            //this.checkCollisions();
             this.checkCollisionsCollectable();
             this.checkThrowObjects();
             this.checkFinSlap();
