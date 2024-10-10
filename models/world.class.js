@@ -38,7 +38,7 @@ class World {
     run() {
         setInterval(() => {
             this.checkNearby();
-            //this.checkCollisions();
+            this.checkCollisions();
             this.checkCollisionsCollectable();
             this.checkThrowObjects();
             this.checkFinSlap();
@@ -137,7 +137,7 @@ class World {
                 if (this.character.isDead()) {
                     setTimeout(() => {
                         this.clearAllIntervals();
-                        this.gameOverScreen();
+                        this.gameOverScreen("loose");
                     }, 3500);
                 }
             }
@@ -153,8 +153,12 @@ class World {
                     this.removeBubble(throwableObject);
                 } if (throwableObject.isColliding(enemy) && enemy instanceof Endboss) {
                     enemy.hit(throwableObject);
-                    console.log(enemy);
-                    
+                    if (enemy.isDead()) {
+                        setTimeout (() => {
+                            this.clearAllIntervals();
+                            this.gameOverScreen("win");
+                        }, 1200)
+                    }
                 }
             });
         });

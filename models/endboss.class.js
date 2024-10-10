@@ -5,7 +5,7 @@ class Endboss extends MovableObject {
     offsetX = 25;
     offsetY = 120;
     fastattack = -4;
-    life = 5;
+    life = 40;
     IMAGES_INTRODUCTION = [
         'img/2.Enemy/3 Final Enemy/1.introduce/1.png',
         'img/2.Enemy/3 Final Enemy/1.introduce/2.png',
@@ -95,10 +95,12 @@ class Endboss extends MovableObject {
         setInterval(() => {
             if (i < 10) {
                 this.playAnimation(this.IMAGES_INTRODUCTION);
+            } else if (this.isDead()) {
+                this.playAnimationOnce(this.IMAGES_DEAD, 200); 
             } else if (this.fastattack >= 40) {
                 this.playAnimationOnce(this.IMAGES_ATTACK, 200);
                 this.fastattack = 0;
-            } else if (this.hit()) {
+            } else if (this.isHurt()) {
                 this.playAnimation(this.IMAGES_HURT);
             }  else if (i > 10 && this.fastattack < 40) {
                 this.playAnimation(this.IMAGES_IDLE);

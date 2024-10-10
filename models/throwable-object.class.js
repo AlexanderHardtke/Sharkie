@@ -18,11 +18,12 @@ class ThrowableObject extends MovableObject {
     speed = 8;
     x;
     y;
-
+    poison = false;
 
     constructor(x, y, otherDirection, poison, color = null) {
         if (poison) {
             super().loadImage(this.IMAGES_POISON_BUBBLE);
+            this.poison = true;
         } else if (!poison && color === null) {
             super().loadImage(this.IMAGES_BUBBLE);
         } else if (!poison && color === true) {

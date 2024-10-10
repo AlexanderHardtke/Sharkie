@@ -11,16 +11,14 @@ background-object.class
 barrier-levelend.class.js
 level.class
 level1.class
-
-
+Endboss
+Endgegner besiegen und win-screen
 
 
 Fullscreen
 to do
+level0
 level2
-Endboss
 Sounds wenn Verletzt etc
 Alle Sounds Lautstärke verrringern
-Endgegner besiegen
-
 Collission am Ende wenn alle Größen fix
