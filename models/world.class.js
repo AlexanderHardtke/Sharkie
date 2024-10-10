@@ -15,11 +15,13 @@ class World {
     isMuted = false;
     sounds = [];
     backgroundMusic = new Audio('audio/background_music.mp3')
+    levels = [level0, level1, level2];
 
-    constructor(canvas, keyboard) {
+    constructor(canvas, keyboard, level) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
         this.keyboard = keyboard;
+        this.level = level;
         this.draw();
         this.setWorld();
         this.run();
@@ -137,7 +139,7 @@ class World {
                 if (this.character.isDead()) {
                     setTimeout(() => {
                         this.clearAllIntervals();
-                        this.gameOverScreen("loose");
+                        this.gameOverScreen(false, this.level.number);
                     }, 3500);
                 }
             }
@@ -154,9 +156,9 @@ class World {
                 } if (throwableObject.isColliding(enemy) && enemy instanceof Endboss) {
                     enemy.hit(throwableObject);
                     if (enemy.isDead()) {
-                        setTimeout (() => {
+                        setTimeout(() => {
                             this.clearAllIntervals();
-                            this.gameOverScreen("win");
+                            this.gameOverScreen(true, this.level.number);
                         }, 1200)
                     }
                 }
@@ -193,7 +195,16 @@ class World {
         }
     }
 
-    gameOverScreen() {
+    gameOverScreen(win, level) {
+        if (win && level < 1) {
+            document.getElementById('gameOverImg').src = "img/6.Botones/Tittles/You win/Recurso 21.png";
+            document.getElementById('nextLevel').style.display = "flex";
+        } else if (win && level == 1) {
+            document.getElementById('gameOverImg').src = "img/6.Botones/Try again/Mesa de trabajo 1.png";
+            document.getElementById('gameOverImg').style.width = "90%"
+        } else if (!win) {
+            document.getElementById('restartGame').style.display = "flex";
+        }
         document.getElementById('gameOverScreen').style.display = "flex";
     }
 

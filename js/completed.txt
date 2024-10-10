@@ -18,7 +18,6 @@ Endgegner besiegen und win-screen
 Fullscreen
 to do
 level0
-level2
 Sounds wenn Verletzt etc
 Alle Sounds Lautstärke verrringern
 Collission am Ende wenn alle Größen fix

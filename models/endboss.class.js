@@ -5,7 +5,7 @@ class Endboss extends MovableObject {
     offsetX = 25;
     offsetY = 120;
     fastattack = -4;
-    life = 40;
+    life = 10;//
     IMAGES_INTRODUCTION = [
         'img/2.Enemy/3 Final Enemy/1.introduce/1.png',
         'img/2.Enemy/3 Final Enemy/1.introduce/2.png',

@@ -214,6 +214,17 @@ button {
     cursor: pointer;
 }
 
+.nextLevel {
+    font-size: 48px;
+    color: #531a82;
+    text-shadow: none;
+    cursor: pointer;
+    background-color: #80ffdf;
+    padding: 10px 30px 10px 30px ;
+    border-radius: 16px;
+    border: solid 2px white;
+}
+
 .gameStartImg {
     width: 400px;
 }

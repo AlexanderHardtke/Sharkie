@@ -11,10 +11,39 @@ function init() {
     canvas = document.getElementById('canvas');
 }
 
-function startGame() {
+function startGame(turtorial) {
+    let level;
+    if (turtorial) {
+        level = level0;
+    } else {
+        level = level1;
+    }
     document.getElementById('introductionScreen').style.display = "none";
     document.getElementById('canvas').style.display = "block";
-    world = new World(canvas, keyboard);
+    world = new World(canvas, keyboard, level);
+}
+
+function restartGame() {
+    let currentLevel = world.level.number;
+    stopCurrentLevel();
+    let level = world.levels[currentLevel];
+    world = new World(canvas, keyboard, level);
+}
+
+function startNextLevel() {
+    let currentLevel = world.level.number;
+    stopCurrentLevel();
+    currentLevel++;
+    let nextLevel = world.levels[currentLevel];
+    world = new World(canvas, keyboard, nextLevel);
+    console.log(`Level ${nextLevel.number} gestartet!`);
+}
+
+function stopCurrentLevel() {
+    if (world) {
+        world.stop();
+        world = null;
+    }
 }
 
 function gameIntroductionScreen() {

@@ -186,16 +186,16 @@ class Character extends MovableObject {
                 this.playAnimation(this.IMAGES_HURT_POISON);
             } else if (this.isDead()) {
                 if (this.lastHitElectro) {
-                    this.playAnimationOnce(this.IMAGES_DEAD_ELECTRIC);
+                    this.playAnimationOnce(this.IMAGES_DEAD_ELECTRIC, 220);
                 } else {
-                    this.playAnimationOnce(this.IMAGES_DEAD);
+                    this.playAnimationOnce(this.IMAGES_DEAD, 220);
                 }
             } else if (this.isAttacking()) {
-                this.playAnimationOnce(this.IMAGES_ATTACK_MELEE);
+                this.playAnimationOnce(this.IMAGES_ATTACK_MELEE, 220);
             } else if (this.isBubbleAttack()) {
-                this.playAnimationOnce(this.IMAGES_ATTACK_BUBBLE);
+                this.playAnimationOnce(this.IMAGES_ATTACK_BUBBLE, 220);
             } else if (this.isPoisonBubbleAttack() && this.world.poisonBar.count > 0) {
-                this.playAnimationOnce(this.IMAGES_ATTACK_POISON_BUBBLE);
+                this.playAnimationOnce(this.IMAGES_ATTACK_POISON_BUBBLE, 220);
             } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT || this.world.keyboard.UP || this.world.keyboard.DOWN) {
                 this.playAnimation(this.IMAGES_SWIMMING);
             } else if (this.idleTime <= 50) {

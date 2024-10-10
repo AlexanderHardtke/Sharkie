@@ -179,7 +179,6 @@ class MovableObject extends DrawableObject {
      * removes life points from the character until 0 is reached and saves the time from the last hit
      */
     hit(mo) {
-        console.log(mo);
         if (mo.dangerousTime > 11 || mo.Poison) {
             this.life -= 10;
             this.lastElectrocuted = new Date().getTime();

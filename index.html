@@ -28,7 +28,9 @@
     <script src="./models/level.class.js"></script>
     <script src="./models/endboss.class.js"></script>
     <script src="./models/barrier-levelend-class.js"></script>
+    <script src="./levels/level0.js"></script>
     <script src="./levels/level1.js"></script>
+    <script src="./levels/level2.js"></script>
     <script src="./js/game.js"></script>
 </head>
 
@@ -44,8 +46,13 @@
     <img src="./img/6.Botones/Full Screen/Mesa de trabajo 9.png" onclick="fullscreen()" class="fullscreenIcon">
 
     <div class="gameStartScreen" id="introductionScreen">
-        <div class="startGame" onclick="startGame()">
-            <img src="./img/7.Icons/newGame.png" class="startGameImg">
+        <div class="startGame" onclick="startGame(true)">
+            <img src="./img/7.Icons/turtorial.png" class="startGameImg">
+            <div class="description">Turtorial</div>
+        </div>
+
+        <div class="startGame" onclick="startGame(false)">
+            <img src="./img/7.Icons/new_Game.png" class="startGameImg">
             <div class="description">Start New Game</div>
         </div>
 
@@ -78,8 +85,9 @@
     </div>
 
     <div class="gameOverScreen dNone" id="gameOverScreen">
-        <img class="gameOverImg" src="./img/6.Botones/Tittles/Game Over/Recurso 11.png">
-        <img onclick="restartGame()" class="gameOverImg" src="./img/6.Botones/Try again/Recurso 16.png">
+        <img id="gameOverImg" class="gameOverImg" src="./img/6.Botones/Tittles/Game Over/Recurso 11.png">
+        <img onclick="restartGame()" class="gameOverImg dNone" id="restartGame" src="./img/6.Botones/Try again/Recurso 16.png">
+        <div onclick="startNextLevel()" class="nextLevel dNone" id="nextLevel">Next Level</div>
     </div>
 
     <div id="fullscreen">

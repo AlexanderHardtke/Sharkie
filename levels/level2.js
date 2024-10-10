@@ -1,4 +1,4 @@
-const level1 = new Level(
+const level2 = new Level(
     spawnEndboss = 100,
     [
         new PufferfishGreen(300),
