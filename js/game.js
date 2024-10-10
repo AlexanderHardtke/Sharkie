@@ -25,23 +25,22 @@ function startGame(turtorial) {
 
 function restartGame() {
     let currentLevel = world.level.number;
-    stopCurrentLevel();
     let level = world.levels[currentLevel];
+    stopCurrentLevel();
     world = new World(canvas, keyboard, level);
 }
 
 function startNextLevel() {
     let currentLevel = world.level.number;
-    stopCurrentLevel();
     currentLevel++;
     let nextLevel = world.levels[currentLevel];
+    stopCurrentLevel();
     world = new World(canvas, keyboard, nextLevel);
-    console.log(`Level ${nextLevel.number} gestartet!`);
 }
 
 function stopCurrentLevel() {
     if (world) {
-        world.stop();
+        world.clearAllIntervals();
         world = null;
     }
 }

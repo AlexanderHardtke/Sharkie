@@ -48,5 +48,5 @@ const level2 = new Level(
         new BarrierLevelend('img/3. Background/Barrier/3.png', 2250)
     ],
     level_end_x = 2200,
-    number = 1,
+    number = 2,
 );

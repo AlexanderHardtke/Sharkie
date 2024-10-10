@@ -39,6 +39,7 @@ class World {
 
     run() {
         setInterval(() => {
+            this.winTurtorial();
             this.checkNearby();
             this.checkCollisions();
             this.checkCollisionsCollectable();
@@ -195,11 +196,18 @@ class World {
         }
     }
 
+    winTurtorial() {
+       if (this.level.number == 0 && this.character.x > 2800) {
+        this.clearAllIntervals();
+        this.gameOverScreen(true, 0);
+       }
+    }
+
     gameOverScreen(win, level) {
-        if (win && level < 1) {
+        if (win && level <= 1) {
             document.getElementById('gameOverImg').src = "img/6.Botones/Tittles/You win/Recurso 21.png";
             document.getElementById('nextLevel').style.display = "flex";
-        } else if (win && level == 1) {
+        } else if (win && level == 2) {
             document.getElementById('gameOverImg').src = "img/6.Botones/Try again/Mesa de trabajo 1.png";
             document.getElementById('gameOverImg').style.width = "90%"
         } else if (!win) {
