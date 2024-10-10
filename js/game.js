@@ -40,7 +40,10 @@ function startNextLevel() {
 
 function stopCurrentLevel() {
     if (world) {
-        world.clearAllIntervals();
+        world.level.enemies = [];
+        world.level.collectables = [];
+        world.level.backgroundObject = [];
+        world.stopAllAudios();
         world = null;
     }
 }
