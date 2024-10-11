@@ -102,6 +102,7 @@ class World {
         let index = this.throwableObjects.findIndex(bubble => bubble === obj);
         if (index !== -1) {
             this.throwableObjects.splice(index, 1);
+            this.audioManager.playAudio('audio/bubble_pop.mp3')
         }
     }
 

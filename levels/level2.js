@@ -2,7 +2,7 @@ const level2 = new Level(
     spawnEndboss = 100,
     [
         new PufferfishGreen(300),
-        // new PufferfishRed(500),
+        new PufferfishRed(500),
         new Jellyfish(),
     ],
     [

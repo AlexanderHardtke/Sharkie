@@ -5,7 +5,7 @@ class Endboss extends MovableObject {
     offsetX = 25;
     offsetY = 120;
     fastattack = -4;
-    life = 10;//
+    life = 10;
     IMAGES_INTRODUCTION = [
         'img/2.Enemy/3 Final Enemy/1.introduce/1.png',
         'img/2.Enemy/3 Final Enemy/1.introduce/2.png',
@@ -55,6 +55,9 @@ class Endboss extends MovableObject {
         'img/2.Enemy/3 Final Enemy/Hurt/3.png',
         'img/2.Enemy/3 Final Enemy/Hurt/4.png'
     ];
+    SOUND_INTRODUCTION = 'audio/enboss_incoming.mp3'
+    SOUND_WIN = 'audio/win.mp3'
+
 
     constructor(spawn) {
         super().loadImage(this.IMAGES_INTRODUCTION[0]);
@@ -66,7 +69,7 @@ class Endboss extends MovableObject {
         this.y = 0;
         this.x = spawn + 470;
         this.animate(spawn);
-    } w
+    }
 
 
     animate() {
@@ -95,7 +98,9 @@ class Endboss extends MovableObject {
         setInterval(() => {
             if (i < 10) {
                 this.playAnimation(this.IMAGES_INTRODUCTION);
+                this.playAnimation(this.SOUND_INTRODUCTION);
             } else if (this.isDead()) {
+                this.playAnimation(this.SOUND_WIN);
                 this.playAnimationOnce(this.IMAGES_DEAD, 200); 
             } else if (this.fastattack >= 40) {
                 this.playAnimationOnce(this.IMAGES_ATTACK, 200);
@@ -109,5 +114,4 @@ class Endboss extends MovableObject {
             this.fastattack++;
         }, 200);
     }
-
 }
