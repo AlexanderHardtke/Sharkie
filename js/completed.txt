@@ -15,12 +15,12 @@ Endboss
 Endgegner besiegen und win-screen
 Sounds wenn Verletzt etc
 level0
-
+Alle Sounds Lautstärke verrringern
 
 
 
 
 Fullscreen
 to do
-Alle Sounds Lautstärke verrringern
 Collission am Ende wenn alle Größen fix
+Animationen fixen
