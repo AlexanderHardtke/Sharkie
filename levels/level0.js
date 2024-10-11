@@ -1,5 +1,5 @@
 const level0 = new Level(
-    spawnEndboss = 3500,
+    spawnEndboss = 4000,
     [
         new PufferfishGreen(1150),
         new Jellyfish(2100),

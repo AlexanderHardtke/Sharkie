@@ -1,6 +1,7 @@
 class AudioManager {
     audios = {};
     cooldowns = {};
+    isMuted = false;
 
 
     playAudio(audioSrc, cooldown) {
@@ -9,46 +10,53 @@ class AudioManager {
             return;
         } if (!this.audios[audioSrc]) {
             let audio = new Audio(audioSrc);
+            if (!this.isMuted) {
+                audio.volume = 0.5;
+            } else {
+                audio.volume = 0;
+            }
             this.audios[audioSrc] = audio;
         }
         this.audios[audioSrc].play();
         this.cooldowns[audioSrc] = now;
     }
 
-pauseAudio(audioSrc) {
-    if (this.audios[audioSrc]) {
-        this.audios[audioSrc].pause();
+    pauseAudio(audioSrc) {
+        if (this.audios[audioSrc]) {
+            this.audios[audioSrc].pause();
+        }
     }
-}
 
-pauseAllAudios() {
-    for (let audioSrc in this.audios) {
-        this.audios[audioSrc].pause();
+    stopAudio(audioSrc) {
+        if (this.audios[audioSrc]) {
+            let audio = this.audios[audioSrc];
+            audio.pause();
+            audio.currentTime = 0;
+            audio.cooldowns = 0;
+        }
     }
-}
 
-stopAudio(audioSrc) {
-    if (this.audios[audioSrc]) {
-        let audio = this.audios[audioSrc];
-        audio.pause();
-        audio.currentTime = 0;
-        audio.cooldowns = 0;
+    stopAllAudios() {
+        for (let audioSrc in this.audios) {
+            let audio = this.audios[audioSrc];
+            audio.pause();
+            audio.currentTime = 0;
+        }
+        this.audios = {};
+        this.cooldowns = {};
     }
-}
 
-stopAllAudios() {
-    for (let audioSrc in this.audios) {
-        let audio = this.audios[audioSrc];
-        audio.pause();
-        audio.currentTime = 0;
+    muteAllAudios() {
+        for (let audioSrc in this.audios) {
+            let audio = this.audios[audioSrc];
+            audio.volume = 0;
+        }
     }
-    this.audios = {};
-    this.cooldowns = {};
-}
 
-resumeAllAudios() {
-    for (let audioSrc in this.audios) {
-        this.audios[audioSrc].play();
+    unmuteAllAudios() {
+        for (let audioSrc in this.audios) {
+            let audio = this.audios[audioSrc];
+            audio.volume = 0.5;
+        }
     }
-}
 }

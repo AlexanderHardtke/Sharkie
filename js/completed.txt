@@ -13,11 +13,14 @@ level.class
 level1.class
 Endboss
 Endgegner besiegen und win-screen
+Sounds wenn Verletzt etc
+level0
+
+
+
 
 
 Fullscreen
 to do
-level0
-Sounds wenn Verletzt etc
 Alle Sounds Lautstärke verrringern
 Collission am Ende wenn alle Größen fix

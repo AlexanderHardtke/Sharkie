@@ -48,7 +48,7 @@ function stopCurrentLevel() {
         world.level.enemies = [];
         world.level.collectables = [];
         world.level.backgroundObject = [];
-        world.audioManager.stopAllAudios();
+        world.audioManager.muteAllAudios();
         world = null;
     }
 }
@@ -157,26 +157,17 @@ function button(key, isPressed) {
 }
 
 function toggleMuteButton() {
+    world.audioManager.isMuted = !world.audioManager.isMuted;
     let mute = document.getElementById('mute');
     let unmute = document.getElementById('unmute');
-    if (world.isMuted) {
+    if (world.audioManager.isMuted) {
+        world.audioManager.muteAllAudios();
         unmute.classList.add('dNone');
         mute.classList.remove('dNone');
     } else {
+        world.audioManager.unmuteAllAudios();
         mute.classList.add('dNone');
         unmute.classList.remove('dNone');
     }
-}
 
-function toggleMute() {
-    world.isMuted = !world.isMuted;
-    world.sounds.forEach(sound => {
-        if (world.isMuted) {
-            sound.volume = 0;
-            toggleMuteButton();
-        } else {
-            sound.volume = 0.15;
-            toggleMuteButton();
-        }
-    });
 }

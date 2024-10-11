@@ -12,7 +12,6 @@ class World {
     throwableObjects = [];
     finSlapObject = [];
     canAttack = true;
-    isMuted = false;
     audioManager;
     paused = false;
     levels = [level0, level1, level2];
@@ -173,6 +172,7 @@ class World {
             this.finSlapObject.forEach((attack) => {
                 if (attack.isColliding(enemy) && enemy instanceof PufferfishGreen || enemy instanceof PufferfishRed) {
                     this.removeEnemy(enemy);
+                    this.enemyHitSound();
                     let color = enemy instanceof PufferfishGreen;
                     this.createNewBubble(false, color);
                 } if (attack.isColliding(enemy) && enemy instanceof Endboss) {
@@ -180,7 +180,12 @@ class World {
                 }
             });
         });
+    }
 
+    enemyHitSound() {
+        let sounds = ['audio/hit1.mp3', 'audio/hit2.mp3', 'audio/hit3.mp3'];
+        let randomIndex = Math.floor(Math.random() * sounds.length);
+        this.audioManager.playAudio(sounds[randomIndex]);
     }
 
     createnewJellyBubble(jellyfish) {
@@ -191,17 +196,15 @@ class World {
     removeEnemy(enemy) {
         let index = this.level.enemies.findIndex(fish => fish === enemy);
         if (index !== -1) {
-            // let dying = this.level.enemies[index].dyingAudio;
-            // dying.play();
             this.level.enemies.splice(index, 1);
         }
     }
 
     winTurtorial() {
-       if (this.level.number == 0 && this.character.x > 2800) {
-        this.clearAllIntervals();
-        this.gameOverScreen(true, 0);
-       }
+        if (this.level.number == 0 && this.character.x > 2800) {
+            this.clearAllIntervals();
+            this.gameOverScreen(true, 0);
+        }
     }
 
     gameOverScreen(win, level) {
@@ -330,7 +333,7 @@ class World {
     rotateImageUp(mo) {
         this.ctx.save();
         this.ctx.translate(mo.x + mo.width / 2, mo.y + mo.height / 2);
-        this.ctx.rotate(-Math.PI / 6);
+        this.ctx.rotate(-Math.PI / 8);
         this.ctx.translate(-(mo.x + mo.width / 2), -(mo.y + mo.height / 2));
     }
 
@@ -342,7 +345,7 @@ class World {
     rotateImageDown(mo) {
         this.ctx.save();
         this.ctx.translate(mo.x + mo.width / 2, mo.y + mo.height / 2);
-        this.ctx.rotate(Math.PI / 6);
+        this.ctx.rotate(Math.PI / 8);
         this.ctx.translate(-(mo.x + mo.width / 2), -(mo.y + mo.height / 2));
     }
 

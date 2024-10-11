@@ -55,8 +55,8 @@ class Endboss extends MovableObject {
         'img/2.Enemy/3 Final Enemy/Hurt/3.png',
         'img/2.Enemy/3 Final Enemy/Hurt/4.png'
     ];
-    SOUND_INTRODUCTION = 'audio/enboss_incoming.mp3'
-    SOUND_WIN = 'audio/win.mp3'
+    SOUND_INTRODUCTION = 'audio/enboss_incoming.mp3';
+    SOUND_WIN = 'audio/win.mp3';
 
 
     constructor(spawn) {

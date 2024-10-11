@@ -204,7 +204,7 @@ class MovableObject extends DrawableObject {
         let index = this.world.level.collectables.findIndex(collectable => collectable === item);
         if (index !== -1) {
             let collectable = this.world.level.collectables[index].collectedAudio;
-            collectable.play();
+            this.world.audioManager.playAudio(collectable);
             this.world.level.collectables.splice(index, 1);
         }
     }
