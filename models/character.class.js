@@ -113,7 +113,7 @@ class Character extends MovableObject {
     ];
     speed = 4.0;
     world;
-    swimming_sound = new Audio('audio/sharkie_swim.mp3');
+    swimming_sound = 'audio/sharkie_swim.mp3';
     idleTime = 0;
     offsetX = 35;
     offsetY = 54;
@@ -148,28 +148,23 @@ class Character extends MovableObject {
      */
     animate() {
         setInterval(() => {
-            this.world.sounds.push(this.swimming_sound);
-            this.swimming_sound.pause();
+            let isMovingNow = false;
             if (this.world.keyboard.RIGHT && this.canMoveRight()) {
                 this.moveRight();
-                this.idleTime = 0;
                 this.otherDirection = false;
-                this.swimming_sound.play();
-            } if (this.world.keyboard.LEFT && this.canMoveLeft()) {
+                isMovingNow = true;
+            }if (this.world.keyboard.LEFT && this.canMoveLeft()) {
                 this.moveLeft();
-                this.idleTime = 0;
                 this.otherDirection = true;
-                this.swimming_sound.play();
-            } if (this.world.keyboard.UP && this.canMoveUp(0)) {
+                isMovingNow = true;
+            }if (this.world.keyboard.UP && this.canMoveUp(0)) {
                 this.moveUp();
-                this.idleTime = 0;
-                this.swimming_sound.play();
+                isMovingNow = true;
             } else {
                 this.upDirection = false;
-            } if (this.world.keyboard.DOWN && this.canMoveDown(0)) {
+            }if (this.world.keyboard.DOWN && this.canMoveDown(0)) {
                 this.moveDown();
-                this.idleTime = 0;
-                this.swimming_sound.play();
+                isMovingNow = true;
             } else {
                 this.downDirection = false;
             }

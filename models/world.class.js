@@ -13,20 +13,20 @@ class World {
     finSlapObject = [];
     canAttack = true;
     isMuted = false;
-    sounds = [];
-    backgroundMusic = new Audio('audio/background_music.mp3')
+    audioManager;
+    paused = false;
     levels = [level0, level1, level2];
 
-    constructor(canvas, keyboard, level) {
+    constructor(canvas, keyboard, level, audioManager) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
         this.keyboard = keyboard;
         this.level = level;
+        this.audioManager = audioManager;
         this.draw();
         this.setWorld();
         this.run();
-        this.backgroundMusic.play();
-        this.sounds.push(this.backgroundMusic);
+        this.audioManager.playAudio('audio/background_music.mp3');
     }
 
     /**
@@ -382,6 +382,17 @@ class World {
             this.ctx.strokeStyle = 'red';
             this.ctx.rect(mo.x + mo.offsetX, mo.y + mo.offsetY * 1.7, mo.width - mo.offsetX * 6, mo.height - mo.offsetY * 2.5);
             this.ctx.stroke();
+        }
+    }
+
+    togglePause() {
+        this.paused = !this.paused;
+        if (this.paused) {
+            this.audioManager.pauseAllAudios(); // Pausiere alle laufenden Audios
+            // Andere Prozesse pausieren, z.B. Bewegungen, Timer usw.
+        } else {
+            this.audioManager.resumeAllAudios(); // Fortsetzen, wenn vorhanden
+            // Prozesse fortsetzen
         }
     }
 }

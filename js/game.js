@@ -1,6 +1,7 @@
 let canvas;
 let world;
 let keyboard = new Keyboard();
+let audioManager = new AudioManager();
 
 
 /**
@@ -20,22 +21,26 @@ function startGame(turtorial) {
     }
     document.getElementById('introductionScreen').style.display = "none";
     document.getElementById('canvas').style.display = "block";
-    world = new World(canvas, keyboard, level);
+    world = new World(canvas, keyboard, level, audioManager);
 }
 
 function restartGame() {
     let currentLevel = world.level.number;
     let level = world.levels[currentLevel];
+    document.getElementById('restartGame').style.display = "none";
+    document.getElementById('gameOverScreen').style.display = "none";
     stopCurrentLevel();
-    world = new World(canvas, keyboard, level);
+    world = new World(canvas, keyboard, level, audioManager);
 }
 
 function startNextLevel() {
     let currentLevel = world.level.number;
     currentLevel++;
     let nextLevel = world.levels[currentLevel];
+    document.getElementById('nextLevel').style.display = "none";
+    document.getElementById('gameOverScreen').style.display = "none";
     stopCurrentLevel();
-    world = new World(canvas, keyboard, nextLevel);
+    world = new World(canvas, keyboard, nextLevel, audioManager);
 }
 
 function stopCurrentLevel() {
@@ -43,7 +48,7 @@ function stopCurrentLevel() {
         world.level.enemies = [];
         world.level.collectables = [];
         world.level.backgroundObject = [];
-        world.stopAllAudios();
+        world.audioManager.stopAllAudios();
         world = null;
     }
 }
