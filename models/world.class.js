@@ -1,7 +1,7 @@
 class World {
     character = new Character();
     bossSpawned = false;
-    level = level1;
+    level;
     canvas;
     ctx;
     keyboard;
@@ -14,7 +14,6 @@ class World {
     canAttack = true;
     audioManager;
     paused = false;
-    levels = [level0, level1, level2];
 
     constructor(canvas, keyboard, level, audioManager) {
         this.ctx = canvas.getContext('2d');
@@ -139,7 +138,7 @@ class World {
                 this.statusBar.setPercentage(this.character.life);
                 if (this.character.isDead()) {
                     setTimeout(() => {
-                        this.clearAllIntervals();
+                        this.level.stopAllInterval();
                         this.gameOverScreen(false, this.level.number);
                     }, 3500);
                 }
@@ -158,7 +157,7 @@ class World {
                     enemy.hit(throwableObject);
                     if (enemy.isDead()) {
                         setTimeout(() => {
-                            this.clearAllIntervals();
+                            this.level.stopAllInterval();
                             this.gameOverScreen(true, this.level.number);
                         }, 1200)
                     }
@@ -202,7 +201,7 @@ class World {
 
     winTurtorial() {
         if (this.level.number == 0 && this.character.x > 2800) {
-            this.clearAllIntervals();
+            this.character.stopAllInterval();
             this.gameOverScreen(true, 0);
         }
     }
@@ -218,10 +217,6 @@ class World {
             document.getElementById('restartGame').style.display = "flex";
         }
         document.getElementById('gameOverScreen').style.display = "flex";
-    }
-
-    clearAllIntervals() {
-        for (let i = 1; i < 9999; i++) window.clearInterval(i);
     }
 
     checkCollisionsCollectable() {
@@ -399,4 +394,5 @@ class World {
             // Prozesse fortsetzen
         }
     }
+
 }

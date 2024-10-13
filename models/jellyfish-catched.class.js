@@ -19,20 +19,24 @@ class JellyfishCatched extends MovableObject {
     collectedAudio = 'audio/poison_flask.mp3';
 
     constructor(x, y, dangerous) {
-        super().loadImage('img/2.Enemy/2 Jelly fish/Dead/Lila/L1.png');
-        this.loadImages(this.JELLYFISH_CATCHED_ELECTRO);
-        this.loadImages(this.JELLYFISH_CATCHED);
+        if (dangerous) {
+            super().loadImage('img/2.Enemy/2 Jelly fish/Dead/Pink/P1.png');
+            this.loadImages(this.JELLYFISH_CATCHED_ELECTRO);
+        } else {
+            super().loadImage('img/2.Enemy/2 Jelly fish/Dead/Lila/L1.png');
+            this.loadImages(this.JELLYFISH_CATCHED);
+        }
         this.x = x;
         this.y = y;
         this.animate(dangerous);
     }
 
     animate(dangerous) {
-        setInterval(() => {
+        this.setStoppableInterval(() => {
             this.applyGravity(this.gravity);
         }, 1000 / 60);
 
-        setInterval(() => {
+        this.setStoppableInterval(() => {
             if (dangerous) {
                 this.playAnimation(this.JELLYFISH_CATCHED_ELECTRO);
             } else {

@@ -154,50 +154,98 @@ class Character extends MovableObject {
      * shows the current character animation
      */
     animate() {
-        setInterval(() => {
+        this.setStoppableInterval(() => {
             let isMovingNow = false;
-            if (this.world.keyboard.RIGHT && this.canMoveRight()) {
-                this.moveRight();
-                this.otherDirection = false;
-                isMovingNow = true;
-            } if (this.world.keyboard.LEFT && this.canMoveLeft()) {
-                this.moveLeft();
-                this.otherDirection = true;
-                isMovingNow = true;
-            } if (this.world.keyboard.UP && this.canMoveUp(0)) {
-                this.moveUp();
-                isMovingNow = true;
-            } else {
-                this.upDirection = false;
-            } if (this.world.keyboard.DOWN && this.canMoveDown(0)) {
-                this.moveDown();
-                isMovingNow = true;
-            } else {
-                this.downDirection = false;
-            } if (isMovingNow && !this.isMoving) {
-                this.world.audioManager.playAudio(this.SOUND_SWIMMING);
-                this.isMoving = true;
-                this.idleTime = 0;
-            } else if (!isMovingNow && this.isMoving) {
-                this.world.audioManager.pauseAudio(this.SOUND_SWIMMING);
-                this.isMoving = false;
+            if (!this.isDead()) {
+                if (this.world.keyboard.RIGHT && this.canMoveRight()) {
+                    this.moveRight();
+                    this.otherDirection = false;
+                    isMovingNow = true;
+                } if (this.world.keyboard.LEFT && this.canMoveLeft()) {
+                    this.moveLeft();
+                    this.otherDirection = true;
+                    isMovingNow = true;
+                } if (this.world.keyboard.UP && this.canMoveUp(0)) {
+                    this.moveUp();
+                    isMovingNow = true;
+                } else {
+                    this.upDirection = false;
+                } if (this.world.keyboard.DOWN && this.canMoveDown(0)) {
+                    this.moveDown();
+                    isMovingNow = true;
+                } else {
+                    this.downDirection = false;
+                } if (isMovingNow && !this.isMoving) {
+                    this.world.audioManager.playAudio(this.SOUND_SWIMMING);
+                    this.isMoving = true;
+                    this.idleTime = 0;
+                } else if (!isMovingNow && this.isMoving) {
+                    this.world.audioManager.pauseAudio(this.SOUND_SWIMMING);
+                    this.isMoving = false;
+                }
+                this.world.camera_x = -this.x + 150;
             }
-            this.world.camera_x = -this.x + 150;
         }, 1000 / 60);
 
 
-        setInterval(() => {
-            if (this.isElectrocuted()) {
-                this.lastHitElectro = true;
-                this.world.audioManager.playAudio(this.SOUND_ELECTROCUTED);
-                this.playAnimation(this.IMAGES_HURT_ELECTRIC);
+        this.setStoppableInterval(() => {
+            if (!this.isDead()) {
+
+                if (this.isElectrocuted()) {
+                    this.lastHitElectro = true;
+                    this.world.audioManager.playAudio(this.SOUND_ELECTROCUTED);
+                    this.playAnimation(this.IMAGES_HURT_ELECTRIC);
 
 
-            } else if (this.isHurt()) {
-                this.lastHitElectro = false;
-                this.playAnimation(this.IMAGES_HURT_POISON);
-                this.world.audioManager.playAudio(this.SOUND_HURT);
+                } else if (this.isHurt()) {
+                    this.lastHitElectro = false;
+                    this.playAnimation(this.IMAGES_HURT_POISON);
+                    this.world.audioManager.playAudio(this.SOUND_HURT);
 
+
+                } else if (this.isAttacking()) {
+                    this.playAnimationOnce(this.IMAGES_ATTACK_MELEE, 220);
+                    setTimeout(() => {
+                        this.world.audioManager.playAudio(this.SOUND_ATTACKING, 1540);
+                    }, 1000);
+
+
+                } else if (this.isBubbleAttack()) {
+                    this.playAnimationOnce(this.IMAGES_ATTACK_BUBBLE, 220);
+                    setTimeout(() => {
+                        this.world.audioManager.playAudio(this.SOUND_BUBBLE_ATTACK, 1760);
+                    }, 600);
+
+
+                } else if (this.isPoisonBubbleAttack() && this.world.poisonBar.count > 0) {
+                    this.playAnimationOnce(this.IMAGES_ATTACK_POISON_BUBBLE, 220);
+                    setTimeout(() => {
+                        this.world.audioManager.playAudio(this.SOUND_BUBBLE_ATTACK, 1760);
+                    }, 600);
+
+
+                } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT || this.world.keyboard.UP || this.world.keyboard.DOWN) {
+                    this.playAnimation(this.IMAGES_SWIMMING);
+
+
+                } else if (this.idleTime <= 50) {
+                    this.world.audioManager.stopAudio(this.SOUND_SLEEP);
+                    this.playAnimation(this.IMAGES_IDLE);
+                    this.applyGravity(0);
+                    this.idleTime++;
+
+
+                } else if (this.idleTime <= 60) {
+                    this.playAnimation(this.IMAGES_LONG_IDLE);
+                    this.applyGravity(1);
+                    this.world.audioManager.playAudio(this.SOUND_SLEEP);
+                    this.idleTime++;
+
+
+                } else if (this.idleTime > 60) {
+                    this.playAnimation(this.IMAGES_SLEEP);
+                    this.applyGravity(2);
+                }
 
             } else if (this.isDead()) {
                 if (this.lastHitElectro) {
@@ -207,50 +255,6 @@ class Character extends MovableObject {
                     this.playAnimationOnce(this.IMAGES_DEAD, 220);
                     this.world.audioManager.playAudio(this.SOUND_DIE);
                 }
-
-
-            } else if (this.isAttacking()) {
-                this.playAnimationOnce(this.IMAGES_ATTACK_MELEE, 220);
-                setTimeout(() => {
-                    this.world.audioManager.playAudio(this.SOUND_ATTACKING, 1540);
-                }, 1000);
-
-
-            } else if (this.isBubbleAttack()) {
-                this.playAnimationOnce(this.IMAGES_ATTACK_BUBBLE, 220);
-                setTimeout(() => {
-                    this.world.audioManager.playAudio(this.SOUND_BUBBLE_ATTACK, 1760);
-                }, 600);
-
-
-            } else if (this.isPoisonBubbleAttack() && this.world.poisonBar.count > 0) {
-                this.playAnimationOnce(this.IMAGES_ATTACK_POISON_BUBBLE, 220);
-                setTimeout(() => {
-                    this.world.audioManager.playAudio(this.SOUND_BUBBLE_ATTACK, 1760);
-                }, 600);
-
-
-            } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT || this.world.keyboard.UP || this.world.keyboard.DOWN) {
-                this.playAnimation(this.IMAGES_SWIMMING);
-
-
-            } else if (this.idleTime <= 50) {
-                this.world.audioManager.stopAudio(this.SOUND_SLEEP);
-                this.playAnimation(this.IMAGES_IDLE);
-                this.applyGravity(0);
-                this.idleTime++;
-
-
-            } else if (this.idleTime <= 60) {
-                this.playAnimation(this.IMAGES_LONG_IDLE);
-                this.applyGravity(1);
-                this.world.audioManager.playAudio(this.SOUND_SLEEP);
-                this.idleTime++;
-
-
-            } else if (this.idleTime > 60) {
-                this.playAnimation(this.IMAGES_SLEEP);
-                this.applyGravity(2);
             }
         }, 220)
     };

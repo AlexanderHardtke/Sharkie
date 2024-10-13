@@ -28,7 +28,7 @@ class Poison extends MovableObject {
      * animates the poison bottle
      */
     animate() {
-        setInterval(() => {
+        this.setStoppableInterval(() => {
             this.playAnimation(this.IMAGES_IDLE);
         }, 400)
     }

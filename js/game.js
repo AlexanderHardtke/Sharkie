@@ -2,7 +2,8 @@ let canvas;
 let world;
 let keyboard = new Keyboard();
 let audioManager = new AudioManager();
-
+let levels = [level0, level1, level2];
+let loadedLevel;
 
 /**
  * loads the keyboard and the canvas into the world
@@ -19,24 +20,24 @@ function startGame(turtorial) {
     } else {
         level = level1;
     }
+    loadedLevel = cloneLevel(level);  // Hier wird das Level korrekt geklont
     document.getElementById('introductionScreen').style.display = "none";
     document.getElementById('canvas').style.display = "block";
-    world = new World(canvas, keyboard, level, audioManager);
+    world = new World(canvas, keyboard, loadedLevel, audioManager);  // Verwendet das geklonte Level
 }
 
 function restartGame() {
-    let currentLevel = world.level.number;
-    let level = world.levels[currentLevel];
     document.getElementById('restartGame').style.display = "none";
     document.getElementById('gameOverScreen').style.display = "none";
     stopCurrentLevel();
+    let level = cloneLevel(loadedLevel);  // Level neu klonen
     world = new World(canvas, keyboard, level, audioManager);
 }
 
 function startNextLevel() {
     let currentLevel = world.level.number;
     currentLevel++;
-    let nextLevel = world.levels[currentLevel];
+    let nextLevel = levels[currentLevel];
     document.getElementById('nextLevel').style.display = "none";
     document.getElementById('gameOverScreen').style.display = "none";
     stopCurrentLevel();
@@ -49,7 +50,8 @@ function stopCurrentLevel() {
         world.level.collectables = [];
         world.level.backgroundObject = [];
         world.audioManager.muteAllAudios();
-        world = null;
+        world.level;
+        world = [];
     }
 }
 
@@ -169,5 +171,36 @@ function toggleMuteButton() {
         mute.classList.add('dNone');
         unmute.classList.remove('dNone');
     }
+}
 
+// function cloneLevel(level) {
+//     console.log("Original Level:", level); // Zeige das Original-Level an
+
+//     const clonedLevel = new Level(
+//         level.spawnEndboss,
+//         (level.enemies || []).map(enemy => new (enemy.constructor)(...Object.values(enemy))),
+//         (level.items || []).map(item => new (item.constructor)(...Object.values(item))),
+//         (level.backgroundObjects || []).map(bg => new BackgroundObject(bg.imagePath, bg.x)),
+//         level.level_end_x,
+//         level.number
+//     );
+
+//     console.log("Cloned Level:", clonedLevel); // Zeige das geklonte Level an
+//     return clonedLevel;
+// }
+
+function cloneLevel(level) {
+    console.log("Original Level:", level);
+
+    const clonedLevel = new Level(
+        level.spawnEndboss,
+        JSON.parse(JSON.stringify(level.enemies)), // Einfache Tiefenkopie
+        JSON.parse(JSON.stringify(level.items)),
+        JSON.parse(JSON.stringify(level.backgroundObjects.map(bg => ({ imagePath: bg.imagePath, x: bg.x })))),
+        level.level_end_x,
+        level.number
+    );
+
+    console.log("Cloned Level:", clonedLevel);
+    return clonedLevel;
 }

@@ -48,7 +48,7 @@ class Jellyfish extends MovableObject {
      * animates the jellyfish
      */
     animate() {
-        setInterval(() => {
+        this.setStoppableInterval(() => {
             if (this.canMoveUp(55) && this.moveUp) {
             this.moveUpNoDirection();
             } else {
@@ -61,7 +61,7 @@ class Jellyfish extends MovableObject {
             }
         }, 1000 / 60)
 
-        setInterval(() => {
+        this.setStoppableInterval(() => {
             if (this.dangerousTime < 11) {
                 this.playAnimation(this.IMAGES_IDLE);
                 this.dangerousTime++

@@ -6,6 +6,7 @@ class DrawableObject {
     y = 140;
     width = 143;
     height = 176;
+    intervalIds = [];
 
     loadImage(path) {
         this.img = new Image();
@@ -22,5 +23,14 @@ class DrawableObject {
             img.src = path;
             this.imageCache[path] = img;
         })
+    }
+
+    setStoppableInterval(fn, time) {
+        let id = setInterval(fn, time);
+        this.intervalIds.push(id);
+    }
+
+    stopAllInterval() {
+        this.intervalIds.forEach(clearInterval);
     }
 }

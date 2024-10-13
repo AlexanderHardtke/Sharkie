@@ -73,7 +73,7 @@ class Endboss extends MovableObject {
 
 
     animate() {
-        setInterval(() => {
+        this.setStoppableInterval(() => {
             if (i > 10) {
                 let speed = this.speed;
                 if (this.fastattack >= 38) {
@@ -95,7 +95,7 @@ class Endboss extends MovableObject {
         }, 1000 / 60)
 
         let i = 0;
-        setInterval(() => {
+        this.setStoppableInterval(() => {
             if (i < 10) {
                 this.playAnimation(this.IMAGES_INTRODUCTION);
                 this.playAnimation(this.SOUND_INTRODUCTION);

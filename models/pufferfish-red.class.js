@@ -57,7 +57,7 @@ class PufferfishRed extends MovableObject {
      * animates the red pufferfish
      */
     animate() {
-        setInterval(() => {
+        this.setStoppableInterval(() => {
             if (this.moving < 500) {
                 this.moveLeft();
                 this.moving++;
@@ -71,7 +71,7 @@ class PufferfishRed extends MovableObject {
             }
         }, 1000 / 60)
 
-        setInterval(() => {
+        this.setStoppableInterval(() => {
             if (this.getAggressive && this.getTransitionTime < 4) {
                 this.getTransitionTime++;
                 this.playAnimation(this.IMAGES_TRANSITION);

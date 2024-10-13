@@ -17,7 +17,7 @@ class FinSlap extends MovableObject {
 
 
     slap() {
-        setInterval(() => {
+        this.setStoppableInterval(() => {
             if (world.character.otherDirection) {
                 this.x = world.character.x - 4;
                 this.y = world.character.y + 88;
