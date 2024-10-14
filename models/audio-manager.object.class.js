@@ -1,6 +1,3 @@
-/**
- * manages the volume, cooldown and the source of all audios within the game
- */
 class AudioManager {
     audios = {};
     cooldowns = {};
@@ -56,6 +53,17 @@ class AudioManager {
         }
     }
 
+        /**
+     * stops the current audio file but does not reset the playtime
+     * 
+     * @param {string} audioSrc 
+     */
+        pauseAudio(audioSrc) {
+            if (this.audios[audioSrc]) {
+                this.audios[audioSrc].pause();
+            }
+        }
+
     /**
      * stops all audio files that are playing withing the game and resets the playtime to 0
      * 
@@ -89,4 +97,5 @@ class AudioManager {
             audio.volume = 0.5;
         }
     }
+
 }

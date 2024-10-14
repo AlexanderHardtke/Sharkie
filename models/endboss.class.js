@@ -1,6 +1,3 @@
-/**
- * defines the Endboss of the game
- */
 class Endboss extends MovableObject {
     width = 1041 * 0.3;
     height = 1216 * 0.3;
@@ -60,6 +57,7 @@ class Endboss extends MovableObject {
     ];
     SOUND_INTRODUCTION = 'audio/enboss_incoming.mp3';
     SOUND_WIN = 'audio/win.mp3';
+    SOUND_ATTACK = 'audio/Attack_Orca.mp3';
 
 
     constructor(spawn) {
@@ -110,6 +108,7 @@ class Endboss extends MovableObject {
                 this.playAnimationOnce(this.IMAGES_DEAD, 200); 
             } else if (this.fastattack >= 40) {
                 this.playAnimationOnce(this.IMAGES_ATTACK, 200);
+                world.audioManager.playAudio(this.SOUND_ATTACK);
                 this.fastattack = 0;
             } else if (this.isHurt()) {
                 this.playAnimation(this.IMAGES_HURT);

@@ -1,6 +1,3 @@
-/**
- * loads a collectable Poison flask for the game
- */
 class Poison extends MovableObject {
     IMAGES_IDLE = [
         'img/4. Marcadores/Posión/Animada/1.png',

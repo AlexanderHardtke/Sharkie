@@ -1,6 +1,3 @@
-/**
- * defines the red pufferfish enemy for the game
- */
 class PufferfishRed extends MovableObject {
     width = 72;
     height = 60;

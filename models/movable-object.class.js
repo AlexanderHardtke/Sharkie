@@ -1,6 +1,3 @@
-/**
- * defines all Movable Object in the game and is also a child of DrawableObject
- */
 class MovableObject extends DrawableObject {
     speed = 0.5;
     otherDirection = false;
@@ -122,7 +119,6 @@ class MovableObject extends DrawableObject {
      * @param {Array} images all images with the current animation from the object 
      */
     playAnimation(images) {
-        // Ändere den Ordner und Namen der Bilder zusätzlich sonst sind sie gleich
         if (this.currentImages !== images) {
             this.currentImages = images;
             this.currentImage = 0;
@@ -241,16 +237,6 @@ class MovableObject extends DrawableObject {
      */
     isHurt() {
         let timePassed = new Date().getTime() - this.lastHit; // Difference in MS
-        return timePassed < 400;
-    }
-
-    /**
-     * checks the difference from the current time to the time the character was last hit with an electric attack
-     * 
-     * @returns true until 400 ms have passed
-     */
-    isElectrocuted() {
-        let timePassed = new Date().getTime() - this.lastElectrocuted; // Difference in MS
         return timePassed < 400;
     }
 

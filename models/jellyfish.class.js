@@ -1,6 +1,3 @@
-/**
- * defines the jellyfish enemy for the game
- */
 class Jellyfish extends MovableObject {
     width = 70;
     height = 100;

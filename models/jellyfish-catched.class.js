@@ -1,6 +1,3 @@
-/**
- * defines the catched jellyfish inside a bubble to be collected from the player
- */
 class JellyfishCatched extends MovableObject {
     JELLYFISH_CATCHED = [
         'img/2.Enemy/2 Jelly fish/Dead/Lila/L1.png',

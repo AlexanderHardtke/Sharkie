@@ -1,6 +1,3 @@
-/**
- * the parent of all things that gets drawn onto the canvas
- */
 class DrawableObject {
     img;
     imageCache = {};

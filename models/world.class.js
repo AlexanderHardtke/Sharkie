@@ -1,6 +1,3 @@
-/**
- * defines the world of the game
- */
 class World {
     character = new Character();
     bossSpawned = false;
@@ -27,6 +24,7 @@ class World {
         this.draw();
         this.setWorld();
         this.run();
+        this.checkCreateAttacks();
         this.audioManager.playAudio('audio/background_music.mp3');
     }
 
@@ -46,13 +44,18 @@ class World {
             this.checkNearby();
             this.checkCollisions();
             this.checkCollisionsCollectable();
-            this.checkThrowObjects();
-            this.checkFinSlap();
             this.checkCollisionsThrowableObjects();
             this.checkCollisionsFinSlap();
             this.checkCharacterPosition();
             this.checkSpawnEndboss(this.level);
         }, 200);
+    }
+
+    checkCreateAttacks() {
+        setInterval(() => {
+            this.checkThrowObjects();
+            this.checkFinSlap();
+        }, 1000/60);
     }
 
     /**
@@ -189,7 +192,7 @@ class World {
                 this.statusBar.setPercentage(this.character.life);
                 if (this.character.isDead()) {
                     setTimeout(() => {
-                        this.level.stopAllInterval();
+                        this.character.stopAllInterval();
                         this.gameOverScreen(false, this.level.number);
                     }, 3500);
                 }
@@ -223,7 +226,7 @@ class World {
             enemy.hit(throwableObject);
             if (enemy.isDead()) {
                 setTimeout(() => {
-                    this.level.stopAllInterval();
+                    this.character.stopAllInterval();
                     this.gameOverScreen(true, this.level.number);
                 }, 1200)
             }

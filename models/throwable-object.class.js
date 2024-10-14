@@ -1,6 +1,3 @@
-/**
- * defines the throwable Objects the character can use
- */
 class ThrowableObject extends MovableObject {
     IMAGES_BUBBLE = [
         'img/1.Sharkie/4.Attack/Bubble trap/Bubble.png'

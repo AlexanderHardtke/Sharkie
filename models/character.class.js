@@ -1,6 +1,3 @@
-/**
- * defines the playable character within the game
- */
 class Character extends MovableObject {
     IMAGES_IDLE = [
         'img/1.Sharkie/1.IDLE/1.png',
@@ -55,7 +52,8 @@ class Character extends MovableObject {
         'img/1.Sharkie/4.Attack/Fin slap/4.png',
         'img/1.Sharkie/4.Attack/Fin slap/5.png',
         'img/1.Sharkie/4.Attack/Fin slap/6.png',
-        'img/1.Sharkie/4.Attack/Fin slap/7.png'
+        'img/1.Sharkie/4.Attack/Fin slap/7.png',
+        'img/1.Sharkie/4.Attack/Fin slap/8.png'
     ];
     IMAGES_ATTACK_BUBBLE = [
         'img/1.Sharkie/4.Attack/Bubble trap/op1 (with bubble formation)/1.png',
@@ -125,10 +123,13 @@ class Character extends MovableObject {
     speed = 4.0;
     world;
     idleTime = 0;
+    attackTimeMelee = 0;
+    attackTimeRanged = 0;
+    attackTimeRangedPoison = 0;
     offsetX = 35;
     offsetY = 54;
     lastHitElectro = false;
-
+    isMoving = false;
 
     constructor() {
         super().loadImage('img/1.Sharkie/1.IDLE/1.png');
@@ -157,119 +158,199 @@ class Character extends MovableObject {
      * shows the current character animation
      */
     animate() {
-        this.setStoppableInterval(() => {
-            let isMovingNow = false;
-            if (!this.isDead()) {
-                if (this.world.keyboard.RIGHT && this.canMoveRight()) {
-                    this.moveRight();
-                    this.otherDirection = false;
-                    isMovingNow = true;
-                } if (this.world.keyboard.LEFT && this.canMoveLeft()) {
-                    this.moveLeft();
-                    this.otherDirection = true;
-                    isMovingNow = true;
-                } if (this.world.keyboard.UP && this.canMoveUp(0)) {
-                    this.moveUp();
-                    isMovingNow = true;
-                } else {
-                    this.upDirection = false;
-                } if (this.world.keyboard.DOWN && this.canMoveDown(0)) {
-                    this.moveDown();
-                    isMovingNow = true;
-                } else {
-                    this.downDirection = false;
-                } if (isMovingNow && !this.isMoving) {
-                    this.world.audioManager.playAudio(this.SOUND_SWIMMING);
-                    this.isMoving = true;
-                    this.idleTime = 0;
-                } else if (!isMovingNow && this.isMoving) {
-                    this.world.audioManager.pauseAudio(this.SOUND_SWIMMING);
-                    this.isMoving = false;
-                }
-                this.world.camera_x = -this.x + 150;
-            }
-        }, 1000 / 60);
-
-
-        this.setStoppableInterval(() => {
-            if (!this.isDead()) {
-
-                if (this.isElectrocuted()) {
-                    this.lastHitElectro = true;
-                    this.world.audioManager.playAudio(this.SOUND_ELECTROCUTED);
-                    this.playAnimation(this.IMAGES_HURT_ELECTRIC);
-
-
-                } else if (this.isHurt()) {
-                    this.lastHitElectro = false;
-                    this.playAnimation(this.IMAGES_HURT_POISON);
-                    this.world.audioManager.playAudio(this.SOUND_HURT);
-
-
-                } else if (this.isAttacking()) {
-                    this.playAnimationOnce(this.IMAGES_ATTACK_MELEE, 220);
-                    setTimeout(() => {
-                        this.world.audioManager.playAudio(this.SOUND_ATTACKING, 1540);
-                    }, 1000);
-
-
-                } else if (this.isBubbleAttack()) {
-                    this.playAnimationOnce(this.IMAGES_ATTACK_BUBBLE, 220);
-                    setTimeout(() => {
-                        this.world.audioManager.playAudio(this.SOUND_BUBBLE_ATTACK, 1760);
-                    }, 600);
-
-
-                } else if (this.isPoisonBubbleAttack() && this.world.poisonBar.count > 0) {
-                    this.playAnimationOnce(this.IMAGES_ATTACK_POISON_BUBBLE, 220);
-                    setTimeout(() => {
-                        this.world.audioManager.playAudio(this.SOUND_BUBBLE_ATTACK, 1760);
-                    }, 600);
-
-
-                } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT || this.world.keyboard.UP || this.world.keyboard.DOWN) {
-                    this.playAnimation(this.IMAGES_SWIMMING);
-
-
-                } else if (this.idleTime <= 50) {
-                    this.world.audioManager.stopAudio(this.SOUND_SLEEP);
-                    this.playAnimation(this.IMAGES_IDLE);
-                    this.applyGravity(0);
-                    this.idleTime++;
-
-
-                } else if (this.idleTime <= 60) {
-                    this.playAnimation(this.IMAGES_LONG_IDLE);
-                    this.applyGravity(1);
-                    this.world.audioManager.playAudio(this.SOUND_SLEEP);
-                    this.idleTime++;
-
-
-                } else if (this.idleTime > 60) {
-                    this.playAnimation(this.IMAGES_SLEEP);
-                    this.applyGravity(2);
-                }
-
-            } else if (this.isDead()) {
-                this.characterIsDead();
-                if (this.lastHitElectro) {
-                    this.playAnimationOnce(this.IMAGES_DEAD_ELECTRIC, 220);
-                    this.world.audioManager.playAudio(this.SOUND_DIE_ELECTRIC);
-                } else {
-                    this.playAnimationOnce(this.IMAGES_DEAD, 220);
-                    this.world.audioManager.playAudio(this.SOUND_DIE);
-                }
-            }
-        }, 220)
+        this.setStoppableInterval(() => this.moveCharacter(), 1000 / 60);
+        this.setStoppableInterval(() => this.playCharacter(), 150)
     };
 
     /**
-     * checks if the Space Bar is pressed
-     * 
+     * moves the character on the canvas
+     */
+    moveCharacter() {
+        if (!this.isDead()) {
+            this.isMoving = false;
+            if (this.world.keyboard.RIGHT && this.canMoveRight()) this.moveRight();
+            if (this.world.keyboard.LEFT && this.canMoveLeft()) this.moveLeft();
+            if (this.world.keyboard.UP && this.canMoveUp(0)) this.moveUp();
+            else this.upDirection = false;
+            if (this.world.keyboard.DOWN && this.canMoveDown(0)) this.moveDown();
+            else this.downDirection = false;
+            if (this.isMoving) this.characterIsMoving();
+            else if (!this.isMoving) this.world.audioManager.pauseAudio(this.SOUND_SWIMMING);
+            this.world.camera_x = -this.x + 150;
+        }
+    }
+
+    /**
+     * resets the idle Time and stops the swimming sound
+     */
+    characterIsMoving() {
+        this.world.audioManager.playAudio(this.SOUND_SWIMMING);
+        this.idleTime = 0;
+    }
+
+    /**
+     * moves the character right
+     */
+    moveRight() {
+        super.moveRight();
+        this.otherDirection = false;
+        this.isMoving = true;
+    }
+
+    /**
+     * moves the character left
+     */
+    moveLeft() {
+        super.moveLeft();
+        this.otherDirection = true;
+        this.isMoving = true;
+    }
+
+    /**
+     * moves the character upwards
+     */
+    moveUp() {
+        super.moveUp();
+        this.isMoving = true;
+    }
+
+    /**
+     * moves the character downwards
+     */
+    moveDown() {
+        super.moveDown();
+        this.isMoving = true;
+    }
+
+    /**
+     * plays the animation of the character
+     */
+    playCharacter() {
+        if (this.isDead()) {
+            this.characterIsDead();
+            return;
+        } const { RIGHT, LEFT, UP, DOWN } = this.world.keyboard;
+        if (this.isElectrocuted()) this.characterIsElectrocuted();
+        else if (this.isHurt()) this.characterIsHurt();
+        else if (this.isAttacking() || this.attackTimeMelee > 1) this.characterIsAttacking();
+        else if (this.isBubbleAttack()) this.characterIsBubbleAttacking();
+        else if (this.isPoisonBubbleAttack() && this.world.poisonBar.count > 0) this.characterIsPoisonBubbleAttacking();
+        else if (RIGHT || LEFT || UP || DOWN) this.playAnimation(this.IMAGES_SWIMMING);
+        else if (this.isIdle()) this.idle();
+        else if (this.isFallingAsleep()) this.fallingAsleep();
+        else if (this.isSleeping()) this.sleeping();
+    }
+
+    /**
+     * plays the death animation of the character
+     */
+    characterIsDead() {
+        if (this.lastHitElectro) {
+            this.playAnimationOnce(this.IMAGES_DEAD_ELECTRIC, 220);
+            this.world.audioManager.playAudio(this.SOUND_DIE_ELECTRIC);
+        } else {
+            this.playAnimationOnce(this.IMAGES_DEAD, 220);
+            this.world.audioManager.playAudio(this.SOUND_DIE);
+        }
+    }
+
+    /**
+     * plays the hurt animation of the character
+     */
+    characterIsHurt() {
+        this.lastHitElectro = false;
+        this.playAnimation(this.IMAGES_HURT_POISON);
+        this.world.audioManager.playAudio(this.SOUND_HURT);
+    }
+
+    /**
+     * plays the attacking animation of the character
+     */
+    characterIsAttacking() {
+        this.playAnimation(this.IMAGES_ATTACK_MELEE);
+        this.attackTimeMelee++;
+        setTimeout(() => this.world.audioManager.playAudio(this.SOUND_ATTACKING, 1200), 1000);
+    }
+
+    /**
+     * plays the bubble attack animation of the character
+     */
+    characterIsBubbleAttacking() {
+        this.playAnimation(this.IMAGES_ATTACK_BUBBLE);
+        this.attackTimeRanged++;
+        setTimeout(() => this.world.audioManager.playAudio(this.SOUND_BUBBLE_ATTACK, 1500), 600);
+    }
+
+    /**
+     * plays the posion bubble attack animation of the character
+     */
+    characterIsPoisonBubbleAttacking() {
+        this.playAnimation(this.IMAGES_ATTACK_POISON_BUBBLE);
+        this.attackTimeRangedPoison++;
+        setTimeout(() => this.world.audioManager.playAudio(this.SOUND_BUBBLE_ATTACK, 1500), 600);
+    }
+
+    /**
+     * returns the time the character is idle
+     */
+    isIdle() {
+        return this.idleTime <= 50
+    }
+
+    /**
+     * plays idle animation of the character
+     */
+    idle() {
+        this.world.audioManager.stopAudio(this.SOUND_SLEEP);
+        this.playAnimation(this.IMAGES_IDLE);
+        this.applyGravity(0);
+        this.idleTime++;
+    }
+
+    /**
+     * returns true if the idle time of the character is betwen 50 and 60
+     */
+    isFallingAsleep() {
+        return this.idleTime <= 60
+    }
+
+    /**
+     * plays falling asleep animation of the character
+     */
+    fallingAsleep() {
+        this.playAnimation(this.IMAGES_LONG_IDLE);
+        this.applyGravity(1);
+        this.world.audioManager.playAudio(this.SOUND_SLEEP);
+        this.idleTime++;
+    }
+
+    /**
+     * returns true if the idle time of the character is greater than 60
+     */
+    isSleeping() {
+        return this.idleTime > 60
+    }
+
+    /**
+     * plays sleeping animation of the character
+     */
+    sleeping() {
+        this.playAnimation(this.IMAGES_SLEEP);
+        this.applyGravity(2);
+    }
+
+    /**
+     * checks if the Space Bar is pressed and activates the attack animation for the duraction of the attack
+     *  
      * @returns true/false
      */
     isAttacking() {
-        return this.world.keyboard.SPACE;
+        if (this.attackTimeMelee == 0) return this.world.keyboard.SPACE;
+        else if (this.attackTimeMelee > 0 && this.attackTimeMelee < 8) return true;
+        else {
+            this.attackTimeMelee = 0;
+            return false;
+        }
     }
 
     /**
@@ -278,7 +359,28 @@ class Character extends MovableObject {
      * @returns true/false
      */
     isBubbleAttack() {
-        return this.world.keyboard.Q
+        if (this.attackTimeRanged == 0 && this.world.keyboard.Q) return true;
+        else if (this.attackTimeRanged > 0 && this.attackTimeRanged < 8) return true;
+        else {
+            this.attackTimeRanged = 0;
+            return false;
+        }
+    }
+
+    /**
+     * checks the difference from the current time to the time the character was last hit with an electric attack
+     * 
+     * @returns true until 400 ms have passed
+     */
+    isElectrocuted() {
+        let timePassed = new Date().getTime() - this.lastElectrocuted; // Difference in MS
+        return timePassed < 400;
+    }
+
+    characterIsElectrocuted() {
+        this.lastHitElectro = true;
+        this.world.audioManager.playAudio(this.SOUND_ELECTROCUTED);
+        this.playAnimation(this.IMAGES_HURT_ELECTRIC);
     }
 
     /**
@@ -287,7 +389,11 @@ class Character extends MovableObject {
      * @returns true/false
      */
     isPoisonBubbleAttack() {
-        return this.world.keyboard.E
+        if (this.attackTimeRangedPoison == 0 && this.world.keyboard.E) return true;
+        else if (this.attackTimeRangedPoison > 0 && this.attackTimeRangedPoison < 8) return true;
+        else {
+            this.attackTimeRangedPoison = 0;
+            return false;
+        }
     }
-
 }
