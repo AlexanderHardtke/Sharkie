@@ -1,5 +1,5 @@
 /**
- * defines the green pufferfish enemy for the game
+ * defines the red pufferfish enemy for the game
  */
 class PufferfishRed extends MovableObject {
     width = 72;
@@ -49,7 +49,7 @@ class PufferfishRed extends MovableObject {
         this.loadImages(this.IMAGES_TRANSITION);
         this.loadImages(this.IMAGES_REVERSE_TRANSITION);
         this.loadImages(this.IMAGES_BUBBLESWIM);
-        this.x = x + Math.random() * 200;
+        this.x = x
         this.y = Math.random() * 400;
         this.speed = this.speed + Math.random() * 0.6;
         this.moveLeft();
@@ -61,15 +61,15 @@ class PufferfishRed extends MovableObject {
      */
     animate() {
         this.setStoppableInterval(() => {
-            if (this.moving < 500) {
+            if (this.moving < 400) {
                 this.moveLeft();
                 this.moving++;
                 this.otherDirection = false;
-            } else if (this.moving < 1000) {
+            } else if (this.moving < 800) {
                 this.moveRight();
                 this.moving++;
                 this.otherDirection = true;
-            } if (this.moving >= 1000) {
+            } if (this.moving >= 800) {
                 this.moving = 0;
             }
         }, 1000 / 60)

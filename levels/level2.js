@@ -1,7 +1,18 @@
+const repetitionsLevel2 = 10;
+const backgroundObjectsLevel2 = [];
+
+for (let i = -1; i < repetitionsLevel2; i++) {
+    const currentLayerSet = i % 2 === 0 ? layers2 : layers1;
+    for (let j = 0; j < currentLayerSet.length; j++) {
+        backgroundObjectsLevel2.push(new BackgroundObject(currentLayerSet[j], 720 * i));
+    }
+}
+backgroundObjectsLevel2.push(new BarrierLevelend('img/3. Background/Barrier/3.png', -600));
+backgroundObjectsLevel2.push(new BarrierLevelend('img/3. Background/Barrier/3.png', 4410));
+
 const level2 = new Level(
     spawnEndboss = 100,
     [
-        new PufferfishGreen(300),
         new PufferfishRed(500),
         new Jellyfish(),
     ],
@@ -12,41 +23,8 @@ const level2 = new Level(
         new Coin(750, 300),
         new Coin(800, 350),
         new Poison(850, 370),
-        new JellyfishCatched(150, 250, true),
-        new JellyfishCatched(150, 300, false),
     ],
-    [
-
-        new BackgroundObject('img/3. Background/Layers/5. Water/D2.png', -720),
-        new BackgroundObject('img/3. Background/Layers/4.Fondo 2/D2.png', -720),
-        new BackgroundObject('img/3. Background/Layers/3.Fondo 1/D2.png', -720),
-        new BackgroundObject('img/3. Background/Layers/2. Floor/D2.png', -720),
-        new BackgroundObject('img/3. Background/Layers/1. Light/2.png', -720),
-
-        new BackgroundObject('img/3. Background/Layers/5. Water/D1.png', 0),
-        new BackgroundObject('img/3. Background/Layers/4.Fondo 2/D1.png', 0),
-        new BackgroundObject('img/3. Background/Layers/3.Fondo 1/D1.png', 0),
-        new BackgroundObject('img/3. Background/Layers/2. Floor/D1.png', 0),
-        new BackgroundObject('img/3. Background/Layers/1. Light/1.png', 0),
-        new BackgroundObject('img/3. Background/Layers/5. Water/D2.png', 719),
-        new BackgroundObject('img/3. Background/Layers/4.Fondo 2/D2.png', 719),
-        new BackgroundObject('img/3. Background/Layers/3.Fondo 1/D2.png', 719),
-        new BackgroundObject('img/3. Background/Layers/2. Floor/D2.png', 719),
-        new BackgroundObject('img/3. Background/Layers/1. Light/2.png', 719),
-
-        new BackgroundObject('img/3. Background/Layers/5. Water/D1.png', 719 * 2),
-        new BackgroundObject('img/3. Background/Layers/4.Fondo 2/D1.png', 719 * 2),
-        new BackgroundObject('img/3. Background/Layers/3.Fondo 1/D1.png', 719 * 2),
-        new BackgroundObject('img/3. Background/Layers/2. Floor/D1.png', 719 * 2),
-        new BackgroundObject('img/3. Background/Layers/1. Light/1.png', 719 * 2),
-        new BackgroundObject('img/3. Background/Layers/5. Water/D2.png', 719 * 3),
-        new BackgroundObject('img/3. Background/Layers/4.Fondo 2/D2.png', 719 * 3),
-        new BackgroundObject('img/3. Background/Layers/3.Fondo 1/D2.png', 719 * 3),
-        new BackgroundObject('img/3. Background/Layers/2. Floor/D2.png', 719 * 3),
-        new BackgroundObject('img/3. Background/Layers/1. Light/2.png', 719 * 3),
-        new BarrierLevelend('img/3. Background/Barrier/3.png', -600),
-        new BarrierLevelend('img/3. Background/Barrier/3.png', 2250)
-    ],
-    level_end_x = 2200,
-    number = 2,
+    backgroundObjectsLevel2,
+    level_end_x = 4360,
+    number = 1
 );

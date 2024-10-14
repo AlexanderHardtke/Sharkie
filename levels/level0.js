@@ -9,7 +9,6 @@ const level0 = new Level(
         new Poison(1640, 190)
     ],
     [
-
         new BackgroundObject('img/3. Background/Layers/5. Water/L2.png', -720),
         new BackgroundObject('img/3. Background/Layers/2. Floor/L2.png', -720),
         new BackgroundObject('img/3. Background/Layers/1. Light/2.png', -720),

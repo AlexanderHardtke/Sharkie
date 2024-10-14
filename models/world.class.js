@@ -476,5 +476,5 @@ class World {
             this.ctx.stroke();
         }
     }
-
+    
 }
