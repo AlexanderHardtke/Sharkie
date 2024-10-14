@@ -1,25 +1,3 @@
-Jellyfish.class
-ThrowableObject.class
-Coin.class
-Poison.class
-Jellyfish-catched.class
-Pufferfishred/green
-statusbar.class
-poison-bar.class
-coin-bar.class
-background-object.class
-barrier-levelend.class.js
-level.class
-level1.class
-Endboss
-Endgegner besiegen und win-screen
-Sounds wenn Verletzt etc
-level0
-Alle Sounds Lautstärke verrringern
-restart level
-stop level completely
-
-
 Fullscreen
 to do
 Collission am Ende wenn alle Größen fix
