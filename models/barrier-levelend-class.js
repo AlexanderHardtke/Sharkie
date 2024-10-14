@@ -1,3 +1,6 @@
+/**
+ * loads a background element that defines the start and end of the level
+ */
 class BarrierLevelend extends MovableObject {
     width = 441 * 0.5;
     height = 906 * 0.5;

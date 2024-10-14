@@ -1,3 +1,6 @@
+/**
+ * defines the playable character within the game
+ */
 class Character extends MovableObject {
     IMAGES_IDLE = [
         'img/1.Sharkie/1.IDLE/1.png',

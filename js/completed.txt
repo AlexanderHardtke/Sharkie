@@ -17,11 +17,10 @@ Sounds wenn Verletzt etc
 level0
 Alle Sounds Lautstärke verrringern
 restart level
-
+stop level completely
 
 
 Fullscreen
 to do
-stop level completely
 Collission am Ende wenn alle Größen fix
 Animationen fixen

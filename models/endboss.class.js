@@ -68,7 +68,7 @@ class Endboss extends MovableObject {
         this.loadImages(this.IMAGES_ATTACK);
         this.y = 0;
         this.x = spawn + 470;
-        this.animate(spawn);
+        this.animate();
     }
 
 
@@ -98,9 +98,9 @@ class Endboss extends MovableObject {
         this.setStoppableInterval(() => {
             if (i < 10) {
                 this.playAnimation(this.IMAGES_INTRODUCTION);
-                this.playAnimation(this.SOUND_INTRODUCTION);
+                world.audioManager.playAudio(this.SOUND_INTRODUCTION);
             } else if (this.isDead()) {
-                this.playAnimation(this.SOUND_WIN);
+                world.audioManager.playAudio(this.SOUND_WIN);
                 this.playAnimationOnce(this.IMAGES_DEAD, 200); 
             } else if (this.fastattack >= 40) {
                 this.playAnimationOnce(this.IMAGES_ATTACK, 200);

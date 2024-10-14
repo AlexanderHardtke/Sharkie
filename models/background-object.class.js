@@ -1,3 +1,6 @@
+/**
+ * loads the Background for the game
+ */
 class BackgroundObject extends DrawableObject {
     width = 720;
     height = 480;
