@@ -1,3 +1,6 @@
+/**
+ * shows the status bar with the amount of Coins you have available
+ */
 class CoinBar extends DrawableObject {
     COINS = ['img/4. Marcadores/green/100_ copia 6.png'];
     count = 0;

@@ -1,3 +1,6 @@
+/**
+ * defines all Movable Object in the game and is also a child of DrawableObject
+ */
 class MovableObject extends DrawableObject {
     speed = 0.5;
     otherDirection = false;
@@ -130,6 +133,12 @@ class MovableObject extends DrawableObject {
         this.currentImage++;
     }
 
+    /**
+     * plays the animation of the object only once
+     * 
+     * @param {Array} images the array of images for the animation
+     * @param {number} time amount of Milliseconds the animation is played
+     */
     playAnimationOnce(images, time) {
         if (!this.animationPlaying) {
             this.animationPlaying = true;
@@ -168,6 +177,12 @@ class MovableObject extends DrawableObject {
         }
     }
 
+    /**
+     * checks if the character is nearby to make the enemy aggressive
+     * 
+     * @param {object} mo the enemy object 
+     * @returns true if character is nearby
+     */
     characterIsNear(mo) {
         return (this.x + this.width - this.offsetX) >= mo.x + mo.offsetX - mo.bubbleRange && // rechts > Objekt links
             (this.x + this.offsetX) <= (mo.x + mo.width - mo.offsetX + mo.bubbleRange) && // links < Objekt rechts
@@ -191,6 +206,11 @@ class MovableObject extends DrawableObject {
         }
     }
 
+    /**
+     * increases the amount of collected items in the status bar and removes the item from the game
+     * 
+     * @param {Object} item the collectable item in the game
+     */
     gainItem(item) {
         if (item instanceof Coin) {
             this.world.coinBar.count++;
@@ -200,6 +220,11 @@ class MovableObject extends DrawableObject {
         this.removeItem(item);
     }
 
+    /**
+     * removes the item from the game and plays the sound of the item
+     * 
+     * @param {Object} item the collectable item that is removed 
+     */
     removeItem(item) {
         let index = this.world.level.collectables.findIndex(collectable => collectable === item);
         if (index !== -1) {
@@ -219,6 +244,11 @@ class MovableObject extends DrawableObject {
         return timePassed < 400;
     }
 
+    /**
+     * checks the difference from the current time to the time the character was last hit with an electric attack
+     * 
+     * @returns true until 400 ms have passed
+     */
     isElectrocuted() {
         let timePassed = new Date().getTime() - this.lastElectrocuted; // Difference in MS
         return timePassed < 400;
@@ -233,6 +263,13 @@ class MovableObject extends DrawableObject {
         return this.life == 0;
     }
 
+    /**
+     * checks if the character is left from the object
+     * 
+     * @param {number} horizontal the x coordinate of the character
+     * @param {Object} mo the enemy
+     * @returns true if character is left
+     */
     characterIsLeft(horizontal, mo) {
         if (horizontal < 0) {
             mo.otherDirection = false;
@@ -243,6 +280,13 @@ class MovableObject extends DrawableObject {
         return this.charIsRight = false;
     }
 
+    /**
+     * checks if the character is right from the object
+     * 
+     * @param {number} horizontal the x coordinate of the character
+     * @param {Object} mo the enemy
+     * @returns true if character is right
+     */
     characterIsRight(horizontal, mo) {
         if (horizontal > 100) {
             mo.otherDirection = true;
@@ -253,6 +297,13 @@ class MovableObject extends DrawableObject {
         return this.charIsLeft = false;
     }
 
+    /**
+     * checks if the character is above the object
+     * 
+     * @param {number} horizontal the y coordinate of the character
+     * @param {Object} mo the enemy
+     * @returns true if character is above
+     */
     characterIsUp(vertical, mo) {
         if (vertical > -46) {
             this.charIsUp = false;
@@ -263,6 +314,13 @@ class MovableObject extends DrawableObject {
         return this.charIsDown = false;
     }
 
+    /**
+     * checks if the character is below the object
+     * 
+     * @param {number} horizontal the y coordinate of the character
+     * @param {Object} mo the enemy
+     * @returns true if character is below
+     */
     characterIsDown(vertical, mo) {
         if (vertical < 46) {
             mo.downDirection = false;
@@ -273,6 +331,11 @@ class MovableObject extends DrawableObject {
         return this.charIsUp = false;
     }
 
+    /**
+     * moves the object into the direction of the character
+     * 
+     * @param {Object} mo the enemy
+     */
     moveToCharacter(mo) {
         if (mo) {
             let horizontal = this.x - mo.x - mo.offsetX;

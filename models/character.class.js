@@ -251,6 +251,7 @@ class Character extends MovableObject {
                 }
 
             } else if (this.isDead()) {
+                this.characterIsDead();
                 if (this.lastHitElectro) {
                     this.playAnimationOnce(this.IMAGES_DEAD_ELECTRIC, 220);
                     this.world.audioManager.playAudio(this.SOUND_DIE_ELECTRIC);
@@ -262,14 +263,29 @@ class Character extends MovableObject {
         }, 220)
     };
 
+    /**
+     * checks if the Space Bar is pressed
+     * 
+     * @returns true/false
+     */
     isAttacking() {
         return this.world.keyboard.SPACE;
     }
 
+    /**
+     * checks if Q is pressed
+     * 
+     * @returns true/false
+     */
     isBubbleAttack() {
         return this.world.keyboard.Q
     }
 
+    /**
+     * checks if E is pressed
+     * 
+     * @returns true/false
+     */
     isPoisonBubbleAttack() {
         return this.world.keyboard.E
     }

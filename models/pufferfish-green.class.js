@@ -1,3 +1,6 @@
+/**
+ * defines the green pufferfish enemy for the game
+ */
 class PufferfishGreen extends MovableObject {
     width = 72;
     height = 60;

@@ -1,3 +1,6 @@
+/**
+ * defines the keys that are pressed on the keyboard
+ */
 class Keyboard {
     LEFT = false;
     RIGHT = false;

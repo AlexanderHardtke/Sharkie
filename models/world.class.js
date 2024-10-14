@@ -1,3 +1,6 @@
+/**
+ * defines the world of the game
+ */
 class World {
     character = new Character();
     bossSpawned = false;
@@ -34,7 +37,9 @@ class World {
         this.character.world = this;
     }
 
-
+    /**
+     * runs all the intervals for the current world
+     */
     run() {
         setInterval(() => {
             this.winTurtorial();
@@ -50,6 +55,11 @@ class World {
         }, 200);
     }
 
+    /**
+     * checks if the character has reached the point so the Endboss is spawned
+     * 
+     * @param {Object} level the current Level the character is in
+     */
     checkSpawnEndboss(level) {
         if (this.character.x > level.spawnEndboss && !this.bossSpawned) {
             this.bossSpawned = true;
@@ -58,6 +68,9 @@ class World {
         }
     }
 
+    /**
+     * checks if the character can attack and if the Button for creating a new Bubble is pressed
+     */
     checkThrowObjects() {
         if (this.keyboard.E && this.canAttack && this.poisonBar.count > 0 || this.keyboard.Q && this.canAttack) {
             this.canAttack = false;
@@ -69,6 +82,9 @@ class World {
         }
     }
 
+    /**
+     * checks if the character can attack and if the attack button is pressed
+     */
     checkFinSlap() {
         if (this.keyboard.SPACE && this.canAttack) {
             this.canAttack = false;
@@ -82,20 +98,30 @@ class World {
         }
     }
 
+    /**
+     * creates an area before the character where the character can deal damage to the enemies
+     */
     createFinSlap() {
         let slap = new FinSlap(this.character.x + 108, this.character.y + 88, this.character.otherDirection);
         this.finSlapObject.push(slap);
     }
 
-    removeFinSlap() {
-        this.finSlapObject = [];
-    }
-
+    /**
+     * creates a new Throwable Object
+     * 
+     * @param {boolean} poison true if the bubble is poisonous
+     * @param {boolean} color true if the bubble is green pufferfish
+     */
     createNewBubble(poison, color) {
         let bubble = new ThrowableObject(this.character.x + 108, this.character.y + 90, this.character.otherDirection, poison, color);
         this.throwableObjects.push(bubble);
     }
 
+    /**
+     * removes the bubble from the game
+     * 
+     * @param {Object} obj the throwable Object
+     */
     removeBubble(obj) {
         let index = this.throwableObjects.findIndex(bubble => bubble === obj);
         if (index !== -1) {
@@ -104,6 +130,28 @@ class World {
         }
     }
 
+     /**
+     * removes the finslap Object
+     */
+     removeFinSlap() {
+        this.finSlapObject = [];
+    }
+
+     /**
+     * removes the enemy from the game
+     * 
+     * @param {Object} enemy the enemy that is removed
+     */
+     removeEnemy(enemy) {
+        let index = this.level.enemies.findIndex(fish => fish === enemy);
+        if (index !== -1) {
+            this.level.enemies.splice(index, 1);
+        }
+    }
+
+    /**
+     * checks if enemy is nearby and makes the enemy aggressive if true
+     */
     checkNearby() {
         this.level.enemies.forEach((enemy) => {
             if (enemy instanceof PufferfishRed || enemy instanceof PufferfishGreen) {
@@ -118,6 +166,9 @@ class World {
         });
     }
 
+    /**
+     * checks the character position in relation to the boss
+     */
     checkCharacterPosition() {
         if (this.bossSpawned) {
             this.level.enemies.forEach((boss) => {
@@ -146,26 +197,42 @@ class World {
         });
     }
 
+    /**
+     * checks Collsision ftom the throwable Objets with enemys
+     */
     checkCollisionsThrowableObjects() {
         this.level.enemies.forEach((enemy) => {
             this.throwableObjects.forEach((throwableObject) => {
-                if (throwableObject.isColliding(enemy) && enemy instanceof Jellyfish) {
-                    this.createnewJellyBubble(enemy);
-                    this.removeEnemy(enemy);
-                    this.removeBubble(throwableObject);
-                } if (throwableObject.isColliding(enemy) && enemy instanceof Endboss) {
-                    enemy.hit(throwableObject);
-                    if (enemy.isDead()) {
-                        setTimeout(() => {
-                            this.level.stopAllInterval();
-                            this.gameOverScreen(true, this.level.number);
-                        }, 1200)
-                    }
-                }
+                this.checkThrowsWithEnemys(enemy, throwableObject);
             });
         });
     }
 
+    /**
+     * checks if the Collision has happened with the specific enemy
+     * 
+     * @param {Object} enemy the enemy
+     * @param {Object} throwableObject the thrown Object 
+     */
+    checkThrowsWithEnemys(enemy, throwableObject) {
+        if (throwableObject.isColliding(enemy) && enemy instanceof Jellyfish) {
+            this.createnewJellyBubble(enemy);
+            this.removeEnemy(enemy);
+            this.removeBubble(throwableObject);
+        } if (throwableObject.isColliding(enemy) && enemy instanceof Endboss) {
+            enemy.hit(throwableObject);
+            if (enemy.isDead()) {
+                setTimeout(() => {
+                    this.level.stopAllInterval();
+                    this.gameOverScreen(true, this.level.number);
+                }, 1200)
+            }
+        }
+    }
+
+    /**
+     * checks the Collsion with the finslap attack
+     */
     checkCollisionsFinSlap() {
         this.level.enemies.forEach((enemy) => {
             this.finSlapObject.forEach((attack) => {
@@ -181,24 +248,28 @@ class World {
         });
     }
 
+    /**
+     * plays 1 of 3 randomly choosen hit sounds
+     */
     enemyHitSound() {
         let sounds = ['audio/hit1.mp3', 'audio/hit2.mp3', 'audio/hit3.mp3'];
         let randomIndex = Math.floor(Math.random() * sounds.length);
         this.audioManager.playAudio(sounds[randomIndex]);
     }
 
+    /**
+     * creates a new collectable bubble with a jellyfish inside
+     * 
+     * @param {Object} jellyfish the collectable item
+     */
     createnewJellyBubble(jellyfish) {
         let bubble = new JellyfishCatched(jellyfish.x, jellyfish.y, jellyfish.dangerous);
         this.level.collectables.push(bubble);
     }
 
-    removeEnemy(enemy) {
-        let index = this.level.enemies.findIndex(fish => fish === enemy);
-        if (index !== -1) {
-            this.level.enemies.splice(index, 1);
-        }
-    }
-
+    /**
+     * checks if the win condition for the turtorial is reached
+     */
     winTurtorial() {
         if (this.level.number == 0 && this.character.x > 2800) {
             this.character.stopAllInterval();
@@ -206,6 +277,12 @@ class World {
         }
     }
 
+    /**
+     * shows the game over screen for the current level or situation
+     * 
+     * @param {boolean} win true if the game is beaten
+     * @param {number} level the number of the level
+     */
     gameOverScreen(win, level) {
         if (win && level <= 1) {
             document.getElementById('gameOverImg').src = "img/6.Botones/Tittles/You win/Recurso 21.png";
@@ -219,6 +296,9 @@ class World {
         document.getElementById('gameOverScreen').style.display = "flex";
     }
 
+    /**
+     * checks if the character has collided with a collectable item
+     */
     checkCollisionsCollectable() {
         this.level.collectables.forEach((item) => {
             if (this.character.isColliding(item)) {
@@ -227,6 +307,9 @@ class World {
         })
     }
 
+    /**
+     * draws the Object on the canvas
+     */
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.ctx.translate(this.camera_x, 0);
@@ -263,9 +346,14 @@ class World {
         this.ctx.fillText(obj.count, obj.countX, obj.countY);
     }
 
-    addObjectsToMap(object) {
-        object.forEach(o => {
-            this.addToMap(o)
+    /**
+     * seperates the objects and adds it to the map
+     * 
+     * @param {Array} objects An array of objects
+     */
+    addObjectsToMap(objects) {
+        objects.forEach(object => {
+            this.addToMap(object)
         })
     }
 
@@ -344,6 +432,11 @@ class World {
         this.ctx.translate(-(mo.x + mo.width / 2), -(mo.y + mo.height / 2));
     }
 
+    /**
+     * addas the Object to the map
+     * 
+     * @param {Object} mo the object that is added
+     */
     addToMap(mo) {
         if (mo.otherDirection) {
             this.flipImage(mo);
@@ -381,17 +474,6 @@ class World {
             this.ctx.strokeStyle = 'red';
             this.ctx.rect(mo.x + mo.offsetX, mo.y + mo.offsetY * 1.7, mo.width - mo.offsetX * 6, mo.height - mo.offsetY * 2.5);
             this.ctx.stroke();
-        }
-    }
-
-    togglePause() {
-        this.paused = !this.paused;
-        if (this.paused) {
-            this.audioManager.pauseAllAudios(); // Pausiere alle laufenden Audios
-            // Andere Prozesse pausieren, z.B. Bewegungen, Timer usw.
-        } else {
-            this.audioManager.resumeAllAudios(); // Fortsetzen, wenn vorhanden
-            // Prozesse fortsetzen
         }
     }
 

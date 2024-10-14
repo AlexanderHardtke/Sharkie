@@ -1,3 +1,6 @@
+/**
+ * loads a collectable Coin for the game
+ */
 class Coin extends MovableObject {
     IMAGES_IDLE = [
         'img/4. Marcadores/1. Coins/1.png',

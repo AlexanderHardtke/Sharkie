@@ -1,3 +1,6 @@
+/**
+ * shows the status bar with the amount of Life the character currently has
+ */
 class StatusBar extends DrawableObject {
     LIFE = [
         'img/4. Marcadores/orange/0.png',

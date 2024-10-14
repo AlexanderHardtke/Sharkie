@@ -1,3 +1,6 @@
+/**
+ * defines the Endboss of the game
+ */
 class Endboss extends MovableObject {
     width = 1041 * 0.3;
     height = 1216 * 0.3;
@@ -72,6 +75,9 @@ class Endboss extends MovableObject {
     }
 
 
+    /**
+     * animates the Endboss and moves it
+     */
     animate() {
         this.setStoppableInterval(() => {
             if (i > 10) {

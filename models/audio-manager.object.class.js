@@ -20,9 +20,7 @@ class AudioManager {
             return;
         } if (!this.audios[audioSrc]) {
             let audio = new Audio(audioSrc);
-            console.log(audio);
-            
-            checkMuted(audio);
+            this.checkMuted(audio);
             this.audios[audioSrc] = audio;
         }
         this.audios[audioSrc].play();
@@ -43,16 +41,6 @@ class AudioManager {
         }
     }
 
-    /**
-     * pauses the current audio file
-     * 
-     * @param {string} audioSrc 
-     */
-    pauseAudio(audioSrc) {
-        if (this.audios[audioSrc]) {
-            this.audios[audioSrc].pause();
-        }
-    }
 
     /**
      * stops the current audio file and resets the playtime to 0
@@ -69,7 +57,7 @@ class AudioManager {
     }
 
     /**
-     * stops all audio files that are playing withing the game and resets the pülaytime to 0
+     * stops all audio files that are playing withing the game and resets the playtime to 0
      * 
      */
     stopAllAudios() {

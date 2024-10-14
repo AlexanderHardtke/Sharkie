@@ -1,3 +1,6 @@
+/**
+ * defines the Finslap attack from the character
+ */
 class FinSlap extends MovableObject {
     IMAGES_EMPTY = [
         'img/1.Sharkie/4.Attack/Fin slap/Empty.png'

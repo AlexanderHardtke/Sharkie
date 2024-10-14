@@ -1,3 +1,6 @@
+/**
+ * defines the throwable Objects the character can use
+ */
 class ThrowableObject extends MovableObject {
     IMAGES_BUBBLE = [
         'img/1.Sharkie/4.Attack/Bubble trap/Bubble.png'
@@ -37,6 +40,12 @@ class ThrowableObject extends MovableObject {
     }
 
 
+    /**
+     * throws the Object in a direction
+     * 
+     * @param {number} x the coordinate of the character
+     * @param {boolean} otherDirection the direction of the character
+     */
     throw(x, otherDirection) {
         if (otherDirection) {
             this.x = x - 122;
@@ -49,6 +58,9 @@ class ThrowableObject extends MovableObject {
         }, 1000 / 60);
     }
 
+    /**
+     * applys negative gravity so the object gets faster over time
+     */
     applyNegativeGravity() {
         this.y -= this.speedY;
         this.speedY = this.speedY + this.gravity;

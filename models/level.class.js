@@ -1,3 +1,6 @@
+/**
+ * defines all levels with everything that needs to be rendered
+ */
 class Level {
     spawnEndboss;
     enemies;

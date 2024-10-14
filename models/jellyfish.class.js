@@ -1,3 +1,6 @@
+/**
+ * defines the jellyfish enemy for the game
+ */
 class Jellyfish extends MovableObject {
     width = 70;
     height = 100;
@@ -77,10 +80,16 @@ class Jellyfish extends MovableObject {
         }, 350)
     }
 
+    /**
+     * moves the Jellyfish up
+     */
     moveUpNoDirection() {
         this.y -= this.speed;
     };
 
+    /**
+     * moves the Jellyfish down
+     */
     moveDownNoDirection() {
         this.y += this.speed;
     };

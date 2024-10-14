@@ -1,3 +1,6 @@
+/**
+ * defines the catched jellyfish inside a bubble to be collected from the player
+ */
 class JellyfishCatched extends MovableObject {
     JELLYFISH_CATCHED = [
         'img/2.Enemy/2 Jelly fish/Dead/Lila/L1.png',
@@ -31,6 +34,11 @@ class JellyfishCatched extends MovableObject {
         this.animate(dangerous);
     }
 
+    /**
+     * animates the catched jellyfish bubble
+     * 
+     * @param {boolean} dangerous checks the status of the jellyfish at the moment of capture
+     */
     animate(dangerous) {
         this.setStoppableInterval(() => {
             this.applyGravity(this.gravity);
