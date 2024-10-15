@@ -198,10 +198,10 @@ function cloneLevel(level) {
 */
 function gameOverScreen(win, level) {
     world.character.stopAllInterval();
-    if (win && level <= 1) {
+    if (win && level == 0) {
         document.getElementById('gameOverImg').src = "img/6.Botones/Tittles/You win/Recurso 21.png";
         document.getElementById('nextLevel').style.display = "flex";
-    } else if (win && level == 2) {
+    } else if (win && level == 1) {
         document.getElementById('gameOverImg').src = "img/6.Botones/Try again/Mesa de trabajo 1.png";
         document.getElementById('gameOverImg').style.width = "90%"
     } else if (!win) document.getElementById('restartGame').style.display = "flex";
