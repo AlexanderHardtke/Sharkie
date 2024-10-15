@@ -155,7 +155,8 @@ class World {
      * checks if the character can attack and if the Button for creating a new Bubble is pressed
      */
     checkThrowObjects() {
-        if (this.keyboard.E && this.canAttack && this.poisonBar.count > 0 || this.keyboard.Q && this.canAttack) {
+        if ((this.keyboard.E && this.canAttack && this.poisonBar.count > 0) ||
+            (this.keyboard.Q && this.canAttack && this.coinBar.count > 0)) {
             this.canAttack = false;
             let poison = this.keyboard.E;
             setTimeout(() => {
@@ -194,6 +195,8 @@ class World {
      * @param {boolean} color true if the bubble is green pufferfish
      */
     createNewBubble(poison, color) {
+        if (poison) this.poisonBar.count--;
+        if (!poison && color === undefined) this.coinBar.count--;
         let bubble = new ThrowableObject(this.character.x + 108, this.character.y + 90, this.character.otherDirection, poison, color);
         this.throwableObjects.push(bubble);
     }
@@ -293,7 +296,7 @@ class World {
     winTurtorial() {
         if (this.level.number == 0 && this.character.x > 2800) {
             this.character.stopAllInterval();
-            this.gameOverScreen(true, 0);
+            gameOverScreen(true, 0);
         }
     }
 

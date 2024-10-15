@@ -228,8 +228,8 @@ class Character extends MovableObject {
      */
     checkAttackAnimation() {
         if (this.isAttacking() && this.attackTimeRangedPoison == 0 & this.attackTimeRanged == 0) this.attackTimeMelee++;
-        else if (this.isBubbleAttack() && this.attackTimeMelee == 0 & this.attackTimeRangedPoison == 0) this.attackTimeRanged++;
-        else if (this.isPoisonBubbleAttack() && this.attackTimeRanged == 0 & this.attackTimeMelee == 0) this.attackTimeRangedPoison++;
+        else if (this.isBubbleAttack() && this.attackTimeMelee == 0 & this.attackTimeRangedPoison == 0 && this.world.coinBar.count > 0) this.attackTimeRanged++;
+        else if (this.isPoisonBubbleAttack() && this.attackTimeRanged == 0 & this.attackTimeMelee == 0 && this.world.poisonBar.count > 0) this.attackTimeRangedPoison++;
     }
 
     /**
@@ -244,7 +244,7 @@ class Character extends MovableObject {
         else if (this.isHurt()) this.characterIsHurt();
         else if (this.attackTimeMelee > 0) this.characterIsAttacking();
         else if (this.attackTimeRanged > 0) this.characterIsBubbleAttacking();
-        else if (this.attackTimeRangedPoison > 0 && this.world.poisonBar.count > 0) this.characterIsPoisonBubbleAttacking();
+        else if (this.attackTimeRangedPoison > 0) this.characterIsPoisonBubbleAttacking();
         else if (RIGHT || LEFT || UP || DOWN) this.playAnimation(this.IMAGES_SWIMMING);
         else if (this.idleTime <= 50) this.idle();
         else if (this.isFallingAsleep()) this.fallingAsleep();
