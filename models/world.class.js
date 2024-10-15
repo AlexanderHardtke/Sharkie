@@ -52,13 +52,80 @@ class World {
     }
 
     /**
-     * runs the intervals for the attacks from the character
+    * checks if enemy is nearby and makes the enemy aggressive if true
+    */
+    checkNearby() {
+        this.level.enemies.forEach((enemy) => {
+            if (enemy instanceof PufferfishRed || enemy instanceof PufferfishGreen) {
+                if (this.character.characterIsNear(enemy)) {
+                    enemy.getAggressive = true;
+                    enemy.bubbleRange = enemy.aggresiveBubbleRange;
+                } else if (!this.character.characterIsNear(enemy)) {
+                    enemy.getAggressive = false;
+                    enemy.bubbleRange = enemy.standardBubbleRange;
+                }
+            }
+        });
+    }
+
+    /**
+     * checks Collision with enemys and objects with the character
      */
-    checkCreateAttacks() {
-        setInterval(() => {
-            this.checkThrowObjects();
-            this.checkFinSlap();
-        }, 1000 / 30);
+    checkCollisions() {
+        this.level.enemies.forEach((enemy) => {
+            if (this.character.isColliding(enemy)) {
+                this.character.hit(enemy);
+                this.statusBar.setPercentage(this.character.life);
+                if (this.character.isDead()) {
+                    setTimeout(() => {
+                        this.character.stopAllInterval();
+                        this.gameOverScreen(false, this.level.number);
+                    }, 3500);
+                }
+            }
+        });
+    }
+
+    /**
+     * checks if the character has collided with a collectable item
+     */
+    checkCollisionsCollectable() {
+        this.level.collectables.forEach((item) => {
+            if (this.character.isColliding(item)) this.character.gainItem(item);
+        })
+    }
+
+    /**
+     * checks Collsision ftom the throwable Objets with enemys
+     */
+    checkCollisionsThrowableObjects() {
+        this.level.enemies.forEach((enemy) => {
+            this.throwableObjects.forEach((throwableObject) => this.checkThrowsWithEnemys(enemy, throwableObject));
+        });
+    }
+
+    /**
+     * checks collision with the finslap attack
+     */
+    checkCollisionsFinSlap() {
+        this.level.enemies.forEach((enemy) => {
+            this.finSlapObject.forEach((attack) => {
+                if (attack.isColliding(enemy) && (enemy instanceof PufferfishGreen || enemy instanceof PufferfishRed)) {
+                    this.collisionFinSlapPuffer(enemy);
+                } if (attack.isColliding(enemy) && enemy instanceof Endboss) this.throwHitEndboss(enemy);
+            });
+        });
+    }
+
+    /**
+     * checks the character position in relation to the boss
+     */
+    checkCharacterPosition() {
+        if (this.bossSpawned) {
+            this.level.enemies.forEach((boss) => {
+                if (boss instanceof Endboss) this.character.moveToCharacter(boss);
+            });
+        }
     }
 
     /**
@@ -72,6 +139,16 @@ class World {
             let boss = new Endboss(level.spawnEndboss);
             this.level.enemies.push(boss);
         }
+    }
+
+    /**
+     * runs the intervals for the attacks from the character
+     */
+    checkCreateAttacks() {
+        setInterval(() => {
+            this.checkThrowObjects();
+            this.checkFinSlap();
+        }, 1000 / 30);
     }
 
     /**
@@ -145,61 +222,6 @@ class World {
     }
 
     /**
-     * checks if enemy is nearby and makes the enemy aggressive if true
-     */
-    checkNearby() {
-        this.level.enemies.forEach((enemy) => {
-            if (enemy instanceof PufferfishRed || enemy instanceof PufferfishGreen) {
-                if (this.character.characterIsNear(enemy)) {
-                    enemy.getAggressive = true;
-                    enemy.bubbleRange = enemy.aggresiveBubbleRange;
-                } else if (!this.character.characterIsNear(enemy)) {
-                    enemy.getAggressive = false;
-                    enemy.bubbleRange = enemy.standardBubbleRange;
-                }
-            }
-        });
-    }
-
-    /**
-     * checks the character position in relation to the boss
-     */
-    checkCharacterPosition() {
-        if (this.bossSpawned) {
-            this.level.enemies.forEach((boss) => {
-                if (boss instanceof Endboss) this.character.moveToCharacter(boss);
-            });
-        }
-    }
-
-    /**
-     * checks Collision with enemys and objects with the character
-     */
-    checkCollisions() {
-        this.level.enemies.forEach((enemy) => {
-            if (this.character.isColliding(enemy)) {
-                this.character.hit(enemy);
-                this.statusBar.setPercentage(this.character.life);
-                if (this.character.isDead()) {
-                    setTimeout(() => {
-                        this.character.stopAllInterval();
-                        this.gameOverScreen(false, this.level.number);
-                    }, 3500);
-                }
-            }
-        });
-    }
-
-    /**
-     * checks Collsision ftom the throwable Objets with enemys
-     */
-    checkCollisionsThrowableObjects() {
-        this.level.enemies.forEach((enemy) => {
-            this.throwableObjects.forEach((throwableObject) => this.checkThrowsWithEnemys(enemy, throwableObject));
-        });
-    }
-
-    /**
      * checks if the Collision has happened with the specific enemy
      * 
      * @param {Object} enemy the enemy
@@ -234,19 +256,6 @@ class World {
                 this.gameOverScreen(true, this.level.number);
             }, 1200)
         }
-    }
-
-    /**
-     * checks collision with the finslap attack
-     */
-    checkCollisionsFinSlap() {
-        this.level.enemies.forEach((enemy) => {
-            this.finSlapObject.forEach((attack) => {
-                if (attack.isColliding(enemy) && enemy instanceof PufferfishGreen || enemy instanceof PufferfishRed) {
-                    this.collisionFinSlapPuffer(enemy);
-                } if (attack.isColliding(enemy) && enemy instanceof Endboss) this.throwHitEndboss(enemy);
-            });
-        });
     }
 
     /**
@@ -286,15 +295,6 @@ class World {
             this.character.stopAllInterval();
             this.gameOverScreen(true, 0);
         }
-    }
-
-    /**
-     * checks if the character has collided with a collectable item
-     */
-    checkCollisionsCollectable() {
-        this.level.collectables.forEach((item) => {
-            if (this.character.isColliding(item)) this.character.gainItem(item);
-        })
     }
 
     /**
@@ -356,6 +356,19 @@ class World {
     }
 
     /**
+     * adds the Object to the map
+     * 
+     * @param {Object} mo the object that is added
+     */
+    addToMap(mo) {
+        if (mo.otherDirection) this.flipImage(mo);
+        if (mo.upDirection || mo.downDirection) this.rotateImage(mo);
+        this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height);
+        this.ctx.restore();
+        if (mo.otherDirection) this.flipImageBack(mo);
+    }
+
+    /**
      * flips the image of the object
      * 
      * @param {Object} mo movable Object in the game 
@@ -413,18 +426,5 @@ class World {
         this.ctx.translate(mo.x + mo.width / 2, mo.y + mo.height / 2);
         this.ctx.rotate(angle);
         this.ctx.translate(-(mo.x + mo.width / 2), -(mo.y + mo.height / 2));
-    }
-
-    /**
-     * addas the Object to the map
-     * 
-     * @param {Object} mo the object that is added
-     */
-    addToMap(mo) {
-        if (mo.otherDirection) this.flipImage(mo);
-        if (mo.upDirection || mo.downDirection) this.rotateImage(mo);
-        this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height);
-        this.ctx.restore();
-        if (mo.otherDirection) this.flipImageBack(mo);
     }
 }
