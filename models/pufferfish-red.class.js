@@ -57,32 +57,48 @@ class PufferfishRed extends MovableObject {
      * animates the red pufferfish
      */
     animate() {
-        this.setStoppableInterval(() => {
-            if (this.moving < 400) {
-                this.moveLeft();
-                this.moving++;
-                this.otherDirection = false;
-            } else if (this.moving < 800) {
-                this.moveRight();
-                this.moving++;
-                this.otherDirection = true;
-            } if (this.moving >= 800) {
-                this.moving = 0;
-            }
-        }, 1000 / 60)
+        this.setStoppableInterval(() => this.pufferfishMoving(), 1000 / 60);
+        this.setStoppableInterval(() => this.pufferfishAnimate(), 400);
+    }
 
-        this.setStoppableInterval(() => {
-            if (this.getAggressive && this.getTransitionTime < 4) {
-                this.getTransitionTime++;
-                this.playAnimation(this.IMAGES_TRANSITION);
-            } else if (this.getAggressive && this.getTransitionTime >= 4) {
-                this.playAnimation(this.IMAGES_BUBBLESWIM);
-            } else if (!this.getAggressive && this.getTransitionTime > 0) {
-                this.playAnimation(this.IMAGES_REVERSE_TRANSITION);
-                this.getTransitionTime--;
-            } else if (!this.getAggressive && this.getTransitionTime === 0) {
-                this.playAnimation(this.IMAGES_IDLE);
-            }
-        }, 400);
+    /**
+     * moves the Pufferfish enemy
+     */
+    pufferfishMoving() {
+        if (this.moving < 400) this.moveLeft()
+        else if (this.moving < 800) this.moveRight();
+        if (this.moving >= 800) this.moving = 0;
+    }
+
+    /**
+     * moves the Pufferfish enemy left and increases the counter
+     */
+    moveLeft() {
+        super.moveLeft();
+        this.moving++;
+        this.otherDirection = false;
+    }
+
+    /**
+     * moves the Pufferfish enemy right and increases the counter
+     */
+    moveRight() {
+        super.moveRight();
+        this.moving++;
+        this.otherDirection = true;
+    }
+
+    /**
+     * animates the Pufferfish enemy
+     */
+    pufferfishAnimate() {
+        if (this.getAggressive && this.getTransitionTime < 4) {
+            this.getTransitionTime++;
+            this.playAnimation(this.IMAGES_TRANSITION);
+        } else if (this.getAggressive && this.getTransitionTime >= 4) this.playAnimation(this.IMAGES_BUBBLESWIM);
+        else if (!this.getAggressive && this.getTransitionTime > 0) {
+            this.playAnimation(this.IMAGES_REVERSE_TRANSITION);
+            this.getTransitionTime--;
+        } else if (!this.getAggressive && this.getTransitionTime === 0) this.playAnimation(this.IMAGES_IDLE);
     }
 }

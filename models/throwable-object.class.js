@@ -24,13 +24,9 @@ class ThrowableObject extends MovableObject {
         if (poison) {
             super().loadImage(this.IMAGES_POISON_BUBBLE);
             this.poison = true;
-        } else if (!poison && color === null) {
-            super().loadImage(this.IMAGES_BUBBLE);
-        } else if (!poison && color === true) {
-            super().loadImage(this.IMAGES_DEATH_GREEN);
-        } else if (!poison && color === false) {
-            super().loadImage(this.IMAGES_DEATH_RED);
-        }
+        } else if (!poison && color === null) super().loadImage(this.IMAGES_BUBBLE);
+        else if (!poison && color === true) super().loadImage(this.IMAGES_DEATH_GREEN);
+        else if (!poison && color === false) super().loadImage(this.IMAGES_DEATH_RED);
         this.x = x;
         this.y = y;
         this.throw(x, otherDirection);
@@ -47,11 +43,9 @@ class ThrowableObject extends MovableObject {
         if (otherDirection) {
             this.x = x - 122;
         } this.setStoppableInterval(() => {
-            if (otherDirection) {
-                this.moveLeft();
-            } if (!otherDirection) {
-                this.moveRight();
-            } this.applyNegativeGravity();
+            if (otherDirection) this.moveLeft();
+            if (!otherDirection) this.moveRight();
+            this.applyNegativeGravity();
         }, 1000 / 60);
     }
 
