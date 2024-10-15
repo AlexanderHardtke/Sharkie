@@ -13,6 +13,7 @@ class MovableObject extends DrawableObject {
     charIsRight;
     charIsUp;
     charIsDown;
+    dangerousTime = 0;
 
     /**
      * applys gravity to the game that pulls the object down

@@ -77,10 +77,7 @@ class World {
                 this.character.hit(enemy);
                 this.statusBar.setPercentage(this.character.life);
                 if (this.character.isDead()) {
-                    setTimeout(() => {
-                        this.character.stopAllInterval();
-                        this.gameOverScreen(false, this.level.number);
-                    }, 3500);
+                    setTimeout(() => gameOverScreen(false, this.level.number), 3500);
                 }
             }
         });
@@ -254,10 +251,7 @@ class World {
         enemy.hit(throwableObject);
         this.removeBubble(throwableObject);
         if (enemy.isDead()) {
-            setTimeout(() => {
-                this.character.stopAllInterval();
-                this.gameOverScreen(true, this.level.number);
-            }, 1200)
+            setTimeout(() => gameOverScreen(true, this.level.number), 1200);
         }
     }
 
@@ -294,10 +288,7 @@ class World {
      * checks if the win condition for the turtorial is reached
      */
     winTurtorial() {
-        if (this.level.number == 0 && this.character.x > 2800) {
-            this.character.stopAllInterval();
-            gameOverScreen(true, 0);
-        }
+        if (this.level.number == 0 && this.character.x > 2800) gameOverScreen(true, 0);
     }
 
     /**

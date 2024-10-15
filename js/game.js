@@ -65,9 +65,7 @@ function stopCurrentLevel() {
         world.level.enemies = [];
         world.level.collectables = [];
         world.level.backgroundObject = [];
-        world.audioManager.stopAudio("audio/background_music.mp3");
-        world.level;
-        world = [];
+        world.audioManager.stopAllAudios();
     }
 }
 
@@ -199,6 +197,7 @@ function cloneLevel(level) {
 * @param {number} level the number of the level
 */
 function gameOverScreen(win, level) {
+    world.character.stopAllInterval();
     if (win && level <= 1) {
         document.getElementById('gameOverImg').src = "img/6.Botones/Tittles/You win/Recurso 21.png";
         document.getElementById('nextLevel').style.display = "flex";
