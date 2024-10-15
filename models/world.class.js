@@ -250,7 +250,7 @@ class World {
         this.level.enemies.forEach((enemy) => {
             this.finSlapObject.forEach((attack) => {
                 if (attack.isColliding(enemy) && enemy instanceof PufferfishGreen || enemy instanceof PufferfishRed) {
-                    this.collisionFinSlapPuffer();
+                    this.collisionFinSlapPuffer(enemy);
                 } if (attack.isColliding(enemy) && enemy instanceof Endboss) this.throwHitEndboss(enemy);
             });
         });
@@ -259,7 +259,7 @@ class World {
     /**
      * finslap collision with Pufferfish removes Pufferfish and creates ne throwable Object
      */
-    collisionFinSlapPuffer() {
+    collisionFinSlapPuffer(enemy) {
         this.removeEnemy(enemy);
         this.enemyHitSound();
         let color = enemy instanceof PufferfishGreen;
@@ -467,7 +467,7 @@ class World {
         if (mo.otherDirection) this.flipImage(mo);
         if (mo.upDirection || mo.downDirection) this.rotateImage(mo);
         this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height);
-        this.drawBorder(mo);
+        //this.drawBorder(mo);
         this.ctx.restore();
         if (mo.otherDirection) this.flipImageBack(mo);
     }

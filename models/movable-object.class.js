@@ -148,18 +148,21 @@ class MovableObject extends DrawableObject {
     }
 
     /**
-     * checks if the character is colliding with an object
+     * checks if the object is colliding with an object
      * 
      * @param {object} mo the object that collides with the character 
      * @returns true or false if the character has collided with the object
      */
     isColliding(mo) {
-        if (mo instanceof Endboss) this.collidingEndboss(mo);
-        else this.collidingEnemys(mo);
+        if (mo instanceof Endboss) {
+            return this.collidingEndboss(mo);
+        } else {
+            return this.collidingEnemys(mo);
+        }
     }
 
     /**
-     * checks if the character is colliding with the endboss
+     * checks if the object is colliding with the endboss
      * 
      * @returns true if colliding
      */
@@ -171,7 +174,7 @@ class MovableObject extends DrawableObject {
     }
 
     /**
-     * checks if the character is colliding with the enemy
+     * checks if the object is colliding with the enemy
      * 
      * @returns true if colliding
      */
