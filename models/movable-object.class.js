@@ -18,9 +18,7 @@ class MovableObject extends DrawableObject {
      * applys gravity to the game that pulls the object down
      */
     applyGravity(x) {
-        if (this.isAboveGround()) {
-            this.y += this.gravity + x;
-        }
+        if (this.isAboveGround()) this.y += this.gravity + x;
     }
 
     /**
@@ -36,9 +34,7 @@ class MovableObject extends DrawableObject {
      * moves the object left
      */
     moveLeft(speed) {
-        if (speed) {
-            this.x -= speed;
-        }
+        if (speed) this.x -= speed;
         this.x -= this.speed;
     };
 
@@ -46,9 +42,7 @@ class MovableObject extends DrawableObject {
      * moves the object right
      */
     moveRight(speed) {
-        if (speed) {
-            this.x += speed;
-        }
+        if (speed) this.x += speed;
         this.x += this.speed;
     };
 
@@ -57,12 +51,8 @@ class MovableObject extends DrawableObject {
      */
     moveUp(speed) {
         this.upDirection = true;
-        if (speed) {
-            this.y -= this.speed / 2;
-        } else {
-            this.y -= this.speed;
-
-        }
+        if (speed) this.y -= this.speed / 2;
+        else this.y -= this.speed;
     };
 
     /**
@@ -70,11 +60,8 @@ class MovableObject extends DrawableObject {
      */
     moveDown(speed) {
         this.downDirection = true;
-        if (speed) {
-            this.y += this.speed / 2;
-        } else {
-            this.y += this.speed;
-        }
+        if (speed) this.y += this.speed / 2;
+        else this.y += this.speed;
     };
 
     /**
@@ -124,9 +111,7 @@ class MovableObject extends DrawableObject {
             this.currentImage = 0;
         }
         let i = this.currentImage % images.length;
-        let path = images[i];
-        this.img = this.imageCache[path];
-        this.currentImage++;
+        this.getNextImage(i, images);
     }
 
     /**
@@ -141,16 +126,25 @@ class MovableObject extends DrawableObject {
             this.currentImage = 0;
             let intervalId = setInterval(() => {
                 let i = this.currentImage;
-                if (i < images.length) {
-                    let path = images[i];
-                    this.img = this.imageCache[path];
-                    this.currentImage++;
-                } else {
+                if (i < images.length) this.getNextImage(i, images);
+                else {
                     clearInterval(intervalId);
                     this.animationPlaying = false;
                 }
             }, time);
         }
+    }
+
+    /**
+     * gets the next image in the array
+     * 
+     * @param {number} i the index of the current image
+     * @param {Array} images the array of images
+     */
+    getNextImage(i, images) {
+        let path = images[i];
+        this.img = this.imageCache[path];
+        this.currentImage++;
     }
 
     /**
@@ -160,17 +154,32 @@ class MovableObject extends DrawableObject {
      * @returns true or false if the character has collided with the object
      */
     isColliding(mo) {
-        if (mo instanceof Endboss) {
-            return (this.x + this.width - this.offsetX) >= mo.x + mo.offsetX && // rechts > Gegner links
-                (this.x + this.offsetX) <= (mo.x + mo.width - mo.offsetX * 5) && // links < Gegner rechts
-                (this.y + this.height - this.offsetY * 0.8) >= mo.y + mo.offsetY * 1.7 && // unten > Geger oben
-                (this.y + this.offsetY * 1.7) <= (mo.y + mo.height - mo.offsetY * 0.8); // oben < Gegner unten
-        } else {
-            return (this.x + this.width - this.offsetX) >= mo.x + mo.offsetX && // rechts > Objekt links
-                (this.x + this.offsetX) <= (mo.x + mo.width - mo.offsetX) && // links < Objekt rechts
-                (this.y + this.height - this.offsetY * 0.8) >= mo.y + mo.offsetY && // unten > Objekt oben
-                (this.y + this.offsetY * 1.7) <= (mo.y + mo.height - mo.offsetY); // oben < Objekt unten
-        }
+        if (mo instanceof Endboss) this.collidingEndboss(mo);
+        else this.collidingEnemys(mo);
+    }
+
+    /**
+     * checks if the character is colliding with the endboss
+     * 
+     * @returns true if colliding
+     */
+    collidingEndboss() {
+        return (this.x + this.width - this.offsetX) >= mo.x + mo.offsetX && // rechts > Gegner links
+            (this.x + this.offsetX) <= (mo.x + mo.width - mo.offsetX * 5) && // links < Gegner rechts
+            (this.y + this.height - this.offsetY * 0.8) >= mo.y + mo.offsetY * 1.7 && // unten > Geger oben
+            (this.y + this.offsetY * 1.7) <= (mo.y + mo.height - mo.offsetY * 0.8); // oben < Gegner unten
+    }
+
+    /**
+     * checks if the character is colliding with the enemy
+     * 
+     * @returns true if colliding
+     */
+    collidingEnemys(mo) {
+        return (this.x + this.width - this.offsetX) >= mo.x + mo.offsetX && // rechts > Objekt links
+            (this.x + this.offsetX) <= (mo.x + mo.width - mo.offsetX) && // links < Objekt rechts
+            (this.y + this.height - this.offsetY * 0.8) >= mo.y + mo.offsetY && // unten > Objekt oben
+            (this.y + this.offsetY * 1.7) <= (mo.y + mo.height - mo.offsetY); // oben < Objekt unten
     }
 
     /**
@@ -195,11 +204,8 @@ class MovableObject extends DrawableObject {
             this.lastElectrocuted = new Date().getTime();
         }
         this.life -= 5;
-        if (this.life < 0) {
-            this.life = 0;
-        } else {
-            this.lastHit = new Date().getTime();
-        }
+        if (this.life < 0) this.life = 0;
+        else this.lastHit = new Date().getTime();
     }
 
     /**
@@ -208,11 +214,8 @@ class MovableObject extends DrawableObject {
      * @param {Object} item the collectable item in the game
      */
     gainItem(item) {
-        if (item instanceof Coin) {
-            this.world.coinBar.count++;
-        } if (item instanceof Poison || item instanceof JellyfishCatched) {
-            this.world.poisonBar.count++;
-        }
+        if (item instanceof Coin) this.world.coinBar.count++;
+        if (item instanceof Poison || item instanceof JellyfishCatched) this.world.poisonBar.count++;
         this.removeItem(item);
     }
 
@@ -257,9 +260,8 @@ class MovableObject extends DrawableObject {
      * @returns true if character is left
      */
     characterIsLeft(horizontal, mo) {
-        if (horizontal < 0) {
-            mo.otherDirection = false;
-        } if (horizontal > -80) {
+        if (horizontal < 0) mo.otherDirection = false;
+        if (horizontal > -80) {
             this.charIsRight = false;
             return this.charIsLeft = false;
         } this.charIsLeft = true;
@@ -274,9 +276,8 @@ class MovableObject extends DrawableObject {
      * @returns true if character is right
      */
     characterIsRight(horizontal, mo) {
-        if (horizontal > 100) {
-            mo.otherDirection = true;
-        } if (horizontal < 190) {
+        if (horizontal > 100) mo.otherDirection = true;
+        if (horizontal < 190) {
             this.charIsRight = false;
             return this.charIsLeft = false;
         } this.charIsRight = true;
@@ -326,16 +327,10 @@ class MovableObject extends DrawableObject {
         if (mo) {
             let horizontal = this.x - mo.x - mo.offsetX;
             let vertical = this.y - mo.y - mo.offsetY;
-            if (horizontal < 0) {
-                mo.characterIsLeft(horizontal, mo);
-            } else if (horizontal > 0) {
-                mo.characterIsRight(horizontal, mo);
-            }
-            if (vertical < 0) {
-                mo.characterIsUp(vertical, mo);
-            } else if (vertical > 0) {
-                mo.characterIsDown(vertical, mo);
-            }
+            if (horizontal < 0) mo.characterIsLeft(horizontal, mo);
+            else if (horizontal > 0) mo.characterIsRight(horizontal, mo);
+            if (vertical < 0) mo.characterIsUp(vertical, mo);
+            else if (vertical > 0) mo.characterIsDown(vertical, mo);
         }
     }
 }
