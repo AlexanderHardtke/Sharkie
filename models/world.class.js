@@ -51,11 +51,14 @@ class World {
         }, 200);
     }
 
+    /**
+     * runs the intervals for the attacks from the character
+     */
     checkCreateAttacks() {
         setInterval(() => {
             this.checkThrowObjects();
             this.checkFinSlap();
-        }, 1000/60);
+        }, 1000 / 30);
     }
 
     /**
@@ -81,7 +84,7 @@ class World {
             setTimeout(() => {
                 this.createNewBubble(poison);
                 this.canAttack = true;
-            }, 2000);
+            }, 1150);
         }
     }
 
@@ -91,13 +94,11 @@ class World {
     checkFinSlap() {
         if (this.keyboard.SPACE && this.canAttack) {
             this.canAttack = false;
-            setTimeout(() => {
-                this.createFinSlap();
-            }, 500);
+            setTimeout(() => this.createFinSlap(), 600);
             setTimeout(() => {
                 this.removeFinSlap();
                 this.canAttack = true;
-            }, 2000);
+            }, 1200);
         }
     }
 
@@ -133,23 +134,21 @@ class World {
         }
     }
 
-     /**
-     * removes the finslap Object
-     */
-     removeFinSlap() {
+    /**
+    * removes the finslap Object
+    */
+    removeFinSlap() {
         this.finSlapObject = [];
     }
 
-     /**
-     * removes the enemy from the game
-     * 
-     * @param {Object} enemy the enemy that is removed
-     */
-     removeEnemy(enemy) {
+    /**
+    * removes the enemy from the game
+    * 
+    * @param {Object} enemy the enemy that is removed
+    */
+    removeEnemy(enemy) {
         let index = this.level.enemies.findIndex(fish => fish === enemy);
-        if (index !== -1) {
-            this.level.enemies.splice(index, 1);
-        }
+        if (index !== -1) this.level.enemies.splice(index, 1);
     }
 
     /**
@@ -175,9 +174,7 @@ class World {
     checkCharacterPosition() {
         if (this.bossSpawned) {
             this.level.enemies.forEach((boss) => {
-                if (boss instanceof Endboss) {
-                    this.character.moveToCharacter(boss);
-                }
+                if (boss instanceof Endboss) this.character.moveToCharacter(boss);
             });
         }
     }
@@ -205,9 +202,7 @@ class World {
      */
     checkCollisionsThrowableObjects() {
         this.level.enemies.forEach((enemy) => {
-            this.throwableObjects.forEach((throwableObject) => {
-                this.checkThrowsWithEnemys(enemy, throwableObject);
-            });
+            this.throwableObjects.forEach((throwableObject) => this.checkThrowsWithEnemys(enemy, throwableObject));
         });
     }
 
@@ -219,36 +214,56 @@ class World {
      */
     checkThrowsWithEnemys(enemy, throwableObject) {
         if (throwableObject.isColliding(enemy) && enemy instanceof Jellyfish) {
-            this.createnewJellyBubble(enemy);
-            this.removeEnemy(enemy);
-            this.removeBubble(throwableObject);
+            this.throwHitJellyfish(enemy, throwableObject);
         } if (throwableObject.isColliding(enemy) && enemy instanceof Endboss) {
-            enemy.hit(throwableObject);
-            if (enemy.isDead()) {
-                setTimeout(() => {
-                    this.character.stopAllInterval();
-                    this.gameOverScreen(true, this.level.number);
-                }, 1200)
-            }
+            this.throwHitEndboss(enemy, throwableObject);
         }
     }
 
     /**
-     * checks the Collsion with the finslap attack
+     * removes enemy Jellyfish and throwable item and creates a new collectable item
+     */
+    throwHitJellyfish(enemy, throwableObject) {
+        this.createnewJellyBubble(enemy);
+        this.removeEnemy(enemy);
+        this.removeBubble(throwableObject);
+    }
+
+    /**
+     * removes bubble and hits the Endboss, if Endboss is dead starts game over screen
+     */
+    throwHitEndboss(enemy, throwableObject) {
+        enemy.hit(throwableObject);
+        this.removeBubble(throwableObject);
+        if (enemy.isDead()) {
+            setTimeout(() => {
+                this.character.stopAllInterval();
+                this.gameOverScreen(true, this.level.number);
+            }, 1200)
+        }
+    }
+
+    /**
+     * checks collision with the finslap attack
      */
     checkCollisionsFinSlap() {
         this.level.enemies.forEach((enemy) => {
             this.finSlapObject.forEach((attack) => {
                 if (attack.isColliding(enemy) && enemy instanceof PufferfishGreen || enemy instanceof PufferfishRed) {
-                    this.removeEnemy(enemy);
-                    this.enemyHitSound();
-                    let color = enemy instanceof PufferfishGreen;
-                    this.createNewBubble(false, color);
-                } if (attack.isColliding(enemy) && enemy instanceof Endboss) {
-                    this.hurtEndboss(enemy);
-                }
+                    this.collisionFinSlapPuffer();
+                } if (attack.isColliding(enemy) && enemy instanceof Endboss) this.throwHitEndboss(enemy);
             });
         });
+    }
+
+    /**
+     * finslap collision with Pufferfish removes Pufferfish and creates ne throwable Object
+     */
+    collisionFinSlapPuffer() {
+        this.removeEnemy(enemy);
+        this.enemyHitSound();
+        let color = enemy instanceof PufferfishGreen;
+        this.createNewBubble(false, color);
     }
 
     /**
@@ -293,9 +308,7 @@ class World {
         } else if (win && level == 2) {
             document.getElementById('gameOverImg').src = "img/6.Botones/Try again/Mesa de trabajo 1.png";
             document.getElementById('gameOverImg').style.width = "90%"
-        } else if (!win) {
-            document.getElementById('restartGame').style.display = "flex";
-        }
+        } else if (!win) document.getElementById('restartGame').style.display = "flex";
         document.getElementById('gameOverScreen').style.display = "flex";
     }
 
@@ -304,9 +317,7 @@ class World {
      */
     checkCollisionsCollectable() {
         this.level.collectables.forEach((item) => {
-            if (this.character.isColliding(item)) {
-                this.character.gainItem(item);
-            }
+            if (this.character.isColliding(item)) this.character.gainItem(item);
         })
     }
 
@@ -315,6 +326,19 @@ class World {
      */
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.drawMoveableObjects();
+        this.drawFixedObjects();
+        // Draw() wird immer wieder aufgerufen
+        let self = this;
+        requestAnimationFrame(function () {
+            self.draw();
+        });
+    }
+
+    /**
+     * draws all movable Objects
+     */
+    drawMoveableObjects() {
         this.ctx.translate(this.camera_x, 0);
         this.addObjectsToMap(this.level.backgroundObject);
         this.addToMap(this.character);
@@ -322,20 +346,18 @@ class World {
         this.addObjectsToMap(this.level.collectables)
         this.addObjectsToMap(this.throwableObjects);
         this.addObjectsToMap(this.finSlapObject);
-
         this.ctx.translate(-this.camera_x, 0);
-        // ---------- Space for fixed Objects ---------- //
+    }
+
+    /**
+     * draws all fixed Objects
+     */
+    drawFixedObjects() {
         this.addToMap(this.statusBar);
         this.addToMap(this.poisonBar);
         this.drawCount(this.poisonBar);
         this.addToMap(this.coinBar);
         this.drawCount(this.coinBar);
-
-        // Draw() wird immer wieder aufgerufen
-        let self = this;
-        requestAnimationFrame(function () {
-            self.draw();
-        });
     }
 
     /**
@@ -355,9 +377,7 @@ class World {
      * @param {Array} objects An array of objects
      */
     addObjectsToMap(objects) {
-        objects.forEach(object => {
-            this.addToMap(object)
-        })
+        objects.forEach(object => this.addToMap(object));
     }
 
     /**
@@ -383,32 +403,35 @@ class World {
     }
 
     /**
-     * rotates the Object upwards or downwards
+     * rotates the Object depending on character and enemy
      * 
      * @param {Object} mo movable Object in the game 
      */
     rotateImage(mo) {
-        if (mo instanceof Character) {
-            if (mo.upDirection && !mo.downDirection) {
-                this.rotateImageUp(mo);
-            }
-            else if (!mo.upDirection && mo.downDirection) {
-                this.rotateImageDown(mo);
-            }
-            else {
-                this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height);
-            }
-        } else {
-            if (mo.upDirection && !mo.downDirection) {
-                this.rotateImageDown(mo);
-            }
-            else if (!mo.upDirection && mo.downDirection) {
-                this.rotateImageUp(mo);
-            }
-            else {
-                this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height);
-            }
-        }
+        if (mo instanceof Character) this.rotateCharacter(mo);
+        else this.rotateEnemy(mo);
+    }
+
+    /**
+    * rotates the character upwards or downwards
+    * 
+    * @param {Object} mo movable Object in the game 
+    */
+    rotateCharacter(mo) {
+        if (mo.upDirection && !mo.downDirection) this.rotateImageUp(mo);
+        else if (!mo.upDirection && mo.downDirection) this.rotateImageDown(mo);
+        else this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height);
+    }
+
+    /**
+    * rotates the enemy upwards or downwards
+    * 
+    * @param {Object} mo movable Object in the game 
+    */
+    rotateEnemy(mo) {
+        if (mo.upDirection && !mo.downDirection) this.rotateImageDown(mo);
+        else if (!mo.upDirection && mo.downDirection) this.rotateImageUp(mo);
+        else this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height);
     }
 
     /**
@@ -441,43 +464,66 @@ class World {
      * @param {Object} mo the object that is added
      */
     addToMap(mo) {
-        if (mo.otherDirection) {
-            this.flipImage(mo);
-        } if (mo.upDirection || mo.downDirection) {
-            this.rotateImage(mo);
-        } this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height);
+        if (mo.otherDirection) this.flipImage(mo);
+        if (mo.upDirection || mo.downDirection) this.rotateImage(mo);
+        this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height);
         this.drawBorder(mo);
         this.ctx.restore();
-        if (mo.otherDirection) {
-            this.flipImageBack(mo);
-        }
+        if (mo.otherDirection) this.flipImageBack(mo);
     }
 
     /**
-     * draws a border around the movable Object to make the collision visual 
+     * draws a border around the movable Object depending on the movable Object
      * 
      * @param {Object} mo movable Object in the game
      */
     drawBorder(mo) {
         if (mo instanceof PufferfishRed || mo instanceof PufferfishGreen || mo instanceof Jellyfish || mo instanceof Coin || mo instanceof Poison) {
-            this.ctx.beginPath();
-            this.ctx.lineWidth = '5';
-            this.ctx.strokeStyle = 'hotpink';
-            this.ctx.rect(mo.x + mo.offsetX, mo.y + mo.offsetY, mo.width - mo.offsetX * 2, mo.height - mo.offsetY * 2);
-            this.ctx.stroke();
+            this.drawBorderEnemy(mo);
         } else if (mo instanceof Character || mo instanceof ThrowableObject || mo instanceof FinSlap) {
-            this.ctx.beginPath();
-            this.ctx.lineWidth = '5';
-            this.ctx.strokeStyle = 'red';
-            this.ctx.rect(mo.x + mo.offsetX * 1.5, mo.y + mo.offsetY * 1.7, mo.width - mo.offsetX * 2.5, mo.height - mo.offsetY * 2.5);
-            this.ctx.stroke();
+            this.drawBorderCharacter(mo);
         } else if (mo instanceof Endboss) {
-            this.ctx.beginPath();
-            this.ctx.lineWidth = '5';
-            this.ctx.strokeStyle = 'red';
-            this.ctx.rect(mo.x + mo.offsetX, mo.y + mo.offsetY * 1.7, mo.width - mo.offsetX * 6, mo.height - mo.offsetY * 2.5);
-            this.ctx.stroke();
+            this.drawBorderEndboss(mo);
         }
     }
-    
+
+    /**
+     * draws a border around normal enemys to make the collision visual 
+     * 
+     * @param {Object} mo normal enemys
+     */
+    drawBorderEnemy(mo) {
+        this.ctx.beginPath();
+        this.ctx.lineWidth = '5';
+        this.ctx.strokeStyle = 'hotpink';
+        this.ctx.rect(mo.x + mo.offsetX, mo.y + mo.offsetY, mo.width - mo.offsetX * 2, mo.height - mo.offsetY * 2);
+        this.ctx.stroke();
+    }
+
+    /**
+     * draws a border around the character and his attack to make the collision visual 
+     * 
+     * @param {Object} mo character and attacks
+     */
+    drawBorderCharacter(mo) {
+        this.ctx.beginPath();
+        this.ctx.lineWidth = '5';
+        this.ctx.strokeStyle = 'red';
+        this.ctx.rect(mo.x + mo.offsetX * 1.5, mo.y + mo.offsetY * 1.7, mo.width - mo.offsetX * 2.5, mo.height - mo.offsetY * 2.5);
+        this.ctx.stroke();
+    }
+
+    /**
+     * draws a border around the Endboss to make the collision visual 
+     * 
+     * @param {Object} mo endboss
+     */
+    drawBorderEndboss(mo) {
+        this.ctx.beginPath();
+        this.ctx.lineWidth = '5';
+        this.ctx.strokeStyle = 'red';
+        this.ctx.rect(mo.x + mo.offsetX, mo.y + mo.offsetY * 1.7, mo.width - mo.offsetX * 6, mo.height - mo.offsetY * 2.5);
+        this.ctx.stroke();
+    }
+
 }
