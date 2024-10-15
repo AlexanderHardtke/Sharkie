@@ -189,5 +189,22 @@ function cloneLevel(level) {
         level.backgroundObject.map(bg => Object.create(Object.getPrototypeOf(bg), Object.getOwnPropertyDescriptors(bg))),
         level.level_end_x,
         level.number
-    );
+    )
+};
+
+/**
+* shows the game over screen for the current level or situation
+* 
+* @param {boolean} win true if the game is beaten
+* @param {number} level the number of the level
+*/
+function gameOverScreen(win, level) {
+    if (win && level <= 1) {
+        document.getElementById('gameOverImg').src = "img/6.Botones/Tittles/You win/Recurso 21.png";
+        document.getElementById('nextLevel').style.display = "flex";
+    } else if (win && level == 2) {
+        document.getElementById('gameOverImg').src = "img/6.Botones/Try again/Mesa de trabajo 1.png";
+        document.getElementById('gameOverImg').style.width = "90%"
+    } else if (!win) document.getElementById('restartGame').style.display = "flex";
+    document.getElementById('gameOverScreen').style.display = "flex";
 }

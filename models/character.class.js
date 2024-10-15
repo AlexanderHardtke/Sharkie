@@ -159,6 +159,7 @@ class Character extends MovableObject {
      */
     animate() {
         this.setStoppableInterval(() => this.moveCharacter(), 1000 / 60);
+        this.setStoppableInterval(() => this.checkAttackAnimation(), 1000 / 30);
         this.setStoppableInterval(() => this.playCharacter(), 150);
     };
 
@@ -223,6 +224,15 @@ class Character extends MovableObject {
     }
 
     /**
+     * checks if an attack is pressed and increases the counter for the animation
+     */
+    checkAttackAnimation() {
+        if (this.isAttacking() && this.attackTimeRangedPoison == 0 & this.attackTimeRanged == 0) this.attackTimeMelee++;
+        else if (this.isBubbleAttack() && this.attackTimeMelee == 0 & this.attackTimeRangedPoison == 0) this.attackTimeRanged++;
+        else if (this.isPoisonBubbleAttack() && this.attackTimeRanged == 0 & this.attackTimeMelee == 0) this.attackTimeRangedPoison++;
+    }
+
+    /**
      * plays the animation of the character
      */
     playCharacter() {
@@ -232,11 +242,11 @@ class Character extends MovableObject {
         } const { RIGHT, LEFT, UP, DOWN } = this.world.keyboard;
         if (this.isElectrocuted()) this.characterIsElectrocuted();
         else if (this.isHurt()) this.characterIsHurt();
-        else if (this.isAttacking() || this.attackTimeMelee > 1) this.characterIsAttacking();
-        else if (this.isBubbleAttack()) this.characterIsBubbleAttacking();
-        else if (this.isPoisonBubbleAttack() && this.world.poisonBar.count > 0) this.characterIsPoisonBubbleAttacking();
+        else if (this.attackTimeMelee > 0) this.characterIsAttacking();
+        else if (this.attackTimeRanged > 0) this.characterIsBubbleAttacking();
+        else if (this.attackTimeRangedPoison > 0 && this.world.poisonBar.count > 0) this.characterIsPoisonBubbleAttacking();
         else if (RIGHT || LEFT || UP || DOWN) this.playAnimation(this.IMAGES_SWIMMING);
-        else if (this.isIdle()) this.idle();
+        else if (this.idleTime <= 50) this.idle();
         else if (this.isFallingAsleep()) this.fallingAsleep();
         else if (this.isSleeping()) this.sleeping();
     }
@@ -291,13 +301,6 @@ class Character extends MovableObject {
     }
 
     /**
-     * returns the time the character is idle
-     */
-    isIdle() {
-        return this.idleTime <= 50
-    }
-
-    /**
      * plays idle animation of the character
      */
     idle() {
@@ -346,11 +349,10 @@ class Character extends MovableObject {
      */
     isAttacking() {
         if (this.attackTimeMelee == 0) return this.world.keyboard.SPACE;
-        else if (this.attackTimeMelee > 0 && this.attackTimeMelee < 8) return true;
-        else {
+        else if (this.attackTimeMelee == 8) {
             this.attackTimeMelee = 0;
             return false;
-        }
+        } else return false;
     }
 
     /**
@@ -359,12 +361,11 @@ class Character extends MovableObject {
      * @returns true/false
      */
     isBubbleAttack() {
-        if (this.attackTimeRanged == 0 && this.world.keyboard.Q) return true;
-        else if (this.attackTimeRanged > 0 && this.attackTimeRanged < 8) return true;
-        else {
+        if (this.attackTimeRanged == 0) return this.world.keyboard.Q;
+        else if (this.attackTimeRanged == 8) {
             this.attackTimeRanged = 0;
             return false;
-        }
+        } else return false;
     }
 
     /**
@@ -389,11 +390,10 @@ class Character extends MovableObject {
      * @returns true/false
      */
     isPoisonBubbleAttack() {
-        if (this.attackTimeRangedPoison == 0 && this.world.keyboard.E) return true;
-        else if (this.attackTimeRangedPoison > 0 && this.attackTimeRangedPoison < 8) return true;
-        else {
+        if (this.attackTimeRangedPoison == 0) return this.world.keyboard.E;
+        else if (this.attackTimeRangedPoison == 8) {
             this.attackTimeRangedPoison = 0;
             return false;
-        }
+        } else return false;
     }
 }

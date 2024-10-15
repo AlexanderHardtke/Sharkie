@@ -96,7 +96,7 @@ class World {
             this.canAttack = false;
             setTimeout(() => this.createFinSlap(), 600);
             setTimeout(() => {
-                this.removeFinSlap();
+                this.finSlapObject = [];
                 this.canAttack = true;
             }, 1200);
         }
@@ -132,13 +132,6 @@ class World {
             this.throwableObjects.splice(index, 1);
             this.audioManager.playAudio('audio/bubble_pop.mp3')
         }
-    }
-
-    /**
-    * removes the finslap Object
-    */
-    removeFinSlap() {
-        this.finSlapObject = [];
     }
 
     /**
@@ -296,23 +289,6 @@ class World {
     }
 
     /**
-     * shows the game over screen for the current level or situation
-     * 
-     * @param {boolean} win true if the game is beaten
-     * @param {number} level the number of the level
-     */
-    gameOverScreen(win, level) {
-        if (win && level <= 1) {
-            document.getElementById('gameOverImg').src = "img/6.Botones/Tittles/You win/Recurso 21.png";
-            document.getElementById('nextLevel').style.display = "flex";
-        } else if (win && level == 2) {
-            document.getElementById('gameOverImg').src = "img/6.Botones/Try again/Mesa de trabajo 1.png";
-            document.getElementById('gameOverImg').style.width = "90%"
-        } else if (!win) document.getElementById('restartGame').style.display = "flex";
-        document.getElementById('gameOverScreen').style.display = "flex";
-    }
-
-    /**
      * checks if the character has collided with a collectable item
      */
     checkCollisionsCollectable() {
@@ -322,13 +298,12 @@ class World {
     }
 
     /**
-     * draws the Object on the canvas
+     * draws the Object repeatedly on the canvas
      */
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.drawMoveableObjects();
         this.drawFixedObjects();
-        // Draw() wird immer wieder aufgerufen
         let self = this;
         requestAnimationFrame(function () {
             self.draw();
@@ -408,53 +383,35 @@ class World {
      * @param {Object} mo movable Object in the game 
      */
     rotateImage(mo) {
-        if (mo instanceof Character) this.rotateCharacter(mo);
-        else this.rotateEnemy(mo);
+        if (mo instanceof Character) this.handleRotation(mo, mo.upDirection, mo.downDirection, false);
+        else this.handleRotation(mo, mo.upDirection, mo.downDirection, true);
     }
 
     /**
-    * rotates the character upwards or downwards
+    * Handles the rotation of an object either upwards or downwards, with optional mirroring.
     * 
-    * @param {Object} mo movable Object in the game 
+    * @param {Object} mo Movable Object in the game.
+    * @param {boolean} upDirection True if moving up.
+    * @param {boolean} downDirection True if moving down.
+    * @param {boolean} isMirrored True if the object is mirrored (for enemies).
     */
-    rotateCharacter(mo) {
-        if (mo.upDirection && !mo.downDirection) this.rotateImageUp(mo);
-        else if (!mo.upDirection && mo.downDirection) this.rotateImageDown(mo);
+    handleRotation(mo, upDirection, downDirection, isMirrored) {
+        const rotationFactor = isMirrored ? 1 : -1;
+        if (upDirection && !downDirection) this.rotateImageWithAngle(mo, rotationFactor * Math.PI / 8);
+        else if (!upDirection && downDirection) this.rotateImageWithAngle(mo, rotationFactor * -Math.PI / 8);
         else this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height);
     }
 
     /**
-    * rotates the enemy upwards or downwards
+    * Applies the rotation by a given angle to the object.
     * 
-    * @param {Object} mo movable Object in the game 
+    * @param {Object} mo Movable Object in the game.
+    * @param {number} angle Rotation angle in radians.
     */
-    rotateEnemy(mo) {
-        if (mo.upDirection && !mo.downDirection) this.rotateImageDown(mo);
-        else if (!mo.upDirection && mo.downDirection) this.rotateImageUp(mo);
-        else this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height);
-    }
-
-    /**
-     * rotates the Object upwards
-     * 
-     * @param {Object} mo movable Object in the game 
-     */
-    rotateImageUp(mo) {
+    rotateImageWithAngle(mo, angle) {
         this.ctx.save();
         this.ctx.translate(mo.x + mo.width / 2, mo.y + mo.height / 2);
-        this.ctx.rotate(-Math.PI / 8);
-        this.ctx.translate(-(mo.x + mo.width / 2), -(mo.y + mo.height / 2));
-    }
-
-    /**
-     * rotates the Object downwards
-     * 
-     * @param {Object} mo movable Object in the game 
-     */
-    rotateImageDown(mo) {
-        this.ctx.save();
-        this.ctx.translate(mo.x + mo.width / 2, mo.y + mo.height / 2);
-        this.ctx.rotate(Math.PI / 8);
+        this.ctx.rotate(angle);
         this.ctx.translate(-(mo.x + mo.width / 2), -(mo.y + mo.height / 2));
     }
 
@@ -467,63 +424,7 @@ class World {
         if (mo.otherDirection) this.flipImage(mo);
         if (mo.upDirection || mo.downDirection) this.rotateImage(mo);
         this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height);
-        //this.drawBorder(mo);
         this.ctx.restore();
         if (mo.otherDirection) this.flipImageBack(mo);
     }
-
-    /**
-     * draws a border around the movable Object depending on the movable Object
-     * 
-     * @param {Object} mo movable Object in the game
-     */
-    drawBorder(mo) {
-        if (mo instanceof PufferfishRed || mo instanceof PufferfishGreen || mo instanceof Jellyfish || mo instanceof Coin || mo instanceof Poison) {
-            this.drawBorderEnemy(mo);
-        } else if (mo instanceof Character || mo instanceof ThrowableObject || mo instanceof FinSlap) {
-            this.drawBorderCharacter(mo);
-        } else if (mo instanceof Endboss) {
-            this.drawBorderEndboss(mo);
-        }
-    }
-
-    /**
-     * draws a border around normal enemys to make the collision visual 
-     * 
-     * @param {Object} mo normal enemys
-     */
-    drawBorderEnemy(mo) {
-        this.ctx.beginPath();
-        this.ctx.lineWidth = '5';
-        this.ctx.strokeStyle = 'hotpink';
-        this.ctx.rect(mo.x + mo.offsetX, mo.y + mo.offsetY, mo.width - mo.offsetX * 2, mo.height - mo.offsetY * 2);
-        this.ctx.stroke();
-    }
-
-    /**
-     * draws a border around the character and his attack to make the collision visual 
-     * 
-     * @param {Object} mo character and attacks
-     */
-    drawBorderCharacter(mo) {
-        this.ctx.beginPath();
-        this.ctx.lineWidth = '5';
-        this.ctx.strokeStyle = 'red';
-        this.ctx.rect(mo.x + mo.offsetX * 1.5, mo.y + mo.offsetY * 1.7, mo.width - mo.offsetX * 2.5, mo.height - mo.offsetY * 2.5);
-        this.ctx.stroke();
-    }
-
-    /**
-     * draws a border around the Endboss to make the collision visual 
-     * 
-     * @param {Object} mo endboss
-     */
-    drawBorderEndboss(mo) {
-        this.ctx.beginPath();
-        this.ctx.lineWidth = '5';
-        this.ctx.strokeStyle = 'red';
-        this.ctx.rect(mo.x + mo.offsetX, mo.y + mo.offsetY * 1.7, mo.width - mo.offsetX * 6, mo.height - mo.offsetY * 2.5);
-        this.ctx.stroke();
-    }
-
 }

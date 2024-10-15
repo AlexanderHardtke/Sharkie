@@ -166,7 +166,7 @@ class MovableObject extends DrawableObject {
      * 
      * @returns true if colliding
      */
-    collidingEndboss() {
+    collidingEndboss(mo) {
         return (this.x + this.width - this.offsetX) >= mo.x + mo.offsetX && // rechts > Gegner links
             (this.x + this.offsetX) <= (mo.x + mo.width - mo.offsetX * 5) && // links < Gegner rechts
             (this.y + this.height - this.offsetY * 0.8) >= mo.y + mo.offsetY * 1.7 && // unten > Geger oben
