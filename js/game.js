@@ -2,7 +2,7 @@ let canvas;
 let world;
 let keyboard = new Keyboard();
 let audioManager = new AudioManager();
-let levels = [level0, level1, level2];
+let levels = [level0, level1];
 let loadedLevel;
 
 /**

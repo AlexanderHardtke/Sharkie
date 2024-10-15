@@ -3,7 +3,6 @@ class AudioManager {
     cooldowns = {};
     isMuted = false;
 
-
     /**
      * plays the audio and categorize the source
      * 

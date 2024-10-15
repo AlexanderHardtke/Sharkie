@@ -25,10 +25,13 @@ backgroundObjectsLevel1.push(new BarrierLevelend('img/3. Background/Barrier/3.pn
 backgroundObjectsLevel1.push(new BarrierLevelend('img/3. Background/Barrier/3.png', 4410));
 
 const level1 = new Level(
-    spawnEndboss = 100,
+    spawnEndboss = 6000,
     [
-        new PufferfishRed(500),
-        new Jellyfish(200),
+        new PufferfishGreen(450),
+        new PufferfishGreen(400),
+        new PufferfishGreen(425),
+        new PufferfishRed(1400),
+        new Jellyfish(1000),
     ],
     [
         new Coin(600, 350),

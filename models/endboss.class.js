@@ -57,9 +57,8 @@ class Endboss extends MovableObject {
         'img/2.Enemy/3 Final Enemy/Hurt/4.png'
     ];
     SOUND_INTRODUCTION = 'audio/enboss_incoming.mp3';
-    SOUND_WIN = 'audio/win.mp3';
     SOUND_ATTACK = 'audio/Attack_Orca.mp3';
-
+    SOUND_WIN = 'audio/win.mp3';
 
     constructor(spawn) {
         super().loadImage(this.IMAGES_INTRODUCTION[0]);
@@ -139,6 +138,7 @@ class Endboss extends MovableObject {
     endbossDead() {
         world.audioManager.playAudio(this.SOUND_WIN);
         this.playAnimationOnce(this.IMAGES_DEAD, 200);
+        this.stopAllInterval();
     }
 
     /**

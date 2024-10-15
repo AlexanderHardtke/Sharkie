@@ -258,9 +258,11 @@ class Character extends MovableObject {
         if (this.lastHitElectro) {
             this.playAnimationOnce(this.IMAGES_DEAD_ELECTRIC, 220);
             this.world.audioManager.playAudio(this.SOUND_DIE_ELECTRIC);
+            this.stopAllInterval();
         } else {
             this.playAnimationOnce(this.IMAGES_DEAD, 220);
             this.world.audioManager.playAudio(this.SOUND_DIE);
+            this.stopAllInterval();
         }
     }
 
@@ -379,7 +381,6 @@ class Character extends MovableObject {
     }
 
     characterIsElectrocuted() {
-        this.lastHitElectro = true;
         this.world.audioManager.playAudio(this.SOUND_ELECTROCUTED);
         this.playAnimation(this.IMAGES_HURT_ELECTRIC);
     }

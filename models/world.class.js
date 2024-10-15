@@ -77,6 +77,7 @@ class World {
                 this.character.hit(enemy);
                 this.statusBar.setPercentage(this.character.life);
                 if (this.character.isDead()) {
+                    this.audioManager.stopAudio('audio/background_music.mp3')
                     setTimeout(() => gameOverScreen(false, this.level.number), 3500);
                 }
             }
@@ -251,6 +252,7 @@ class World {
         enemy.hit(throwableObject);
         this.removeBubble(throwableObject);
         if (enemy.isDead()) {
+            this.audioManager.stopAudio('audio/background_music.mp3')
             setTimeout(() => gameOverScreen(true, this.level.number), 1200);
         }
     }

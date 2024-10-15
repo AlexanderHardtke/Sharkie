@@ -6,7 +6,7 @@ class MovableObject extends DrawableObject {
     gravity = 1.5;
     offsetX = 0;
     offsetY = 0;
-    life = 100;
+    life = 10;
     lastHit = 0;
     lastElectrocuted = 0;
     charIsLeft;
@@ -201,8 +201,9 @@ class MovableObject extends DrawableObject {
      */
     hit(mo) {
         if (mo.dangerousTime > 11 || mo.Poison) {
-            this.life -= 10;
             this.lastElectrocuted = new Date().getTime();
+            this.lastHitElectro = true;
+            this.life -= 10;
         }
         this.life -= 5;
         if (this.life < 0) this.life = 0;
@@ -333,5 +334,23 @@ class MovableObject extends DrawableObject {
             if (vertical < 0) mo.characterIsUp(vertical, mo);
             else if (vertical > 0) mo.characterIsDown(vertical, mo);
         }
+    }
+
+    /**
+     * gives every interval an ID to make it stoppable
+     * 
+     * @param {*} fn 
+     * @param {*} time 
+     */
+    setStoppableInterval(fn, time) {
+        let id = setInterval(fn, time);
+        this.intervalIds.push(id);
+    }
+
+    /**
+     * stops all stoppableintervals from the game
+     */
+    stopAllInterval() {
+        this.intervalIds.forEach(clearInterval);
     }
 }
