@@ -15,7 +15,9 @@ class FinSlap extends MovableObject {
         this.slap();
     }
 
-
+    /**
+     * creates the finslap Object to hit enemys
+     */
     slap() {
         this.setStoppableInterval(() => {
             if (world.character.otherDirection) {

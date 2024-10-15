@@ -4,7 +4,8 @@ class Endboss extends MovableObject {
     speed = 1;
     offsetX = 25;
     offsetY = 120;
-    fastattack = -4;
+    attack = -4;
+    intro = 0;
     life = 10;
     IMAGES_INTRODUCTION = [
         'img/2.Enemy/3 Final Enemy/1.introduce/1.png',
@@ -77,46 +78,83 @@ class Endboss extends MovableObject {
      * animates the Endboss and moves it
      */
     animate() {
-        this.setStoppableInterval(() => {
-            if (i > 10) {
-                let speed = this.speed;
-                if (this.fastattack >= 38) {
-                    speed = this.speed * 0.2;
-                } if (this.fastattack < 6) {
-                    speed = this.speed * 5;
-                } if (this.charIsLeft) {
-                    this.moveLeft(speed);
-                    this.otherDirection = false;
-                } if (this.charIsRight) {
-                    this.moveRight(speed);
-                    this.otherDirection = true;
-                } if (this.charIsUp) {
-                    this.moveUp(this.speed);
-                } if (this.charIsDown) {
-                    this.moveDown(this.speed);
-                }
-            }
-        }, 1000 / 60)
+        this.setStoppableInterval(() => this.endbossMoving(), 1000 / 60);
+        this.setStoppableInterval(() => this.endbossAnimate(), 200);
+    }
 
-        let i = 0;
-        this.setStoppableInterval(() => {
-            if (i < 10) {
-                this.playAnimation(this.IMAGES_INTRODUCTION);
-                world.audioManager.playAudio(this.SOUND_INTRODUCTION);
-            } else if (this.isDead()) {
-                world.audioManager.playAudio(this.SOUND_WIN);
-                this.playAnimationOnce(this.IMAGES_DEAD, 200); 
-            } else if (this.fastattack >= 40) {
-                this.playAnimationOnce(this.IMAGES_ATTACK, 200);
-                world.audioManager.playAudio(this.SOUND_ATTACK);
-                this.fastattack = 0;
-            } else if (this.isHurt()) {
-                this.playAnimation(this.IMAGES_HURT);
-            }  else if (i > 10 && this.fastattack < 40) {
-                this.playAnimation(this.IMAGES_IDLE);
-            }
-            i++;
-            this.fastattack++;
-        }, 200);
+    /**
+     * moves the endboss enemy
+     */
+    endbossMoving() {
+        if (this.intro > 10) {
+            let speed = this.speed;
+            if (this.attack >= 38) speed = this.speed * 0.2;
+            if (this.attack < 6) speed = this.speed * 5;
+            if (this.charIsLeft) this.moveLeft(speed);
+            if (this.charIsRight) this.moveRight(speed);
+            if (this.charIsUp) this.moveUp(this.speed);
+            if (this.charIsDown) this.moveDown(this.speed);
+        }
+    }
+
+    /**
+     * animates the endboss enemy
+     */
+    endbossAnimate() {
+        if (this.intro < 10) this.endbossIntroduction();
+        else if (this.isDead()) this.endbossDead();
+        else if (this.attack >= 40) this.endbossattack();
+        else if (this.isHurt()) this.playAnimation(this.IMAGES_HURT);
+        else if (this.intro > 10 && this.attack < 40) this.playAnimation(this.IMAGES_IDLE);
+        this.endbossAnimateCounter();
+    }
+
+    /**
+     * moves the endboss enemy left
+     */
+    moveLeft(speed) {
+        super.moveLeft(speed);
+        this.otherDirection = false;
+    }
+
+    /**
+     * moves the endboss enemy right
+     */
+    moveRight(speed) {
+        super.moveRight(speed);
+        this.otherDirection = true;
+    }
+
+    /**
+     * plays the introduction animation with audio for the endboss
+     */
+    endbossIntroduction() {
+        this.playAnimation(this.IMAGES_INTRODUCTION);
+        world.audioManager.playAudio(this.SOUND_INTRODUCTION);
+    }
+
+    /**
+     * plays the dead animation with audio for the endboss
+     */
+    endbossDead() {
+        world.audioManager.playAudio(this.SOUND_WIN);
+        this.playAnimationOnce(this.IMAGES_DEAD, 200);
+    }
+
+    /**
+     * plays the attack animation with audio for the endboss
+     */
+    endbossattack() {
+        this.playAnimationOnce(this.IMAGES_ATTACK, 200);
+        world.audioManager.playAudio(this.SOUND_ATTACK);
+        this.attack = 0;
+    }
+
+    /**
+     * increases the counter of the endboss timers
+     */
+    endbossAnimateCounter() {
+        this.intro++;
+        this.attack++;
     }
 }

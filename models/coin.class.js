@@ -10,7 +10,7 @@ class Coin extends MovableObject {
     offsetX = 5;
     offsetY = 5;
     collectedAudio = 'audio/coin.mp3';
-    
+
 
     constructor(x, y) {
         super().loadImage('img/4. Marcadores/1. Coins/1.png');
@@ -24,9 +24,6 @@ class Coin extends MovableObject {
      * animates the coin
      */
     animate() {
-        this.setStoppableInterval(() => {
-            this.playAnimation(this.IMAGES_IDLE);
-        }, 400)
+        this.setStoppableInterval(() => this.playAnimation(this.IMAGES_IDLE), 400)
     }
-
 }

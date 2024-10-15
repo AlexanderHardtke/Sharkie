@@ -13,15 +13,21 @@ class AudioManager {
      */
     playAudio(audioSrc, cooldown) {
         const now = Date.now();
-        if (this.cooldowns[audioSrc] && now - this.cooldowns[audioSrc] < cooldown) {
-            return;
-        } if (!this.audios[audioSrc]) {
-            let audio = new Audio(audioSrc);
-            this.checkMuted(audio);
-            this.audios[audioSrc] = audio;
-        }
+        if (this.cooldowns[audioSrc] && now - this.cooldowns[audioSrc] < cooldown) return;
+        if (!this.audios[audioSrc]) this.createNewAudio(audioSrc);
         this.audios[audioSrc].play();
         this.cooldowns[audioSrc] = now;
+    }
+
+    /**
+     * creates a new Audiofile and pushes it into the audio array
+     * 
+     * @param {string} audioSrc the source of the audio
+     */
+    createNewAudio(audioSrc) {
+        let audio = new Audio(audioSrc);
+        this.checkMuted(audio);
+        this.audios[audioSrc] = audio;
     }
 
     /**
@@ -31,13 +37,9 @@ class AudioManager {
      * @returns the volume of the audio
      */
     checkMuted(audio) {
-        if (!this.isMuted) {
-            return audio.volume = 0.5;
-        } else {
-            return audio.volume = 0;
-        }
+        if (!this.isMuted) return audio.volume = 0.5;
+        else return audio.volume = 0;
     }
-
 
     /**
      * stops the current audio file and resets the playtime to 0
@@ -53,16 +55,14 @@ class AudioManager {
         }
     }
 
-        /**
-     * stops the current audio file but does not reset the playtime
-     * 
-     * @param {string} audioSrc 
-     */
-        pauseAudio(audioSrc) {
-            if (this.audios[audioSrc]) {
-                this.audios[audioSrc].pause();
-            }
-        }
+    /**
+    * stops the current audio file but does not reset the playtime
+    * 
+    * @param {string} audioSrc 
+    */
+    pauseAudio(audioSrc) {
+        if (this.audios[audioSrc]) this.audios[audioSrc].pause();
+    }
 
     /**
      * stops all audio files that are playing withing the game and resets the playtime to 0

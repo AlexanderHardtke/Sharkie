@@ -37,16 +37,10 @@ class JellyfishCatched extends MovableObject {
      * @param {boolean} dangerous checks the status of the jellyfish at the moment of capture
      */
     animate(dangerous) {
+        this.setStoppableInterval(() => this.applyGravity(this.gravity), 1000 / 60);
         this.setStoppableInterval(() => {
-            this.applyGravity(this.gravity);
-        }, 1000 / 60);
-
-        this.setStoppableInterval(() => {
-            if (dangerous) {
-                this.playAnimation(this.JELLYFISH_CATCHED_ELECTRO);
-            } else {
-                this.playAnimation(this.JELLYFISH_CATCHED);
-            }
+            if (dangerous) this.playAnimation(this.JELLYFISH_CATCHED_ELECTRO);
+            else this.playAnimation(this.JELLYFISH_CATCHED);
         }, 200)
     }
 

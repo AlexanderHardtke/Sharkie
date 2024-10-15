@@ -48,46 +48,66 @@ class Jellyfish extends MovableObject {
      * animates the jellyfish
      */
     animate() {
-        this.setStoppableInterval(() => {
-            if (this.canMoveUp(55) && this.moveUp) {
-            this.moveUpNoDirection();
-            } else {
-                this.moveUp = false;
-            } if (this.canMoveDown(-50
-            ) && !this.moveUp) {
-                this.moveDownNoDirection();
-            } else {
-                this.moveUp = true;
-            }
-        }, 1000 / 60)
+        this.setStoppableInterval(() => this.moveJellyfish(), 1000 / 60);
+        this.setStoppableInterval(() => this.animateJellyfish(), 350);
+    }
 
-        this.setStoppableInterval(() => {
-            if (this.dangerousTime < 11) {
-                this.playAnimation(this.IMAGES_IDLE);
-                this.dangerousTime++
-            }else if (this.dangerousTime < 23) {
-                this.playAnimation(this.IMAGES_DANGEROUS);
-                this.dangerousTime++
-                this.dangerous = true;
-            } if (this.dangerousTime == 23) {
-                this.playAnimation(this.IMAGES_IDLE);
-                this.dangerousTime = 0;
-                this.dangerous = false;
-            }
-        }, 350)
+    /**
+     * moves the Jellyfish enemy
+     */
+    moveJellyfish() {
+        if (this.canMoveUp(55) && this.moveUp) this.moveJellyUp();
+        else this.moveUp = false;
+        if (this.canMoveDown(-50) && !this.moveUp) this.moveJellyDown();
+        else this.moveUp = true;
+    }
+
+    /**
+     * animates the Jellyfish enemy
+     */
+    animateJellyfish() {
+        if (this.dangerousTime < 11) this.jellyfishIdle();
+        else if (this.dangerousTime < 23) this.jellyfishDangerous();
+        if (this.dangerousTime == 23) this.jellyfishResetDanger();
+    }
+
+    /**
+     * plays the idle animation and increases the dangerous counter of the jellyfish
+     */
+    jellyfishIdle() {
+        this.playAnimation(this.IMAGES_IDLE);
+        this.dangerousTime++
+    }
+
+    /**
+     * plays the dangerous animation and increases the dangerous counter of the jellyfish
+     */
+    jellyfishDangerous() {
+        this.playAnimation(this.IMAGES_DANGEROUS);
+        this.dangerousTime++
+        this.dangerous = true;
+    }
+
+    /**
+     * plays the idle animation and resets the dangerous counter of the jellyfish
+     */
+    jellyfishResetDanger() {
+        this.playAnimation(this.IMAGES_IDLE);
+        this.dangerousTime = 0;
+        this.dangerous = false;
     }
 
     /**
      * moves the Jellyfish up
      */
-    moveUpNoDirection() {
+    moveJellyUp() {
         this.y -= this.speed;
     };
 
     /**
      * moves the Jellyfish down
      */
-    moveDownNoDirection() {
+    moveJellyDown() {
         this.y += this.speed;
     };
 
