@@ -1,12 +1,12 @@
 class Endboss extends MovableObject {
     width = 1041 * 0.3;
     height = 1216 * 0.3;
-    speed = 2.25;
+    speed = 1.5;
     offsetX = 25;
     offsetY = 120;
     attack = -4;
     intro = 0;
-    life = 50;
+    life = 30;
     IMAGES_INTRODUCTION = [
         'img/2.Enemy/3 Final Enemy/1.introduce/1.png',
         'img/2.Enemy/3 Final Enemy/1.introduce/2.png',

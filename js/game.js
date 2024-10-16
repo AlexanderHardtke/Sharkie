@@ -81,6 +81,7 @@ function gameIntroductionScreen() {
  */
 function fullscreen() {
     let fullscreen = document.getElementById('fullscreen');
+    calculateFullscreen();
     enterFullscreen(fullscreen);
     checkOrientation();
 }
@@ -94,7 +95,8 @@ function checkOrientation() {
             newHeight = window.innerHeight;
             document.getElementById('canvas').style.height = `${newHeight}px`;
         }
-    } else document.getElementById('canvas').style.height = `100%`;
+    }
+    else document.getElementById('canvas').style.height = `100%`;
 }
 
 /**
@@ -103,12 +105,26 @@ function checkOrientation() {
  * @param {element} element the fullscreen element
  */
 function enterFullscreen(element) {
-    document.getElementById('canvas').style.width = `100%`;
-    document.getElementById('canvas').style.maxWidth = `100%`;
-    document.getElementById('canvas').style.maxHeight = `100%`;
+    
     if (element.requestFullscreen) element.requestFullscreen();
     else if (element.msRequestFullscreen) element.msRequestFullscreen();
     else if (element.webkitRequestFullscreen) element.webkitRequestFullscreen();
+}
+
+/**
+ * calculates the fullscreen to the maximum width or height depending on the screen
+ */
+function calculateFullscreen() {
+    let widthToHeight = window.innerWidth / window.innerHeight;
+    document.getElementById('canvas').style.maxWidth = `100%`;
+    document.getElementById('canvas').style.maxHeight = `100%`;
+    if (widthToHeight < 1.5) {
+        document.getElementById('canvas').style.width = `100%`;
+        document.getElementById('canvas').style.height = `auto`;
+    } else {
+        document.getElementById('canvas').style.height = `100%`;
+        document.getElementById('canvas').style.width = `auto`;
+    }
 }
 
 /**

@@ -58,7 +58,7 @@ class PufferfishGreen extends MovableObject {
      */
     animate() {
         this.setStoppableInterval(() => this.pufferfishMoving(), 1000 / 60);
-        this.setStoppableInterval(() => this.pufferfishAnimate(), 400);
+        this.setStoppableInterval(() => this.pufferfishAnimate(), 300);
     }
 
     /**

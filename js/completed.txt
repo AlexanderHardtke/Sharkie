@@ -1,4 +1,2 @@
 Fullscreen
-to do
-Collission am Ende wenn alle Größen fix
-Animationen fixen
+Restart Game

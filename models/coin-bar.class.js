@@ -1,6 +1,6 @@
 class CoinBar extends DrawableObject {
     COINS = ['img/4. Marcadores/green/100_ copia 6.png'];
-    count = 0;
+    count = 5;
     countX = 352;
     countY = 50;
 

@@ -48,7 +48,7 @@ class Jellyfish extends MovableObject {
      */
     animate() {
         this.setStoppableInterval(() => this.moveJellyfish(), 1000 / 60);
-        this.setStoppableInterval(() => this.animateJellyfish(), 350);
+        this.setStoppableInterval(() => this.animateJellyfish(), 330);
     }
 
     /**
