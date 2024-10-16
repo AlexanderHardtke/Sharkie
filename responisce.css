@@ -1,0 +1,42 @@
+@media only screen and (max-width: 933px) {
+    canvas {
+        width: 100%;
+    }
+
+    .gameStartScreen {
+        flex-direction: column;
+        scale: 0.9;
+        top: 5vh;
+    }
+
+    .fullscreenButton {
+        display: none;
+    }
+
+    .fullscreenIcon {
+        display: block;
+        width: 30px;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        cursor: pointer;
+    }
+
+    .actionMoveBar {
+        display: flex;
+    }
+
+    .actionAttackBar {
+        display: flex;
+    }
+}
+
+@media only screen and (max-height: 480px) {
+    canvas {
+        height: 100vh;
+    }
+
+    h1 {
+        display: none;
+    }
+}
