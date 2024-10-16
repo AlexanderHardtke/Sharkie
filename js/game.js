@@ -196,33 +196,56 @@ function toggleMuteButton() {
  * @returns the cloned Level
  */
 function cloneLevel(level) {
+    const clonedEnemies = level.enemies.map(enemy => {
+        const clonedEnemy = Object.create(
+            Object.getPrototypeOf(enemy), 
+            Object.getOwnPropertyDescriptors(enemy)
+        );
+
+        // Animationen und Timer müssen neu gestartet werden
+        if (clonedEnemy.animate) {
+            clonedEnemy.animate(); // Animation und Bewegung neu starten
+        }
+
+        return clonedEnemy;
+    });
+
+    const clonedCollectables = level.collectables.map(item => {
+        const clonedItem = Object.create(
+            Object.getPrototypeOf(item), 
+            Object.getOwnPropertyDescriptors(item)
+        );
+
+        // Falls Collectables Animationen haben
+        if (clonedItem.animate) {
+            clonedItem.animate(); // Animation neu starten
+        }
+
+        return clonedItem;
+    });
+
+    const clonedBackgroundObjects = level.backgroundObject.map(bg => {
+        const clonedBg = Object.create(
+            Object.getPrototypeOf(bg), 
+            Object.getOwnPropertyDescriptors(bg)
+        );
+
+        // Falls Hintergrundobjekte Animationen haben
+        if (clonedBg.animate) {
+            clonedBg.animate(); // Animation neu starten
+        }
+
+        return clonedBg;
+    });
+
     return new Level(
         level.spawnEndboss,
-        level.enemies.map(enemy => new enemy.constructor(...getConstructorArgs(enemy))), // Gegner klonen
-        level.collectables.map(item => new item.constructor(...getConstructorArgs(item))), // Collectables klonen
-        level.backgroundObject.map(bg => Object.create(Object.getPrototypeOf(bg), Object.getOwnPropertyDescriptors(bg))), // Backgrounds korrekt klonen
+        clonedEnemies,
+        clonedCollectables,
+        clonedBackgroundObjects,
         level.level_end_x,
         level.number
     );
-}
-
-// Hilfsfunktion, um die Argumente für den Konstruktor eines Objekts herauszuholen
-function getConstructorArgs(instance) {
-    if (instance instanceof PufferfishGreen) {
-        // Beispiel: PufferfishGreen könnte neben der Position noch eine Geschwindigkeit haben
-        return [instance.position, instance.speed];
-    }
-    if (instance instanceof Jellyfish) {
-        // Beispiel: Jellyfish könnte weitere Parameter wie Animation oder Aggressivität haben
-        return [instance.position, instance.animation];
-    }
-    if (instance instanceof Coin || instance instanceof Poison) {
-        return [instance.x, instance.y]; // Beispiel: x und y Position für Coin und Poison
-    }
-    if (instance instanceof BackgroundObject || instance instanceof BarrierLevelend) {
-        return [instance.img, instance.x]; // Beispiel: Bildpfad und x-Position
-    }
-    return [];
 }
 // function cloneLevel(level) {
 //     return new Level(
