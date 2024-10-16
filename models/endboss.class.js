@@ -1,12 +1,12 @@
 class Endboss extends MovableObject {
     width = 1041 * 0.3;
     height = 1216 * 0.3;
-    speed = 1;
+    speed = 2.25;
     offsetX = 25;
     offsetY = 120;
     attack = -4;
     intro = 0;
-    life = 10;
+    life = 50;
     IMAGES_INTRODUCTION = [
         'img/2.Enemy/3 Final Enemy/1.introduce/1.png',
         'img/2.Enemy/3 Final Enemy/1.introduce/2.png',
@@ -87,7 +87,7 @@ class Endboss extends MovableObject {
     endbossMoving() {
         if (this.intro > 10) {
             let speed = this.speed;
-            if (this.attack >= 38) speed = this.speed * 0.2;
+            if (this.attack >= 38) speed = this.speed * 0.1;
             if (this.attack < 6) speed = this.speed * 5;
             if (this.charIsLeft) this.moveLeft(speed);
             if (this.charIsRight) this.moveRight(speed);

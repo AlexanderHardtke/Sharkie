@@ -1,7 +1,7 @@
 class PufferfishRed extends MovableObject {
     width = 72;
     height = 60;
-    speed = 1.2;
+    speed = 1.5;
     offsetX = 5;
     offsetY = 5;
     moving = 50;
@@ -48,7 +48,7 @@ class PufferfishRed extends MovableObject {
         this.loadImages(this.IMAGES_BUBBLESWIM);
         this.x = x;
         this.y = Math.random() * 400;
-        this.speed = this.speed + Math.random() * 0.6;
+        this.speed = this.speed + Math.random() * 1.2;
         this.moveLeft();
         this.animate();
     }
