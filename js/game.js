@@ -105,7 +105,6 @@ function checkOrientation() {
  * @param {element} element the fullscreen element
  */
 function enterFullscreen(element) {
-
     if (element.requestFullscreen) element.requestFullscreen();
     else if (element.msRequestFullscreen) element.msRequestFullscreen();
     else if (element.webkitRequestFullscreen) element.webkitRequestFullscreen();
@@ -196,67 +195,62 @@ function toggleMuteButton() {
  * @returns the cloned Level
  */
 function cloneLevel(level) {
-    const clonedEnemies = level.enemies.map(enemy => {
-        const clonedEnemy = Object.create(
-            Object.getPrototypeOf(enemy), 
-            Object.getOwnPropertyDescriptors(enemy)
-        );
-
-        // Animationen und Timer müssen neu gestartet werden
-        if (clonedEnemy.animate) {
-            clonedEnemy.animate(); // Animation und Bewegung neu starten
-        }
-
-        return clonedEnemy;
-    });
-
-    const clonedCollectables = level.collectables.map(item => {
-        const clonedItem = Object.create(
-            Object.getPrototypeOf(item), 
-            Object.getOwnPropertyDescriptors(item)
-        );
-
-        // Falls Collectables Animationen haben
-        if (clonedItem.animate) {
-            clonedItem.animate(); // Animation neu starten
-        }
-
-        return clonedItem;
-    });
-
-    const clonedBackgroundObjects = level.backgroundObject.map(bg => {
-        const clonedBg = Object.create(
-            Object.getPrototypeOf(bg), 
-            Object.getOwnPropertyDescriptors(bg)
-        );
-
-        // Falls Hintergrundobjekte Animationen haben
-        if (clonedBg.animate) {
-            clonedBg.animate(); // Animation neu starten
-        }
-
-        return clonedBg;
-    });
-
     return new Level(
         level.spawnEndboss,
-        clonedEnemies,
-        clonedCollectables,
-        clonedBackgroundObjects,
+        cloneEnemies(level.enemies),
+        cloneCollectables(level.collectables),
+        cloneBackgroundObjects(level.backgroundObject),
         level.level_end_x,
         level.number
     );
 }
-// function cloneLevel(level) {
-//     return new Level(
-//         level.spawnEndboss,
-//         level.enemies.map(enemy => Object.create(Object.getPrototypeOf(enemy), Object.getOwnPropertyDescriptors(enemy))),
-//         level.collectables.map(item => Object.create(Object.getPrototypeOf(item), Object.getOwnPropertyDescriptors(item))),
-//         level.backgroundObject.map(bg => Object.create(Object.getPrototypeOf(bg), Object.getOwnPropertyDescriptors(bg))),
-//         level.level_end_x,
-//         level.number
-//     )
-// };
+
+/**
+ * Clones the enemy and the animate-function in the level
+ * 
+ * @param {Objects} enemies all enemies in the level
+ * @returns the cloned enemies
+ */
+function cloneEnemies(enemies) {
+    return enemies.map(enemy => {
+        const clonedEnemy = Object.create(
+            Object.getPrototypeOf(enemy),
+            Object.getOwnPropertyDescriptors(enemy)
+        );
+        if (clonedEnemy.animate) clonedEnemy.animate();
+        return clonedEnemy;
+    });
+}
+
+/**
+ * clones the collectables and the animate-function in the level 
+ * 
+ * @param {Objects} collectables all collectables in the level
+ * @returns the cloned collectables
+ */
+function cloneCollectables(collectables) {
+    return collectables.map(item => {
+        const clonedItem = Object.create(
+            Object.getPrototypeOf(item),
+            Object.getOwnPropertyDescriptors(item)
+        );
+        if (clonedItem.animate) clonedItem.animate();
+        return clonedItem;
+    });
+}
+
+/**
+ * clones the background in the level
+ * 
+ * @param {Objects} backgroundObjects all backgrounds in the level
+ * @returns the cloned backgrounds
+ */
+function cloneBackgroundObjects(backgroundObjects) {
+    return backgroundObjects.map(bg => Object.create(
+        Object.getPrototypeOf(bg),
+        Object.getOwnPropertyDescriptors(bg)
+    ));
+}
 
 /**
 * shows the game over screen for the current level or situation
