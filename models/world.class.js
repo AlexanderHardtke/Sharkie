@@ -78,7 +78,10 @@ class World {
                 this.statusBar.setPercentage(this.character.life);
                 if (this.character.isDead()) {
                     this.audioManager.stopAudio('audio/background_music.mp3')
-                    setTimeout(() => gameOverScreen(false, this.level.number), 3500);
+                    setTimeout(() => {
+                        this.character.life = 10000000;
+                        gameOverScreen(false, this.level.number);
+                    }, 2000);
                 }
             }
         });

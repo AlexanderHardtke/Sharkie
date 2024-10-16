@@ -33,25 +33,25 @@ function startGame(turtorial) {
 /**
  * restarts the current level
  */
-function restartGame() {
+async function restartGame() {
+    stopCurrentLevel();
     document.getElementById('restartGame').style.display = "none";
     document.getElementById('gameOverScreen').style.display = "none";
-    let level = cloneLevel(loadedLevel);
-    stopCurrentLevel();
+    let level = await cloneLevel(loadedLevel);
     world = new World(canvas, keyboard, level, audioManager);
 }
 
 /**
  * Starts the next level
  */
-function startNextLevel() {
+async function startNextLevel() {
     let currentLevel = world.level.number;
     currentLevel++;
+    stopCurrentLevel();
     let nextLevel = levels[currentLevel];
-    loadedLevel = cloneLevel(nextLevel);
+    loadedLevel = await cloneLevel(nextLevel);
     document.getElementById('nextLevel').style.display = "none";
     document.getElementById('gameOverScreen').style.display = "none";
-    stopCurrentLevel();
     world = new World(canvas, keyboard, nextLevel, audioManager);
 }
 
