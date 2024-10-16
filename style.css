@@ -3,6 +3,15 @@
     src: url(./fonts/LuckiestGuy-Regular.ttf);
 }
 
+ #pleaserotate-graphic{
+    fill: #fff;
+}
+
+#pleaserotate-backdrop {
+    color: #fff;
+    background-color: #000;
+}
+
 canvas {
     background-color: black;
     display: none;
@@ -31,6 +40,7 @@ h1 {
 
 button {
     background-color: mediumpurple;
+    font-weight: 800;
     width: 36px;
     height: 36px;
     border-radius: 50%;
@@ -42,12 +52,16 @@ button {
     left: 20px;
 }
 
-.fullscreenIcon {
+.fullscreenButton {
     position: absolute;
     top: 20px;
     right: 20px;
     width: 180px;
     cursor: pointer;
+}
+
+.fullscreenIcon {
+    display: none;
 }
 
 #fullscreen {
@@ -171,7 +185,6 @@ button {
     position: absolute;
     right: 20px;
     bottom: 20px;
-    display: flex;
     flex-wrap: wrap;
     width: 74px;
     justify-content: space-between;
@@ -220,7 +233,7 @@ button {
     text-shadow: none;
     cursor: pointer;
     background-color: #80ffdf;
-    padding: 10px 30px 10px 30px ;
+    padding: 10px 30px 10px 30px;
     border-radius: 16px;
     border: solid 2px white;
 }
@@ -232,6 +245,33 @@ button {
 @media only screen and (max-width: 720px) {
     canvas {
         width: 100%;
+    }
+
+    .gameStartScreen {
+        flex-direction: column;
+        scale: 0.9;
+        top: 5vh;
+    }
+
+    .fullscreenButton {
+        display: none;
+    }
+
+    .fullscreenIcon {
+        display: block;
+        width: 30px;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        cursor: pointer;
+    }
+
+    .actionMoveBar {
+        display: flex;
+    }
+
+    .actionAttackBar {
+        display: flex;
     }
 }
 
