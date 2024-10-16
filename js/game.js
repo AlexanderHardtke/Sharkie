@@ -105,7 +105,7 @@ function checkOrientation() {
  * @param {element} element the fullscreen element
  */
 function enterFullscreen(element) {
-    
+
     if (element.requestFullscreen) element.requestFullscreen();
     else if (element.msRequestFullscreen) element.msRequestFullscreen();
     else if (element.webkitRequestFullscreen) element.webkitRequestFullscreen();
@@ -198,13 +198,42 @@ function toggleMuteButton() {
 function cloneLevel(level) {
     return new Level(
         level.spawnEndboss,
-        level.enemies.map(enemy => Object.create(Object.getPrototypeOf(enemy), Object.getOwnPropertyDescriptors(enemy))),
-        level.collectables.map(item => Object.create(Object.getPrototypeOf(item), Object.getOwnPropertyDescriptors(item))),
-        level.backgroundObject.map(bg => Object.create(Object.getPrototypeOf(bg), Object.getOwnPropertyDescriptors(bg))),
+        level.enemies.map(enemy => new enemy.constructor(...getConstructorArgs(enemy))), // Gegner klonen
+        level.collectables.map(item => new item.constructor(...getConstructorArgs(item))), // Collectables klonen
+        level.backgroundObject.map(bg => Object.create(Object.getPrototypeOf(bg), Object.getOwnPropertyDescriptors(bg))), // Backgrounds korrekt klonen
         level.level_end_x,
         level.number
-    )
-};
+    );
+}
+
+// Hilfsfunktion, um die Argumente für den Konstruktor eines Objekts herauszuholen
+function getConstructorArgs(instance) {
+    if (instance instanceof PufferfishGreen) {
+        // Beispiel: PufferfishGreen könnte neben der Position noch eine Geschwindigkeit haben
+        return [instance.position, instance.speed];
+    }
+    if (instance instanceof Jellyfish) {
+        // Beispiel: Jellyfish könnte weitere Parameter wie Animation oder Aggressivität haben
+        return [instance.position, instance.animation];
+    }
+    if (instance instanceof Coin || instance instanceof Poison) {
+        return [instance.x, instance.y]; // Beispiel: x und y Position für Coin und Poison
+    }
+    if (instance instanceof BackgroundObject || instance instanceof BarrierLevelend) {
+        return [instance.img, instance.x]; // Beispiel: Bildpfad und x-Position
+    }
+    return [];
+}
+// function cloneLevel(level) {
+//     return new Level(
+//         level.spawnEndboss,
+//         level.enemies.map(enemy => Object.create(Object.getPrototypeOf(enemy), Object.getOwnPropertyDescriptors(enemy))),
+//         level.collectables.map(item => Object.create(Object.getPrototypeOf(item), Object.getOwnPropertyDescriptors(item))),
+//         level.backgroundObject.map(bg => Object.create(Object.getPrototypeOf(bg), Object.getOwnPropertyDescriptors(bg))),
+//         level.level_end_x,
+//         level.number
+//     )
+// };
 
 /**
 * shows the game over screen for the current level or situation
@@ -213,11 +242,12 @@ function cloneLevel(level) {
 * @param {number} level the number of the level
 */
 function gameOverScreen(win, level) {
-    world.character.stopAllInterval();
     if (win && level == 0) {
+        world.character.stopAllInterval();
         document.getElementById('gameOverImg').src = "img/6.Botones/Tittles/You win/Recurso 21.png";
         document.getElementById('nextLevel').style.display = "flex";
     } else if (win && level == 1) {
+        world.character.stopAllInterval();
         document.getElementById('gameOverImg').src = "img/6.Botones/Try again/Mesa de trabajo 1.png";
         document.getElementById('gameOverImg').style.width = "90%"
     } else if (!win) document.getElementById('restartGame').style.display = "flex";

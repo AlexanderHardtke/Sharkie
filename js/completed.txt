@@ -1,2 +1,10 @@
-Fullscreen
 Restart Game
+
+
+musik gestoppt endboss gestoppt oder character gestoppt mit stopallIntervall
+GameOverScreen() passt
+
+klicke auf restartGame() passt
+oder nextLevel() passt
+
+cloneLevel Problem
