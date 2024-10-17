@@ -38,6 +38,9 @@ class StatusBar extends DrawableObject {
      * @returns 0 - 5 for every 20% life
      */
     resolveImageIndex() {
+        if (this.LIFE > 1000) {
+            return;
+        }
         return Math.floor(this.percentage / 20);
     }
 

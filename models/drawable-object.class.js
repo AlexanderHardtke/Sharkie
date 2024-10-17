@@ -30,4 +30,22 @@ class DrawableObject {
             this.imageCache[path] = img;
         })
     }
+
+     /**
+     * gives every interval an ID to make it stoppable
+     * 
+     * @param {*} fn 
+     * @param {*} time 
+     */
+     setStoppableInterval(fn, time) {
+        let id = setInterval(fn, time);
+        this.intervalIds.push(id);
+    }
+
+        /**
+     * stops all stoppableintervals from the game
+     */
+        stopAllInterval() {
+            this.intervalIds.forEach(clearInterval);
+        }
 }
