@@ -7,6 +7,8 @@ let loadedLevel;
 let fullscreenActive = false;
 let soundActive = true;
 
+
+//// Restart Button und Fehlermneldung by sterbe mit elektr Qualle
 /**
  * loads the keyboard and the canvas into the world
  */
