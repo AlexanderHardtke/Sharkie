@@ -6,7 +6,7 @@ class MovableObject extends DrawableObject {
     gravity = 1.5;
     offsetX = 0;
     offsetY = 0;
-    life = 5;
+    life = 105;
     lastHit = 0;
     lastElectrocuted = 0;
     charIsLeft;

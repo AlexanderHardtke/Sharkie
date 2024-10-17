@@ -4,6 +4,7 @@ let keyboard = new Keyboard();
 let audioManager = new AudioManager();
 let levels = [level0, level1];
 let loadedLevel;
+let fullscreenActive = false;
 
 /**
  * loads the keyboard and the canvas into the world
@@ -12,7 +13,6 @@ function init() {
     gameIntroductionScreen();
     canvas = document.getElementById('canvas');
 }
-
 
 /**
  * loads the Level into the game
@@ -28,6 +28,7 @@ function startGame(turtorial) {
     document.getElementById('introductionScreen').style.display = "none";
     document.getElementById('canvas').style.display = "block";
     world = new World(canvas, keyboard, level, audioManager);
+    checkfullscreen();
 }
 
 /**
@@ -37,6 +38,7 @@ async function restartGame() {
     stopCurrentLevel();
     document.getElementById('restartGame').style.display = "none";
     document.getElementById('gameOverScreen').style.display = "none";
+    document.getElementById('overlay').style.display = "none";
     let level = await cloneLevel(loadedLevel);
     world = new World(canvas, keyboard, level, audioManager);
 }
@@ -52,6 +54,7 @@ async function startNextLevel() {
     loadedLevel = await cloneLevel(nextLevel);
     document.getElementById('nextLevel').style.display = "none";
     document.getElementById('gameOverScreen').style.display = "none";
+    document.getElementById('overlay').style.display = "none";
     world = new World(canvas, keyboard, nextLevel, audioManager);
 }
 
@@ -77,13 +80,32 @@ function gameIntroductionScreen() {
 }
 
 /**
+ * toggles the fullscreen modus and highlights the button
+ */
+function toggleFullscreen() {
+    let toggleButton = document.querySelector('.fullscreenButton')
+    let toggleIcon = document.querySelector('.fullscreenIcon')
+    fullscreenActive = !fullscreenActive
+    if (fullscreenActive) {
+        toggleButton.classList.add('active');
+        toggleIcon.classList.add('active');
+        if (world) checkfullscreen();
+    } else {
+        toggleButton.classList.remove('active');
+        toggleIcon.classList.remove('active');
+    }
+}
+
+/**
  * defines fullscreen and checks the orientation
  */
-function fullscreen() {
-    let fullscreen = document.getElementById('fullscreen');
-    calculateFullscreen();
-    enterFullscreen(fullscreen);
-    checkOrientation();
+function checkfullscreen() {
+    if (fullscreenActive) {
+        let fullscreen = document.getElementById('fullscreen');
+        calculateFullscreen();
+        enterFullscreen(fullscreen);
+        checkOrientation();
+    }
 }
 
 /**
@@ -133,6 +155,17 @@ function exitFullscreen() {
     if (document.exitFullscreen) document.exitFullscreen();
     else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
 }
+
+/**
+ * Eventlistener for leaving the fullscreen modus and removing the highlights from the button
+ */
+document.addEventListener('fullscreenchange', () => {
+    if (!document.fullscreenElement) {
+        fullscreenActive = false;
+        document.querySelector('.fullscreenButton').classList.remove('active');
+        document.querySelector('.fullscreenIcon').classList.remove('active');
+    }
+});
 
 /**
  * Eventlistener for pressing inputs with the keyboard from the user
@@ -269,4 +302,5 @@ function gameOverScreen(win, level) {
         document.getElementById('gameOverImg').style.width = "90%"
     } else if (!win) document.getElementById('restartGame').style.display = "flex";
     document.getElementById('gameOverScreen').style.display = "flex";
+    document.getElementById('overlay').style.display = "flex";
 }

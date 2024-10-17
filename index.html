@@ -45,8 +45,8 @@
 
     <h1>Sharkie</h1>
 
-    <img src="./img/6.Botones/Full Screen/Mesa de trabajo 9.png" onclick="fullscreen()" class="fullscreenButton">
-    <img src="./img/7.Icons/fullscreen.png" onclick="fullscreen()" class="fullscreenIcon">
+    <img src="./img/6.Botones/Full Screen/Mesa de trabajo 9.png" onclick="toggleFullscreen()" class="fullscreenButton">
+    <img src="./img/7.Icons/fullscreen.png" onclick="toggleFullscreen()" class="fullscreenIcon">
 
     <div class="gameStartScreen" id="introductionScreen">
         <div class="startGame" onclick="startGame(true)">
@@ -87,16 +87,16 @@
         </div>
     </div>
 
+    <div class="overlay" id="overlay"></div>
+
     <div id="fullscreen">
+        <canvas class="dNone" id="canvas" width="720px" height="480px"></canvas>
 
         <div class="gameOverScreen dNone" id="gameOverScreen">
             <img id="gameOverImg" class="gameOverImg" src="./img/6.Botones/Tittles/Game Over/Recurso 11.png">
             <img onclick="restartGame()" class="gameOverImg dNone" id="restartGame" src="./img/6.Botones/Try again/Recurso 16.png">
             <div onclick="startNextLevel()" class="nextLevel dNone" id="nextLevel">Next Level</div>
         </div>
-
-        <canvas class="dNone" id="canvas" width="720px" height="480px"></canvas>
-
     </div>
 
     <div class="actionMoveBar">

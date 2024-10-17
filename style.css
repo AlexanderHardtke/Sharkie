@@ -3,7 +3,7 @@
     src: url(./fonts/LuckiestGuy-Regular.ttf);
 }
 
- #pleaserotate-graphic{
+#pleaserotate-graphic {
     fill: #fff;
 }
 
@@ -53,6 +53,7 @@ button {
 }
 
 .fullscreenButton {
+    border: 4px solid transparent;
     position: absolute;
     top: 20px;
     right: 20px;
@@ -62,6 +63,13 @@ button {
 
 .fullscreenIcon {
     display: none;
+    border: 4px solid transparent;
+}
+
+.active {
+    border: 4px solid rgb(140, 209, 113);
+    border-radius: 20px;
+    border-style: inset;
 }
 
 #fullscreen {
@@ -210,16 +218,26 @@ button {
     padding: 12px;
 }
 
+.overlay {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 2;
+    display: none;
+}
+
 .gameOverScreen {
     position: absolute;
     height: 100vh;
     width: 100%;
     align-items: center;
     justify-content: center;
-    background-color: rgba(0, 0, 0, 0.4);
     font-size: 20px;
     flex-direction: column;
     gap: 60px;
+    z-index: 3;
 }
 
 .gameOverImg {
