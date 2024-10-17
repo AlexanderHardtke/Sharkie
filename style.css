@@ -295,3 +295,38 @@ button {
 .impressumBox:hover {
     filter: drop-shadow(0 0 0.75rem rgb(0, 255, 26));
 }
+
+.dataPrivacy {
+    height: auto;
+    align-items: center;
+    justify-content: center;
+    margin: 0 16px 0 16px;
+    gap: 6px;
+    background: cadetblue;
+}
+
+.content {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 20px;
+    font-weight: 800;
+    text-shadow: none;
+    color: #e04024;
+}
+
+.backButton {
+    rotate: -90deg;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+}
+
+.backButton img {
+    height: 42px;
+    padding: 2px;
+}
+
+.backButton img:hover {
+    background-color: #e04024;
+    border-radius: 50%;
+    cursor: pointer;
+}

@@ -318,3 +318,10 @@ function gameOverScreen(win, level) {
     document.getElementById('gameOverScreen').style.display = "flex";
     document.getElementById('overlay').style.display = "flex";
 }
+
+/**
+ * This function takes you back to the previous window.
+ */
+function goBack() {
+    window.history.back();
+}
