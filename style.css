@@ -48,15 +48,10 @@ button {
     height: 40px;
     border-radius: 50%;
     -webkit-touch-callout: none;
-    /* Verhindert das Kontextmenü auf iOS */
     -webkit-user-select: none;
-    /* Verhindert das Auswählen von Text auf iOS */
     -moz-user-select: none;
-    /* Verhindert das Auswählen von Text auf Firefox */
     -ms-user-select: none;
-    /* Verhindert das Auswählen von Text auf IE */
     user-select: none;
-    /* Verhindert das Auswählen von Text auf modernen Browsern */
 }
 
 .muteButton {
@@ -123,6 +118,11 @@ button {
 
 .arrowImg {
     height: 18px;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .attackIntro {
