@@ -4,9 +4,7 @@
     }
 
     .gameStartScreen {
-        flex-direction: column;
         scale: 0.9;
-        top: 5vh;
     }
 
     .fullscreenButton {
@@ -38,5 +36,18 @@
 
     h1 {
         display: none;
+    }
+}
+
+@media (max-width: 700px) {
+    .gameStartScreen {
+        width: auto;
+    }
+}
+
+@media (max-width: 550px) {
+    .gameStartScreen {
+        flex-direction: column;
+        height: auto;
     }
 }
