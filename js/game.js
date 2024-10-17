@@ -5,6 +5,7 @@ let audioManager = new AudioManager();
 let levels = [level0, level1];
 let loadedLevel;
 let fullscreenActive = false;
+let soundActive = true;
 
 /**
  * loads the keyboard and the canvas into the world
@@ -29,6 +30,7 @@ function startGame(turtorial) {
     document.getElementById('canvas').style.display = "block";
     world = new World(canvas, keyboard, level, audioManager);
     checkfullscreen();
+    checkMuteButton();
 }
 
 /**
@@ -93,6 +95,36 @@ function toggleFullscreen() {
     } else {
         toggleButton.classList.remove('active');
         toggleIcon.classList.remove('active');
+    }
+}
+
+/**
+ * toggles the muteButton
+ */
+function toggleMuteButton() {
+    let mute = document.getElementById('mute');
+    let unmute = document.getElementById('unmute');
+    soundActive = !soundActive;
+    if (!soundActive) {
+        unmute.classList.add('dNone');
+        mute.classList.remove('dNone');
+    } else {
+        mute.classList.add('dNone');
+        unmute.classList.remove('dNone');
+    }
+    checkMuteButton();
+}
+
+/**
+ * checks the muteButton and toggles the audiomanager
+ */
+function checkMuteButton() {
+    if (!soundActive && world) {
+        world.audioManager.isMuted = true;
+        world.audioManager.muteAllAudios();
+    } if (soundActive && world) {
+        world.audioManager.isMuted = false;
+        world.audioManager.unmuteAllAudios();
     }
 }
 
@@ -201,24 +233,6 @@ window.addEventListener('keyup', (event) => {
  */
 function button(key, isPressed) {
     keyboard[key] = isPressed;
-}
-
-/**
- * Toggles all Sounds in the game
- */
-function toggleMuteButton() {
-    world.audioManager.isMuted = !world.audioManager.isMuted;
-    let mute = document.getElementById('mute');
-    let unmute = document.getElementById('unmute');
-    if (world.audioManager.isMuted) {
-        world.audioManager.muteAllAudios();
-        unmute.classList.add('dNone');
-        mute.classList.remove('dNone');
-    } else {
-        world.audioManager.unmuteAllAudios();
-        mute.classList.add('dNone');
-        unmute.classList.remove('dNone');
-    }
 }
 
 /**
