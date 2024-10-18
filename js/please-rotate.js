@@ -46,36 +46,16 @@
     }
 
     function addRules(sheet){
-
         var i;
-
-        for(i = 0; i< cssRules.length; i++){
-            sheet.insertRule(cssRules[i], 0);
-        }
-
+        for(i = 0; i< cssRules.length; i++) sheet.insertRule(cssRules[i], 0);
         sheet.insertRule("#pleaserotate-backdrop { z-index: " + options.zIndex + "}", 0);
-
-        if(options.allowClickBypass){
-            sheet.insertRule("#pleaserotate-backdrop { cursor: pointer }", 0);
-        }
-
-        if(options.forcePortrait){
-            sheet.insertRule("#pleaserotate-backdrop { -webkit-transform-origin: 50% }", 0);
-
-        }
-
+        if(options.allowClickBypass) sheet.insertRule("#pleaserotate-backdrop { cursor: pointer }", 0);
+        if(options.forcePortrait) sheet.insertRule("#pleaserotate-backdrop { -webkit-transform-origin: 50% }", 0);
         for(i = 0; i< cssKeyframeRules.length; i++){
-            if (CSSRule.WEBKIT_KEYFRAMES_RULE) { // WebKit
-                sheet.insertRule("@-webkit-keyframes " + cssKeyframeRules[i], 0);
-            }
-            else if (CSSRule.MOZ_KEYFRAMES_RULE) { // Mozilla
-                sheet.insertRule("@-moz-keyframes " + cssKeyframeRules[i], 0);
-            }
-            else if (CSSRule.KEYFRAMES_RULE) { // W3C
-                sheet.insertRule("@keyframes " + cssKeyframeRules[i], 0);
-            }
+            if (CSSRule.WEBKIT_KEYFRAMES_RULE) sheet.insertRule("@-webkit-keyframes " + cssKeyframeRules[i], 0);
+            else if (CSSRule.MOZ_KEYFRAMES_RULE) sheet.insertRule("@-moz-keyframes " + cssKeyframeRules[i], 0);
+            else if (CSSRule.KEYFRAMES_RULE) sheet.insertRule("@keyframes " + cssKeyframeRules[i], 0);
         }
-
     }
 
     function createStyleSheet(){
@@ -139,23 +119,16 @@
 
     function setVisibility(visible){
         var backdropElement = document.getElementById("pleaserotate-backdrop");
-
         if(visible){
-            if(backdropElement){
-                backdropElement.style["display"] = "block";
-            }
+            if(backdropElement)backdropElement.style["display"] = "block";
         } else {
-            if(backdropElement){
-                backdropElement.style["display"] = "none";
-
-            }
+            if(backdropElement) backdropElement.style["display"] = "none";
         }
     }
 
     function orientationChanged(){
         var triggerOn = currentOrientation && !options.forcePortrait || !currentOrientation && options.forcePortrait,
             propogate;
-            
         if(triggerOn){
             propogate = options.onShow();
             setBodyClass("showing");
@@ -163,16 +136,11 @@
             propogate = options.onHide();
             setBodyClass("hiding");
         }
-
-
         if(propogate !== undefined && !propogate){
             return;
         }
-
         PleaseRotate.Showing = triggerOn;
-
         setVisibility(triggerOn);
-
     }
 
     function isPortrait(){
@@ -185,7 +153,7 @@
                 init = true;
                 setVisibility(false);
                 setBodyClass("hiding");
-                options.onHide(); // run this exactly once if not mobile
+                options.onHide();
             }
             return;
         }

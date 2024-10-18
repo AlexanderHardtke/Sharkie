@@ -23,7 +23,6 @@ body {
     background-image: url("./img/3.\ Background/background2.jpg");
     background-position: center;
     display: flex;
-    justify-content: space-evenly;
     flex-direction: column;
     align-items: center;
     color: #e04024;
@@ -36,6 +35,10 @@ body {
     display: none;
 }
 
+.fullscreenButtons {
+    display: none;
+}
+
 h1 {
     font-size: 48px;
     margin-top: 4px;
@@ -44,8 +47,9 @@ h1 {
 button {
     background-color: mediumpurple;
     font-weight: 800;
-    width: 40px;
-    height: 40px;
+    font-size: 18px;
+    width: 58px;
+    height: 58px;
     border-radius: 50%;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -54,17 +58,27 @@ button {
     user-select: none;
 }
 
-.muteButton {
-    position: absolute;
-    top: 20px;
-    left: 20px;
+.topWrapper {
+    width: 720px;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 12px;
+    position: relative;
+    top: 50px;
+}
+
+.bottomWrapper {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    width: 97.5%;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
 }
 
 .fullscreenButton {
     border: 4px solid transparent;
-    position: absolute;
-    top: 20px;
-    right: 20px;
     width: 180px;
     cursor: pointer;
 }
@@ -84,6 +98,9 @@ button {
     display: flex;
     justify-content: center;
     align-items: center;
+    position: fixed;
+    top: 50%;
+    bottom: 50%;
 }
 
 .startGame {
@@ -176,22 +193,21 @@ button {
 }
 
 .actionMoveBar {
-    position: absolute;
-    left: 20px;
-    bottom: 26px;
     display: flex;
-    width: 124px;
+    width: 180px;
     flex-wrap: wrap;
-    display: none;
 }
 
 .arrow {
-    height: 20px;
+    height: 28px;
 }
 
 .arrowButtonUp {
-    margin-left: 40px;
-    margin-right: 40px;
+    margin-left: 58px;
+    margin-right: 58px;
+    height: 58px;
+    width: 58px;
+    margin-bottom: 2px;
 }
 
 .arrowLeft {
@@ -207,18 +223,15 @@ button {
 }
 
 .actionAttackBar {
-    position: absolute;
-    right: 20px;
-    bottom: 26px;
     flex-wrap: wrap;
-    width: 84px;
+    width: 124px;
     justify-content: space-between;
-    display: none;
 }
 
 .actionButtonMelee {
-    height: 40px;
-    width: 84px;
+    margin-top: 2px;
+    height: 58px;
+    width: 120px;
     border-radius: 50px;
 }
 

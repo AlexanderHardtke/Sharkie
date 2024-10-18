@@ -93,3 +93,30 @@ function exitFullscreen() {
     if (document.exitFullscreen) document.exitFullscreen();
     else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
 }
+
+
+
+
+
+
+
+
+
+
+
+function isMobileDevice() {
+    return /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+}
+
+
+window.addEventListener('load', function () {
+    let controls = document.getElementById('bottomWrapper');
+    let fullscrBtn = document.getElementById('fullscreenButtons');
+    if (isMobileDevice()) {
+        fullscrBtn.style.display = 'none';
+        controls.style.display = 'flex';
+    } else {
+        fullscrBtn.style.display = 'block';
+        controls.style.display = 'none';
+    }
+});

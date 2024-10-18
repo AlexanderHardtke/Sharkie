@@ -34,20 +34,25 @@
     <script src="./levels/level1.js"></script>
     <script src="./js/game.js"></script>
     <script src="./js/script.js"></script>
-    <script src="./js/pleaserotate.js"></script>
+    <script src="./js/please-rotate.js"></script>
 </head>
 
 <body onload="init()">
 
-    <button class="muteButton" id="muteButton" onclick="toggleMuteButton()">
-        <img src="./img/7.Icons/Sound_on.png" class="arrow" id="unmute">
-        <img src="./img/7.Icons/Sound_off.png" class="arrow dNone" id="mute">
-    </button>
+    <div class="topWrapper">
+        <button id="muteButton" onclick="toggleMuteButton()">
+            <img src="./img/7.Icons/Sound_on.png" class="arrow" id="unmute">
+            <img src="./img/7.Icons/Sound_off.png" class="arrow dNone" id="mute">
+        </button>
+
+        <div id="fullscreenButtons" class="fullscreenButtons">
+            <img src="./img/6.Botones/Full Screen/Mesa de trabajo 9.png" onclick="toggleFullscreen()"
+                class="fullscreenButton">
+            <img src="./img/7.Icons/fullscreen.png" onclick="toggleFullscreen()" class="fullscreenIcon">
+        </div>
+    </div>
 
     <h1>Sharkie</h1>
-
-    <img src="./img/6.Botones/Full Screen/Mesa de trabajo 9.png" onclick="toggleFullscreen()" class="fullscreenButton">
-    <img src="./img/7.Icons/fullscreen.png" onclick="toggleFullscreen()" class="fullscreenIcon">
 
     <div class="gameStartScreen" id="introductionScreen">
         <div>
@@ -127,7 +132,7 @@
             <img class="winGameImg" src="./img/6.Botones/Try again/Win1.png">
             <div onclick="backToMenu()" class="nextLevel" id="backToMenu">Back to Menu</div>
         </div>
-        
+
         <div class="gameOverScreen dNone" id="restartGame">
             <img class="gameOverImg" src="./img/6.Botones/Tittles/Game Over/Recurso 11.png">
             <img onclick="restartGame()" class="nextLevelImg" src="./img/6.Botones/Try again/Recurso 16.png">
@@ -136,42 +141,44 @@
 
     </div>
 
-    <div class="actionMoveBar">
+    <div class="bottomWrapper" id="bottomWrapper">
+        <div class="actionMoveBar">
 
-        <button class="arrowButtonUp" onmousedown="button('UP', true)" onmouseup="button('UP', false)"
-            ontouchstart="button('UP', true)" ontouchend="button('UP', false)">
-            <img class="arrowUp arrow" src="./img/7.Icons/arrowUp.png">
-        </button>
+            <button class="arrowButtonUp" onmousedown="button('UP', true)" onmouseup="button('UP', false)"
+                ontouchstart="button('UP', true)" ontouchend="button('UP', false)">
+                <img class="arrowUp arrow" src="./img/7.Icons/arrowUp.png">
+            </button>
 
-        <button onmousedown="button('LEFT', true)" onmouseup="button('LEFT', false)" ontouchstart="button('LEFT', true)"
-            ontouchend="button('LEFT', false)">
-            <img class="arrowLeft arrow" src="./img/7.Icons/arrowUp.png">
-        </button>
+            <button onmousedown="button('LEFT', true)" onmouseup="button('LEFT', false)"
+                ontouchstart="button('LEFT', true)" ontouchend="button('LEFT', false)">
+                <img class="arrowLeft arrow" src="./img/7.Icons/arrowUp.png">
+            </button>
 
-        <button onmousedown="button('DOWN', true)" onmouseup="button('DOWN', false)" ontouchstart="button('DOWN', true)"
-            ontouchend="button('DOWN', false)">
-            <img class="arrowDown arrow" src="./img/7.Icons/arrowUp.png">
-        </button>
+            <button onmousedown="button('DOWN', true)" onmouseup="button('DOWN', false)"
+                ontouchstart="button('DOWN', true)" ontouchend="button('DOWN', false)">
+                <img class="arrowDown arrow" src="./img/7.Icons/arrowUp.png">
+            </button>
 
-        <button onmousedown="button('RIGHT', true)" onmouseup="button('RIGHT', false)"
-            ontouchstart="button('RIGHT', true)" ontouchend="button('RIGHT', false)">
-            <img class="arrowRight arrow" src="./img/7.Icons/arrowUp.png">
-        </button>
-    </div>
+            <button onmousedown="button('RIGHT', true)" onmouseup="button('RIGHT', false)"
+                ontouchstart="button('RIGHT', true)" ontouchend="button('RIGHT', false)">
+                <img class="arrowRight arrow" src="./img/7.Icons/arrowUp.png">
+            </button>
+        </div>
 
-    <div class="actionAttackBar">
-        <button class="actionButton attackBubble" onmousedown="button('Q', true)" onmouseup="button('Q', false)"
-            ontouchstart="button('Q', true)" ontouchend="button('Q', false)">
-            Q</button>
+        <div class="actionAttackBar">
+            <button class="actionButton attackBubble" onmousedown="button('Q', true)" onmouseup="button('Q', false)"
+                ontouchstart="button('Q', true)" ontouchend="button('Q', false)">
+                Q</button>
 
-        <button class="actionButton attackPoisonBubble" onmousedown="button('E', true)" onmouseup="button('E', false)"
-            ontouchstart="button('E', true)" ontouchend="button('E', false)">
-            E</button>
+            <button class="actionButton attackPoisonBubble" onmousedown="button('E', true)"
+                onmouseup="button('E', false)" ontouchstart="button('E', true)" ontouchend="button('E', false)">
+                E</button>
 
-        <button class="actionButtonMelee" onmousedown="button('SPACE', true)" onmouseup="button('SPACE', false)"
-            ontouchstart="button('SPACE', true)" ontouchend="button('SPACE', false)">
-            SPACE</button>
+            <button class="actionButtonMelee" onmousedown="button('SPACE', true)" onmouseup="button('SPACE', false)"
+                ontouchstart="button('SPACE', true)" ontouchend="button('SPACE', false)">
+                SPACE</button>
 
+        </div>
     </div>
 
 </body>
