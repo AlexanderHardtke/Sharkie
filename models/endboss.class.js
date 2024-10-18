@@ -8,16 +8,16 @@ class Endboss extends MovableObject {
     intro = 0;
     life = 25;
     IMAGES_INTRODUCTION = [
-        'img/2.Enemy/3 Final Enemy/1.introduce/1.png',
-        'img/2.Enemy/3 Final Enemy/1.introduce/2.png',
-        'img/2.Enemy/3 Final Enemy/1.introduce/3.png',
-        'img/2.Enemy/3 Final Enemy/1.introduce/4.png',
-        'img/2.Enemy/3 Final Enemy/1.introduce/5.png',
-        'img/2.Enemy/3 Final Enemy/1.introduce/6.png',
-        'img/2.Enemy/3 Final Enemy/1.introduce/7.png',
-        'img/2.Enemy/3 Final Enemy/1.introduce/8.png',
-        'img/2.Enemy/3 Final Enemy/1.introduce/9.png',
-        'img/2.Enemy/3 Final Enemy/1.introduce/10.png'
+        'img/2.Enemy/3 Final Enemy/1.Introduce/1.png',
+        'img/2.Enemy/3 Final Enemy/1.Introduce/2.png',
+        'img/2.Enemy/3 Final Enemy/1.Introduce/3.png',
+        'img/2.Enemy/3 Final Enemy/1.Introduce/4.png',
+        'img/2.Enemy/3 Final Enemy/1.Introduce/5.png',
+        'img/2.Enemy/3 Final Enemy/1.Introduce/6.png',
+        'img/2.Enemy/3 Final Enemy/1.Introduce/7.png',
+        'img/2.Enemy/3 Final Enemy/1.Introduce/8.png',
+        'img/2.Enemy/3 Final Enemy/1.Introduce/9.png',
+        'img/2.Enemy/3 Final Enemy/1.Introduce/10.png'
     ];
     IMAGES_IDLE = [
         'img/2.Enemy/3 Final Enemy/2.floating/1.png',
