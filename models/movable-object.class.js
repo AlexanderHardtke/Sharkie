@@ -200,11 +200,12 @@ class MovableObject extends DrawableObject {
      * removes life points from the character until 0 is reached and saves the time from the last hit
      */
     hit(mo) {
-        if (mo.dangerousTime > 11 || mo.Poison) {
+        if (mo.dangerousTime > 11) {
             this.lastElectrocuted = new Date().getTime();
             this.lastHitElectro = true;
             this.life -= 10;
         }
+        if (mo.poison) this.life -=5;
         this.life -= 5;
         this.lastHit = new Date().getTime();
         if (this.life < 0) this.life = 0;

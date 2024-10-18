@@ -111,8 +111,8 @@ function checkfullscreen() {
  * stops the background music and shows the game over screen after timeout
  */
 function endbossDead() {
-    this.audioManager.stopAudio('audio/background_music.mp3')
-    setTimeout(() => gameOverScreen(true, this.level.number), 1200);
+    audioManager.stopAudio('audio/background_music.mp3')
+    setTimeout(() => gameOverScreen(true, world.level.number), 1200);
     worldIsResetting = true;
     setTimeout(() => worldIsResetting = false, 6000);
 }
