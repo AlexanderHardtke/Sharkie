@@ -7,9 +7,6 @@ let loadedLevel;
 let fullscreenActive = false;
 let soundActive = true;
 
-
-//// Restart Button und Fehlermneldung by sterbe mit elektr Qualle/ eigentlicher Fehler liegt weiterhin in Berechnung im Hintergrund mit dem alten Level
-/// Restart bei win richtig resetten
 /**
  * loads the keyboard and the canvas into the world
  */
