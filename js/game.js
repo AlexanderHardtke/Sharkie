@@ -39,7 +39,6 @@ function startGame(turtorial) {
 async function restartGame() {
     stopCurrentLevel();
     document.getElementById('restartGame').style.display = "none";
-    document.getElementById('gameOverScreen').style.display = "none";
     document.getElementById('overlay').style.display = "none";
     let level = await cloneLevel(loadedLevel);
     world = new World(canvas, keyboard, level, audioManager);
@@ -55,7 +54,6 @@ async function startNextLevel() {
     let nextLevel = levels[currentLevel];
     loadedLevel = await cloneLevel(nextLevel);
     document.getElementById('nextLevel').style.display = "none";
-    document.getElementById('gameOverScreen').style.display = "none";
     document.getElementById('overlay').style.display = "none";
     world = new World(canvas, keyboard, nextLevel, audioManager);
 }
@@ -218,15 +216,40 @@ function cloneBackgroundObjects(backgroundObjects) {
 * @param {number} level the number of the level
 */
 function gameOverScreen(win, level) {
-    if (win && level == 0) {
-        world.character.stopAllInterval();
-        document.getElementById('gameOverImg').src = "img/6.Botones/Tittles/You win/Recurso 21.png";
-        document.getElementById('nextLevel').style.display = "flex";
-    } else if (win && level == 1) {
-        world.character.stopAllInterval();
-        document.getElementById('gameOverImg').src = "img/6.Botones/Try again/Mesa de trabajo 1.png";
-        document.getElementById('gameOverImg').style.width = "90%"
-    } else if (!win) document.getElementById('restartGame').style.display = "flex";
-    document.getElementById('gameOverScreen').style.display = "flex";
+    showOverlay();
+    world.character.stopAllInterval();
+    if (win && level == 0) winTurtorial();
+    else if (win && level > 0) winLevel();
+    else if (!win) looseLevel();
+}
+
+function winTurtorial() {
+    document.getElementById('nextLevel').style.display = "flex";
+}
+
+/**
+ * shows the winGame Div
+ */
+function winLevel() {
+    document.getElementById('winGame').style.display = "flex";
+    document.getElementById('winGame').style.width = "90%"
+}
+
+/**
+ * shows the restartGame div
+ */
+function looseLevel() {
+    document.getElementById('restartGame').style.display = "flex";
+}
+
+/**
+ * shows the Overlay div
+ */
+function showOverlay() {
     document.getElementById('overlay').style.display = "flex";
 }
+
+/**
+ * goes back to the main menu
+ */
+function backToMenu() { }
