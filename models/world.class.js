@@ -362,7 +362,16 @@ class World {
     addToMap(mo) {
         if (mo.otherDirection) this.flipImage(mo);
         if (mo.upDirection || mo.downDirection) this.rotateImage(mo);
-        this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height);
+
+        try {
+            this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height);
+        } catch (error) {
+            console.log(mo);
+            console.log(error);
+
+        }
+
+        //this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height);
         this.ctx.restore();
         if (mo.otherDirection) this.flipImageBack(mo);
     }

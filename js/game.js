@@ -37,7 +37,7 @@ function startGame(turtorial) {
  */
 function backToMenu() {
     hideOverlay();
-    document.getElementById('introductionScreen').style.display = "block";
+    document.getElementById('introductionScreen').style.display = "flex";
     document.getElementById('canvas').style.display = "none";
 }
 
