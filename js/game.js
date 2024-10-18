@@ -27,7 +27,7 @@ function startGame(turtorial) {
     loadedLevel = cloneLevel(level);
     document.getElementById('introductionScreen').style.display = "none";
     document.getElementById('canvas').style.display = "block";
-    world = new World(canvas, keyboard, level, audioManager);
+    world = new World(canvas, keyboard, loadedLevel, audioManager);
     checkfullscreen();
     checkMuteButton();
 }
@@ -45,10 +45,12 @@ function backToMenu() {
  * restarts the current level
  */
 async function restartGame() {
+    let currentLevel = world.level.number;
     stopCurrentLevel();
     hideOverlay();
-    let level = await cloneLevel(loadedLevel);
-    world = new World(canvas, keyboard, level, audioManager);
+    let level = levels[currentLevel];
+    loadedLevel = await cloneLevel(level);
+    world = new World(canvas, keyboard, loadedLevel, audioManager);
 }
 
 /**
@@ -61,7 +63,7 @@ async function startNextLevel() {
     let nextLevel = levels[currentLevel];
     loadedLevel = await cloneLevel(nextLevel);
     hideOverlay();
-    world = new World(canvas, keyboard, nextLevel, audioManager);
+    world = new World(canvas, keyboard, loadedLevel, audioManager);
 }
 
 /**
