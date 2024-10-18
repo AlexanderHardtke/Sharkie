@@ -76,13 +76,7 @@ class World {
             if (this.character.isColliding(enemy)) {
                 this.character.hit(enemy);
                 this.statusBar.setPercentage(this.character.life);
-                if (this.character.isDead()) {
-                    this.audioManager.stopAudio('audio/background_music.mp3')
-                    setTimeout(() => {
-                        this.character.life = 100000;
-                        gameOverScreen(false, this.level.number);
-                    }, 2000);
-                }
+                if (this.character.isDead()) characterDead();
             }
         });
     }
@@ -122,11 +116,9 @@ class World {
      * checks the character position in relation to the boss
      */
     checkCharacterPosition() {
-        if (this.bossSpawned) {
-            this.level.enemies.forEach((boss) => {
-                if (boss instanceof Endboss) this.character.moveToCharacter(boss);
-            });
-        }
+        if (this.bossSpawned) this.level.enemies.forEach((boss) => {
+            if (boss instanceof Endboss) this.character.moveToCharacter(boss);
+        });
     }
 
     /**
@@ -254,10 +246,7 @@ class World {
     throwHitEndboss(enemy, throwableObject) {
         enemy.hit(throwableObject);
         this.removeBubble(throwableObject);
-        if (enemy.isDead()) {
-            this.audioManager.stopAudio('audio/background_music.mp3')
-            setTimeout(() => gameOverScreen(true, this.level.number), 1200);
-        }
+        if (enemy.isDead()) endbossDead();
     }
 
     /**

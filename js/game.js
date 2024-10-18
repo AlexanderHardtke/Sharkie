@@ -6,6 +6,7 @@ let levels = [level0, level1];
 let loadedLevel;
 let fullscreenActive = false;
 let soundActive = true;
+let worldIsResetting = false;
 
 /**
  * loads the keyboard and the canvas into the world
@@ -71,7 +72,7 @@ async function startNextLevel() {
  */
 function stopCurrentLevel() {
     if (world) {
-        world.character.x = -50000;
+        world.character = [];
         world.keyboard = [];
         world.statusBar = [];
         world.level.enemies = [];
@@ -104,6 +105,16 @@ function checkfullscreen() {
         enterFullscreen(fullscreen);
         checkOrientation();
     }
+}
+
+/**
+ * stops the background music and shows the game over screen after timeout
+ */
+function endbossDead() {
+    this.audioManager.stopAudio('audio/background_music.mp3')
+    setTimeout(() => gameOverScreen(true, this.level.number), 1200);
+    worldIsResetting = true;
+    setTimeout(() => worldIsResetting = false, 6000);
 }
 
 /**
@@ -215,6 +226,16 @@ function cloneBackgroundObjects(backgroundObjects) {
         Object.getPrototypeOf(bg),
         Object.getOwnPropertyDescriptors(bg)
     ));
+}
+
+/**
+ * stops the background music and shows the game over screen after timeout
+ */
+function characterDead() {
+    audioManager.stopAudio('audio/background_music.mp3')
+    setTimeout(() => gameOverScreen(false, world.level.number), 2000);
+    worldIsResetting = true;
+    setTimeout(() => worldIsResetting = false, 6000);
 }
 
 /**
