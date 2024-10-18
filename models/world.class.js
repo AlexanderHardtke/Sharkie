@@ -293,7 +293,11 @@ class World {
      * checks if the win condition for the turtorial is reached
      */
     winTurtorial() {
-        if (this.level.number == 0 && this.character.x > 2800) gameOverScreen(true, 0);
+        if (this.level.number == 0 && this.character.x > 2800) {
+            this.audioManager.stopAudio('audio/background_music.mp3');
+            this.audioManager.playAudio('audio/win.mp3');
+            gameOverScreen(true, 0);
+        }
     }
 
     /**
@@ -360,20 +364,14 @@ class World {
      * @param {Object} mo the object that is added
      */
     addToMap(mo) {
-        if (mo.otherDirection) this.flipImage(mo);
-        if (mo.upDirection || mo.downDirection) this.rotateImage(mo);
-
-        try {
+        if (!Array.isArray(mo)) {
+            if (mo.otherDirection) this.flipImage(mo);
+            if (mo.upDirection || mo.downDirection) this.rotateImage(mo);
             this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height);
-        } catch (error) {
-            console.log(mo);
-            console.log(error);
-
+            this.ctx.restore();
+            if (mo.otherDirection) this.flipImageBack(mo);
         }
 
-        //this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height);
-        this.ctx.restore();
-        if (mo.otherDirection) this.flipImageBack(mo);
     }
 
     /**

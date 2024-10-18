@@ -12,8 +12,13 @@ class AudioManager {
      */
     playAudio(audioSrc, cooldown) {
         const now = Date.now();
-        if (this.cooldowns[audioSrc] && now - this.cooldowns[audioSrc] < cooldown) return;
         if (!this.audios[audioSrc]) this.createNewAudio(audioSrc);
+        if (audioSrc == 'audio/poison_flask.mp3' || audioSrc == 'audio/coin.mp3') {
+            this.createNewAudio(audioSrc);
+            this.audios[audioSrc].play();
+            return;
+        }
+        if (this.cooldowns[audioSrc] && now - this.cooldowns[audioSrc] < cooldown) return;
         this.audios[audioSrc].play();
         this.cooldowns[audioSrc] = now;
     }

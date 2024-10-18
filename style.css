@@ -259,6 +259,14 @@ button {
 
 .gameOverImg {
     width: 300px;
+}
+
+.winGameImg {
+    width: 100%;
+}
+
+.nextLevelImg {
+    width: 300px;
     cursor: pointer;
 }
 

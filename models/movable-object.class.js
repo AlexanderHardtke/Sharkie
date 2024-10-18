@@ -202,11 +202,11 @@ class MovableObject extends DrawableObject {
     hit(mo) {
         if (mo.dangerousTime > 11 || mo.Poison) {
             this.lastElectrocuted = new Date().getTime();
-            this.lastHit = new Date().getTime();
             this.lastHitElectro = true;
             this.life -= 10;
         }
         this.life -= 5;
+        this.lastHit = new Date().getTime();
         if (this.life < 0) this.life = 0;
     }
 
