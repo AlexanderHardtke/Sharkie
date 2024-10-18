@@ -25,7 +25,6 @@ function startGame(turtorial) {
     if (turtorial) level = level0;
     else level = level1;
     loadedLevel = cloneLevel(level);
-    document.getElementById('muteButton').style.display = "block";
     document.getElementById('introductionScreen').style.display = "none";
     document.getElementById('canvas').style.display = "block";
     world = new World(canvas, keyboard, level, audioManager);
@@ -34,12 +33,20 @@ function startGame(turtorial) {
 }
 
 /**
+ * goes back to the main menu
+ */
+function backToMenu() {
+    hideOverlay();
+    document.getElementById('introductionScreen').style.display = "block";
+    document.getElementById('canvas').style.display = "none";
+}
+
+/**
  * restarts the current level
  */
 async function restartGame() {
     stopCurrentLevel();
-    document.getElementById('restartGame').style.display = "none";
-    document.getElementById('overlay').style.display = "none";
+    hideOverlay();
     let level = await cloneLevel(loadedLevel);
     world = new World(canvas, keyboard, level, audioManager);
 }
@@ -53,8 +60,7 @@ async function startNextLevel() {
     stopCurrentLevel();
     let nextLevel = levels[currentLevel];
     loadedLevel = await cloneLevel(nextLevel);
-    document.getElementById('nextLevel').style.display = "none";
-    document.getElementById('overlay').style.display = "none";
+    hideOverlay();
     world = new World(canvas, keyboard, nextLevel, audioManager);
 }
 
@@ -250,6 +256,11 @@ function showOverlay() {
 }
 
 /**
- * goes back to the main menu
+ * hides all Overlays
  */
-function backToMenu() { }
+function hideOverlay() {
+    document.getElementById('nextLevel').style.display = "none";
+    document.getElementById('winGame').style.display = "none";
+    document.getElementById('restartGame').style.display = "none";
+    document.getElementById('overlay').style.display = "none";
+}
