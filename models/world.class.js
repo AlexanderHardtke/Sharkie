@@ -302,7 +302,7 @@ class World {
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.drawMoveableObjects();
-        this.drawFixedObjects(); /// Fehler ist hier
+        this.drawFixedObjects();
         let self = this;
         requestAnimationFrame(function () {
             self.draw();
@@ -362,14 +362,7 @@ class World {
     addToMap(mo) {
         if (mo.otherDirection) this.flipImage(mo);
         if (mo.upDirection || mo.downDirection) this.rotateImage(mo);
-
-        try {
-            this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height);    
-        } catch (error) {
-        console.log(error);
-        }
-
-        //this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height);
+        this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height);
         this.ctx.restore();
         if (mo.otherDirection) this.flipImageBack(mo);
     }
