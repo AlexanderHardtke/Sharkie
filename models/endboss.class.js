@@ -68,10 +68,9 @@ class Endboss extends MovableObject {
         this.loadImages(this.IMAGES_HURT);
         this.loadImages(this.IMAGES_ATTACK);
         this.y = 0;
-        this.x = spawn + 470;
-        this.animate();
+        this.x = spawn + 500;
+        setTimeout(() => this.animate(), 200);
     }
-
 
     /**
      * animates the Endboss and moves it
