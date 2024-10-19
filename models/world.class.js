@@ -22,17 +22,10 @@ class World {
         this.level = level;
         this.audioManager = audioManager;
         this.draw();
-        this.setWorld();
+        this.character.world = this;
         this.run();
         this.checkCreateAttacks();
         this.audioManager.playAudio('audio/background_music.mp3');
-    }
-
-    /**
-     * sets the character in the world
-     */
-    setWorld() {
-        this.character.world = this;
     }
 
     /**
@@ -123,7 +116,6 @@ class World {
 
     /**
      * checks if the character has reached the point so the Endboss is spawned
-     * 
      * @param {Object} level the current Level the character is in
      */
     checkSpawnEndboss(level) {
@@ -183,7 +175,6 @@ class World {
 
     /**
      * creates a new Throwable Object
-     * 
      * @param {boolean} poison true if the bubble is poisonous
      * @param {boolean} color true if the bubble is green pufferfish
      */
@@ -196,7 +187,6 @@ class World {
 
     /**
      * removes the bubble from the game
-     * 
      * @param {Object} obj the throwable Object
      */
     removeBubble(obj) {
@@ -209,7 +199,6 @@ class World {
 
     /**
     * removes the enemy from the game
-    * 
     * @param {Object} enemy the enemy that is removed
     */
     removeEnemy(enemy) {
@@ -224,11 +213,8 @@ class World {
      * @param {Object} throwableObject the thrown Object 
      */
     checkThrowsWithEnemys(enemy, throwableObject) {
-        if (throwableObject.isColliding(enemy) && enemy instanceof Jellyfish) {
-            this.throwHitJellyfish(enemy, throwableObject);
-        } if (throwableObject.isColliding(enemy) && enemy instanceof Endboss) {
-            this.throwHitEndboss(enemy, throwableObject);
-        }
+        if (throwableObject.isColliding(enemy) && enemy instanceof Jellyfish) this.throwHitJellyfish(enemy, throwableObject);
+        if (throwableObject.isColliding(enemy) && enemy instanceof Endboss) this.throwHitEndboss(enemy, throwableObject);
     }
 
     /**
@@ -264,8 +250,7 @@ class World {
      */
     enemyHitSound() {
         let sounds = ['audio/hit1.mp3', 'audio/hit2.mp3', 'audio/hit3.mp3'];
-        let randomIndex = Math.floor(Math.random() * sounds.length);
-        this.audioManager.playAudio(sounds[randomIndex]);
+        this.audioManager.playAudio(sounds[Math.floor(Math.random() * 3)]);
     }
 
     /**
@@ -294,8 +279,7 @@ class World {
      */
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        this.drawMoveableObjects();
-        this.drawFixedObjects();
+        this.drawObjects();
         let self = this;
         requestAnimationFrame(function () {
             self.draw();
@@ -305,7 +289,7 @@ class World {
     /**
      * draws all movable Objects
      */
-    drawMoveableObjects() {
+    drawObjects() {
         this.ctx.translate(this.camera_x, 0);
         this.addObjectsToMap(this.level.backgroundObject);
         this.addToMap(this.character);
@@ -314,12 +298,6 @@ class World {
         this.addObjectsToMap(this.throwableObjects);
         this.addObjectsToMap(this.finSlapObject);
         this.ctx.translate(-this.camera_x, 0);
-    }
-
-    /**
-     * draws all fixed Objects
-     */
-    drawFixedObjects() {
         this.addToMap(this.statusBar);
         this.addToMap(this.poisonBar);
         this.drawCount(this.poisonBar);
@@ -360,12 +338,10 @@ class World {
             this.ctx.restore();
             if (mo.otherDirection) this.flipImageBack(mo);
         }
-
     }
 
     /**
      * flips the image of the object
-     * 
      * @param {Object} mo movable Object in the game 
      */
     flipImage(mo) {
@@ -377,7 +353,6 @@ class World {
 
     /**
      * flips the object back
-     * 
      * @param {Object} mo movable Object in the game 
      */
     flipImageBack(mo) {
