@@ -267,10 +267,8 @@ class World {
      * checks if the win condition for the turtorial is reached
      */
     winTurtorial() {
-        if (this.level.number == 0 && this.character.x > 2800) {
-            this.audioManager.stopAudio('audio/background_music.mp3');
-            this.audioManager.playAudio('audio/win.mp3');
-            gameOverScreen(true, 0);
+        if (this.level.number == 0 && this.character.x > 2800 && !worldIsResetting) {
+            turtorialIsWon();
         }
     }
 

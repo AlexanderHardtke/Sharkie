@@ -243,6 +243,13 @@ function characterDead() {
     }
 }
 
+function turtorialIsWon() {
+    audioManager.stopAudio('audio/background_music.mp3');
+    audioManager.playAudio('audio/win.mp3');
+    worldIsResetting = true;
+    gameOverScreen(true, 0);
+}
+
 /**
 * shows the game over screen for the current level or situation
 * 
