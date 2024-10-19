@@ -39,6 +39,8 @@ function startGame(turtorial) {
  */
 function backToMenu() {
     hideOverlay();
+    stopCurrentLevel();
+    worldIsResetting = false
     document.getElementById('introductionScreen').style.display = "flex";
     document.getElementById('canvas').style.display = "none";
 }
@@ -243,11 +245,15 @@ function characterDead() {
     }
 }
 
+/**
+ * stops the background music and shows the game over screen after timeout
+ */
 function turtorialIsWon() {
     audioManager.stopAudio('audio/background_music.mp3');
     audioManager.playAudio('audio/win.mp3');
     worldIsResetting = true;
     gameOverScreen(true, 0);
+    this.character.x = -5000;
 }
 
 /**
@@ -259,12 +265,15 @@ function turtorialIsWon() {
 function gameOverScreen(win, level) {
     showOverlay();
     world.character.stopAllInterval();
-    if (win && level == 0) winTurtorial();
+    if (win && level == 0) winTurtorialScreen();
     else if (win && level > 0) winLevel();
     else if (!win) looseLevel();
 }
 
-function winTurtorial() {
+/**
+ * shows the winGame Div for the turtorial
+ */
+function winTurtorialScreen() {
     document.getElementById('nextLevel').style.display = "flex";
 }
 

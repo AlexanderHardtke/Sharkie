@@ -187,6 +187,7 @@ class World {
 
     /**
      * removes the bubble from the game
+     * 
      * @param {Object} obj the throwable Object
      */
     removeBubble(obj) {
@@ -199,6 +200,7 @@ class World {
 
     /**
     * removes the enemy from the game
+    * 
     * @param {Object} enemy the enemy that is removed
     */
     removeEnemy(enemy) {
@@ -267,9 +269,7 @@ class World {
      * checks if the win condition for the turtorial is reached
      */
     winTurtorial() {
-        if (this.level.number == 0 && this.character.x > 2800 && !worldIsResetting) {
-            turtorialIsWon();
-        }
+        if (this.level.number == 0 && this.character.x > 2800 && !worldIsResetting) turtorialIsWon();
     }
 
     /**
@@ -340,6 +340,7 @@ class World {
 
     /**
      * flips the image of the object
+     * 
      * @param {Object} mo movable Object in the game 
      */
     flipImage(mo) {
@@ -351,6 +352,7 @@ class World {
 
     /**
      * flips the object back
+     * 
      * @param {Object} mo movable Object in the game 
      */
     flipImageBack(mo) {
