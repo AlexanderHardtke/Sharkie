@@ -276,6 +276,7 @@ button {
 
 .winGameImg {
     width: 100%;
+    cursor: pointer;
 }
 
 .nextLevelImg {

@@ -86,7 +86,7 @@ class Endboss extends MovableObject {
     endbossMoving() {
         if (this.intro > 10) {
             let speed = this.speed;
-            if (this.attack >= 48) speed = this.speed * 0.1;
+            if (this.attack >= 43) speed = this.speed * 0.1;
             if (this.attack < 6) speed = this.speed * 5;
             if (this.charIsLeft) this.moveLeft(speed);
             if (this.charIsRight) this.moveRight(speed);
@@ -101,9 +101,9 @@ class Endboss extends MovableObject {
     endbossAnimate() {
         if (this.intro < 10) this.endbossIntroduction();
         else if (this.isDead()) this.endbossDead();
-        else if (this.attack >= 50) this.endbossattack();
+        else if (this.attack >= 45) this.endbossattack();
         else if (this.isHurt()) this.playAnimation(this.IMAGES_HURT);
-        else if (this.intro > 10 && this.attack < 50) this.playAnimation(this.IMAGES_IDLE);
+        else if (this.intro > 10 && this.attack < 45) this.playAnimation(this.IMAGES_IDLE);
         this.endbossAnimateCounter();
     }
 
