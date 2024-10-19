@@ -156,18 +156,24 @@ function setBodyClass(state) {
 }
 
 /**
- * creates the HTML Elements
+ * creates one HTML Elements
+ */
+function createElement(tag, attributes = {}) {
+    let element = document.createElement(tag);
+    Object.entries(attributes).forEach(([key, value]) => element.setAttribute(key, value));
+    return element;
+}
+
+/**
+ * creates all HTML Elements for the pleaserotate screen
  */
 function createElements() {
-    let backdrop = document.createElement("div");
-    let container = document.createElement("div");
-    let message = document.createElement("div");
-    let subMessage = document.createElement("small");
-    backdrop.setAttribute("id", "pleaserotate-backdrop");
-    container.setAttribute("id", "pleaserotate-container");
-    message.setAttribute("id", "pleaserotate-message");
+    let backdrop = createElement("div", { id: "pleaserotate-backdrop" });
+    let container = createElement("div", { id: "pleaserotate-container" });
+    let message = createElement("div", { id: "pleaserotate-message" });
+    let subMessage = createElement("small");
     backdrop.appendChild(container);
-    container.appendChild(options.iconNode ? options.iconNode : createPhoneSVG());
+    container.appendChild(options.iconNode || createPhoneSVG());
     container.appendChild(message);
     message.appendChild(document.createTextNode(options.message));
     subMessage.appendChild(document.createTextNode(options.subMessage));
@@ -182,19 +188,17 @@ function createElements() {
  */
 function createPhoneSVG() {
     let svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-    svg.setAttributeNS('http://www.w3.org/2000/xmlns/', 'xmlns:xlink', 'http://www.w3.org/1999/xlink');
     svg.setAttribute('id', 'pleaserotate-graphic');
     svg.setAttribute('viewBox', '0 0 250 250');
     let group = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-    group.setAttribute('id', 'pleaserotate-graphic-path');
     if (options.forcePortrait) group.setAttribute('transform', 'rotate(-90 125 125)');
     let path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
     path.setAttribute('d', 'M190.5,221.3c0,8.3-6.8,15-15,15H80.2c-8.3,0-15-6.8-15-15V28.7' +
         'c0-8.3,6.8-15,15-15h95.3c8.3,0,15,6.8,15,15V221.3z' +
         'M74.4,33.5l-0.1,139.2c0,8.3,0,17.9,0,21.5c0,3.6,0,6.9,' +
         '0,7.3c0,0.5,0.2,0.8,0.4,0.8s7.2,0,15.4,0h75.6c8.3,0,15.1,0,15.2,0');
-    svg.appendChild(group);
     group.appendChild(path);
+    svg.appendChild(group);
     return svg;
 }
 
@@ -251,28 +255,31 @@ function checkOrientationChange() {
 }
 
 /**
- * starts the please rotate Funktion to show the menu
+ * starts the info to rotate Funktion to show the menu
  * 
  * @param {Object} opts options for the change
  * @returns stopps the function
  */
 PleaseRotate.start = function (opts) {
-    if (!document.body) {
-        window.addEventListener('load', PleaseRotate.start.bind(null, opts), false);
-        return;
-    } if (opts) overrideOptions(opts);
+    if (!document.body) return window.addEventListener('load', () => PleaseRotate.start(opts));
+    if (opts) overrideOptions(opts);
     createElements();
     checkOrientationChange();
     window.addEventListener('resize', checkOrientationChange, false);
     if (options.allowClickBypass) {
-        document.getElementById("pleaserotate-backdrop").addEventListener("click", function () {
-            let propogate = options.onHide();
-            setBodyClass("hiding");
-            PleaseRotate.Showing = false;
-            if (propogate === undefined || propogate) setVisibility(false);
-        });
+        document.getElementById("pleaserotate-backdrop").onclick = handleBackdropClick;
     }
 };
+
+/**
+ * creates the onclick Funktion for ignoring the message
+ */
+function handleBackdropClick() {
+    let propagate = options.onHide();
+    setBodyClass("hiding");
+    PleaseRotate.Showing = false;
+    if (propagate === undefined || propagate) setVisibility(false);
+}
 
 /**
  * stops the please rotate Funktion to show the menu
