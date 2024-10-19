@@ -1,15 +1,21 @@
 @media (min-width: 1921px) {
     body {
+        background-size: 100%;
         justify-content: center;
-        scale: 1.5;
-        background-size: 100% auto;
-        background-repeat: no-repeat;
+    }
+
+    .gameStartScreen {
+        scale: 1.25;
+    }
+
+    .topWrapper {
+        scale: 1.25;
     }
 }
 
 @media (min-width: 3000px) {
-    body {
-        scale: 2;
+    .content {
+        font-size: 30px;
     }
 }
 

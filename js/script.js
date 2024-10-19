@@ -16,13 +16,6 @@ let options = {
 PleaseRotate.Showing = false;
 
 /**
- * This function takes you back to the previous window.
- */
-function goBack() {
-    window.history.back();
-}
-
-/**
  * shows the Intoduction screen for the game
  */
 function gameIntroductionScreen() {
