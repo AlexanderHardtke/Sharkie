@@ -1,6 +1,15 @@
 @media (min-width: 1921px) {
     body {
+        justify-content: center;
         scale: 1.5;
+        background-size: 100% auto;
+        background-repeat: no-repeat;
+    }
+}
+
+@media (min-width: 3000px) {
+    body {
+        scale: 2;
     }
 }
 
@@ -41,10 +50,6 @@
         width: 90%;
     }
 
-    .bottomWrapper {
-        width: 90%;
-    }
-
     .fullscreenButton {
         display: none;
     }
@@ -80,9 +85,51 @@
     h1 {
         font-size: 40px;
     }
+
+    .arrowImg {
+        height: 14px;
+    }
+
+    .arrow {
+        height: 24px;
+    }
+
+    .description {
+        font-size: 16px;
+    }
+
+    .moveSharkie {
+        gap: 10px;
+    }
+
+    button {
+        font-size: 14px;
+        width: 40px;
+        height: 40px;
+    }
+
+    .arrowButtonUp {
+        margin-left: 40px;
+        margin-right: 40px;
+        height: 40px;
+        width: 40px;
+    }
+
+    .actionButtonMelee {
+        height: 40px;
+        width: 86px;
+    }
+
+    .actionAttackBar {
+        width: 86px;
+    }
+
+    .actionMoveBar {
+        width: 126px;
+    }
 }
 
-@media only screen and (max-height: 480px) {
+@media only screen and (max-height: 601px) {
     canvas {
         height: 100vh;
     }
@@ -99,16 +146,21 @@
 
     .gameStartScreen {
         margin-top: 10px;
-        width: 75%;
+    }
+}
+
+@media only screen and (max-height: 480px) {
+    .gameStartScreen {
+        width: calc(100% - 306px);
         height: 80%;
     }
 
     .startGameImg {
-        height: 140px;
+        height: 30vh;
     }
 
     .impressumImg {
-        width: 140px;
+        width: 14vw;
     }
 
     .introButton {
@@ -140,7 +192,7 @@
     }
 
     .moveSharkie {
-        gap: 16px;
+        gap: 10px;
     }
 
     button {
