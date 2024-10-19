@@ -23,6 +23,7 @@ function init() {
  */
 function startGame(turtorial) {
     let level;
+    worldIsResetting = false
     if (turtorial) level = level0;
     else level = level1;
     loadedLevel = cloneLevel(level);
@@ -47,6 +48,7 @@ function backToMenu() {
  */
 async function restartGame() {
     let currentLevel = world.level.number;
+    worldIsResetting = false
     stopCurrentLevel();
     hideOverlay();
     let level = levels[currentLevel];
@@ -59,6 +61,7 @@ async function restartGame() {
  */
 async function startNextLevel() {
     let currentLevel = world.level.number;
+    worldIsResetting = false
     currentLevel++;
     stopCurrentLevel();
     let nextLevel = levels[currentLevel];
@@ -111,10 +114,11 @@ function checkfullscreen() {
  * stops the background music and shows the game over screen after timeout
  */
 function endbossDead() {
-    audioManager.stopAudio('audio/background_music.mp3')
-    setTimeout(() => gameOverScreen(true, world.level.number), 1200);
-    worldIsResetting = true;
-    setTimeout(() => worldIsResetting = false, 6000);
+    if (!worldIsResetting && world.character.life == 0) {
+        audioManager.stopAudio('audio/background_music.mp3');
+        worldIsResetting = true;
+        setTimeout(() => gameOverScreen(true, world.level.number), 1200);
+    }
 }
 
 /**
@@ -232,10 +236,11 @@ function cloneBackgroundObjects(backgroundObjects) {
  * stops the background music and shows the game over screen after timeout
  */
 function characterDead() {
-    audioManager.stopAudio('audio/background_music.mp3')
-    setTimeout(() => gameOverScreen(false, world.level.number), 2000);
-    worldIsResetting = true;
-    setTimeout(() => worldIsResetting = false, 6000);
+    if (!worldIsResetting && world.character.life == 0) {
+        audioManager.stopAudio('audio/background_music.mp3');
+        worldIsResetting = true;
+        setTimeout(() => gameOverScreen(false, world.level.number), 1200);
+    }
 }
 
 /**

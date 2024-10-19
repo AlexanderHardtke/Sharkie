@@ -284,6 +284,8 @@ button {
 }
 
 .nextLevel {
+    display: flex;
+    align-items: center;
     font-size: 36px;
     color: #531a82;
     text-shadow: none;
