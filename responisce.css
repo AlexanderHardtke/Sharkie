@@ -4,13 +4,47 @@
         justify-content: center;
     }
 
+    .gameStartScreen {
+        height: 60%;
+        width: 40%;
+    }
+
+    .topWrapper {
+        width: 40%;
+    }
+
+    .impressumImg {
+        width: 10vw;
+    }
+
+    .startGameImg {
+        height: auto;
+        width: 8vw;
+    }
+
+    .arrowImg {
+        height: 22px;
+    }
+
+    .arrow {
+        height: 34px;
+    }
+
+    .description {
+        font-size: 26px;
+    }
+
+    .moveSharkie {
+        gap: 20px;
+    }
+
     .content {
         font-size: 30px;
         max-width: 1920px;
     }
 
     h1 {
-        font-size: 56px;
+        font-size: 60px;
     }
 
     h2 {
@@ -28,6 +62,21 @@
     .content p {
         font-size: 30px;
     }
+}
+
+@media (min-width: 3000px) {
+    .description {
+        font-size: 32px;
+    }
+
+    .arrow {
+        height: 38px;
+    }
+
+    .moveSharkie {
+        gap: 24px;
+    }
+
 }
 
 @media only screen and (max-width: 1050px) {
