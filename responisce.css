@@ -4,17 +4,28 @@
         justify-content: center;
     }
 
-    .gameStartScreen {
-        scale: 1.25;
-    }
-
-    .topWrapper {
-        scale: 1.25;
-    }
-}
-
-@media (min-width: 3000px) {
     .content {
+        font-size: 30px;
+        max-width: 1920px;
+    }
+
+    h1 {
+        font-size: 56px;
+    }
+
+    h2 {
+        font-size: 44px;
+    }
+
+    h3 {
+        font-size: 40px;
+    }
+
+    h4 {
+        font-size: 36px;
+    }
+
+    .content p {
         font-size: 30px;
     }
 }
