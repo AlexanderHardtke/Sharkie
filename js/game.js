@@ -263,6 +263,7 @@ function turtorialIsWon() {
 * @param {number} level the number of the level
 */
 function gameOverScreen(win, level) {
+    if (fullscreenActive) exitFullscreen();
     showOverlay();
     world.character.stopAllInterval();
     if (win && level == 0) winTurtorialScreen();

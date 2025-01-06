@@ -81,12 +81,16 @@ function enterFullscreen(element) {
 }
 
 /**
+ * 
+ * 
+ * Da ist der Fehler
+ * 
+ * 
  * calculates the fullscreen to the maximum width or height depending on the screen
  */
 function calculateFullscreen() {
     let widthToHeight = window.innerWidth / window.innerHeight;
     document.getElementById('canvas').style.maxWidth = `100%`;
-    document.getElementById('canvas').style.maxHeight = `100%`;
     if (widthToHeight < 1.5) {
         document.getElementById('canvas').style.width = `100%`;
         document.getElementById('canvas').style.height = `auto`;
