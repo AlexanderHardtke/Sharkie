@@ -8,7 +8,9 @@ class FinSlap extends MovableObject {
     y;
     gravity = 0;
     speed = 0;
-
+    offsetFinY = 88;
+    offsetFinXOth = -22;
+    offsetFinX = 106;
 
     constructor() {
         super().loadImage(this.IMAGES_EMPTY);
@@ -21,11 +23,11 @@ class FinSlap extends MovableObject {
     slap() {
         this.setStoppableInterval(() => {
             if (world.character.otherDirection) {
-                this.x = world.character.x - 14;
-                this.y = world.character.y + 88;
+                this.x = world.character.x + this.offsetFinXOth;
+                this.y = world.character.y + this.offsetFinY;
             } if (!world.character.otherDirection) {
-                this.x = world.character.x + 98;
-                this.y = world.character.y + 88;
+                this.x = world.character.x + this.offsetFinX;
+                this.y = world.character.y + this.offsetFinY;
             }
         }, 1000 / 60);
     }

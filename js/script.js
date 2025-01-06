@@ -308,3 +308,34 @@ PleaseRotate.onHide = function (fn) {
         checkOrientationChange();
     }
 };
+
+
+
+
+
+
+
+
+/////// Verhindere Buttons auf Smartphone
+
+{/* <script type="text/javascript">
+    $(document).ready(function () {
+        //Disable cut copy paste
+        $('body').bind('cut copy', function (e) {          
+            if(e.target.id != "allow") {
+                e.preventDefault();
+            }
+        });
+     
+        //Disable mouse right click
+        $("body").on("contextmenu",function(e){
+            return false;
+        });
+       
+        $("button[type=reset]").on("click",function(e){
+            history.back();
+        });
+             
+       
+    });
+    </script> */}
