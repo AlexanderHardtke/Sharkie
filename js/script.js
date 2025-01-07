@@ -104,6 +104,7 @@ function calculateFullscreen() {
  * exit the fullscreen mode for the game snd shows the game in a window
  */
 function exitFullscreen() {
+    document.getElementById('canvas').style.width = `auto`;
     if (document.exitFullscreen) document.exitFullscreen();
     else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
 }
