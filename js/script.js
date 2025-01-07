@@ -105,6 +105,7 @@ function calculateFullscreen() {
  */
 function exitFullscreen() {
     document.getElementById('canvas').style.width = `auto`;
+    document.getElementById('canvas').style.height = `auto`;
     if (document.exitFullscreen) document.exitFullscreen();
     else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
 }
