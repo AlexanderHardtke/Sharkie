@@ -106,6 +106,7 @@ button {
     position: fixed;
     top: 50%;
     bottom: 50%;
+    pointer-events: none;
 }
 
 .startGame {

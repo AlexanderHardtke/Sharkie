@@ -60,13 +60,18 @@ function toggleMuteButton() {
  * checks the orientation of the device and sets the canvas to 100%
  */
 function checkOrientation() {
-    if (window.matchMedia("(orientation: landscape)").matches) {
-        if (window.innerHeight < 480) {
-            newHeight = window.innerHeight;
-            document.getElementById('canvas').style.height = `${newHeight}px`;
+    const canvas = document.getElementById('canvas');
+    if (fullscreenActive) {
+        const widthToHeight = window.innerWidth / window.innerHeight;
+        const gameAspectRatio = 720 / 480;
+        if (widthToHeight < gameAspectRatio) {
+            canvas.style.width = '100%';
+            canvas.style.height = 'auto';
+        } else {
+            canvas.style.height = '100%';
+            canvas.style.width = 'auto';
         }
     }
-    else document.getElementById('canvas').style.height = `100%`;
 }
 
 /**
@@ -81,31 +86,30 @@ function enterFullscreen(element) {
 }
 
 /**
- * 
- * 
- * Da ist der Fehler
- * 
- * 
  * calculates the fullscreen to the maximum width or height depending on the screen
  */
 function calculateFullscreen() {
-    let widthToHeight = window.innerWidth / window.innerHeight;
-    document.getElementById('canvas').style.maxWidth = `100%`;
-    if (widthToHeight < 1.5) {
-        document.getElementById('canvas').style.width = `100%`;
-        document.getElementById('canvas').style.height = `auto`;
-    } else {
-        document.getElementById('canvas').style.height = `100%`;
-        document.getElementById('canvas').style.width = `auto`;
-    }
+    const canvas = document.getElementById('canvas');
+    const widthToHeight = window.innerWidth / window.innerHeight;
+    const gameAspectRatio = 720 / 480;
+    if (fullscreenActive) {
+        if (widthToHeight < gameAspectRatio) {
+            canvas.style.width = '100%';
+            canvas.style.height = 'auto';
+        } else {
+            canvas.style.height = '100%';
+            canvas.style.width = 'auto';
+        }
+    } else checkOrientation();
 }
 
 /**
  * exit the fullscreen mode for the game snd shows the game in a window
  */
 function exitFullscreen() {
-    document.getElementById('canvas').style.width = `auto`;
-    document.getElementById('canvas').style.height = `auto`;
+    const canvas = document.getElementById('canvas');
+    canvas.style.width = '100%';
+    canvas.style.height = 'auto';
     if (document.exitFullscreen) document.exitFullscreen();
     else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
 }
@@ -132,6 +136,19 @@ window.addEventListener('load', function () {
     } else {
         fullscrBtn.style.display = 'block';
         controls.style.display = 'none';
+    }
+});
+
+/**
+ * checks if the fullscreen is closed and readjusts the canvas
+ */
+document.addEventListener('fullscreenchange', () => {
+    const isFullscreen = document.fullscreenElement !== null;
+    fullscreenActive = isFullscreen;
+    if (!isFullscreen) {
+        exitFullscreen();
+    } else {
+        return
     }
 });
 
@@ -314,34 +331,3 @@ PleaseRotate.onHide = function (fn) {
         checkOrientationChange();
     }
 };
-
-
-
-
-
-
-
-
-/////// Verhindere Buttons auf Smartphone
-
-{/* <script type="text/javascript">
-    $(document).ready(function () {
-        //Disable cut copy paste
-        $('body').bind('cut copy', function (e) {          
-            if(e.target.id != "allow") {
-                e.preventDefault();
-            }
-        });
-     
-        //Disable mouse right click
-        $("body").on("contextmenu",function(e){
-            return false;
-        });
-       
-        $("button[type=reset]").on("click",function(e){
-            history.back();
-        });
-             
-       
-    });
-    </script> */}
